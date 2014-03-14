@@ -1,0 +1,10 @@
+.carousel-inner > .item > p > img {
+  height: 600px;
+}
+.carousel-indicators li {
+  border: 1px solid #000;
+  background-color: #ccc;
+}
+.img-responsive {
+  width: 100%;
+}

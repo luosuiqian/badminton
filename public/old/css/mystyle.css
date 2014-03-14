@@ -1,0 +1,326 @@
+#main
+{
+	margin : 0px auto 0px auto;
+	width : 1000px;
+}
+#body2 p
+{
+	margin : 10px 0px 10px 0px;
+	font-size : 14px;
+	text-align : center;
+}
+#a1
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 1000px;
+	height : 100px;
+	background-color: #eeeeee;
+}
+#a2
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 800px;
+	height : 100px;
+	float : left;
+}
+#a2 p
+{
+	margin : 20px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	font-size : 50px;
+	text-align : center;
+	color : #4444ff;
+}
+#a3
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 200px;
+	height : 100px;
+	float : right;
+}
+#a3 img
+{
+	width : 200px;
+	height : 100px;
+}
+#b1
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 1000px;
+	height : 50px;
+	background-color: #44cc44;
+	text-align : center;
+	float : left;
+	position : relative;
+	z-index : 1;
+}
+#b1 ul
+{
+	margin : 0px 0px 0px 0px;
+	padding : 0px 0px 0px 0px;
+	list-style : none;
+}
+#b1 li
+{
+	float : left;
+	width : 333px;
+	background-color: #44cc44;
+}
+#b1 li ul
+{
+	display : none;
+}
+#b1 li:hover ul,.over ul
+{
+	display : block;
+}
+#b1 ul li a
+{
+	margin : 12px 0px 12px 0px;
+	display : block;
+	font-size : 20px;
+}
+#b1 ul li a:hover
+{
+	background-color : #bebebe;
+}
+#d1
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 1000px;
+	height : 30px;
+	background-color : #dddddd;
+	clear : both;
+}
+#d1 h6
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 8px 0px 0px 0px;
+	font-size : 12px;
+	text-align : center;
+	color : #000000;
+}
+#c1
+{
+	margin : 0px 0px 0px 0px;
+	border : 10px solid #5555aa;
+	padding : 0px 0px 0px 0px;
+	width : 980px;
+	float : left;
+	clear : both;
+}
+#c1 h3
+{
+	margin : 50px 50px 50px 50px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	font-size : 20px;
+	text-align : center;
+}
+#c1 h4
+{
+	margin : 20px 50px 20px 50px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	font-size : 18px;
+	text-indent : 2em;
+}
+#c1 h5
+{
+	margin : 20px 100px 20px 100px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	font-size : 16px;
+}
+#x2 p
+{
+	font-size : 20px;
+	text-align : center;
+}
+#x2 table
+{
+	margin : 0px 50px 50px 50px;
+	width : 875px;
+}
+#x2 table,tr,td
+{
+	border : 1px solid blue;
+}
+#x2 table tr td
+{
+	text-align : center;
+}
+#x2 table tr td p
+{
+	margin : 10px;
+	background-color : white;
+	color : black;
+}
+#x2 table tr td p:hover
+{
+	background-color : gray;
+	color : white;
+}
+#y2
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 650px;
+	background-color : #eeeeee;
+	float : left;
+}
+#y2 h3
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 30px 0px 20px 0px;
+	font-size : 20px;
+	text-align : center;
+}
+#y2 br
+{
+	width : 650px;
+}
+#y2 table
+{
+	margin : 20px 50px 20px 50px;
+	width : 550px;
+	display : inline-table;
+}
+#y2 table,tr,td
+{
+	border : 1px solid blue;
+}
+#y2 table tr td
+{
+	text-align : center;
+}
+#y2 table p
+{
+	margin : 5px 5px 5px 5px;
+}
+#y2 table p:hover
+{
+	background-color : gray;
+	color : white;
+}
+#y3
+{
+	margin : 0px 0px 0px 0px;
+	padding : 0px 0px 0px 0px;
+	width : 330px;
+	float : left;
+}
+#y3 p
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 20px 0px 10px 0px;
+	font-size : 18px;
+	text-align : center;
+}
+#y3 iframe
+{
+	margin : 0px 10px 0px 10px;
+	width : 300px;
+	height : 380px;
+	border : 0;
+	position : fixed;
+}
+#z2
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 650px;
+	background-color : #eeeeee;
+	float : left;
+}
+#z2 h3
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 30px 0px 20px 0px;
+	font-size : 20px;
+	text-align : center;
+}
+#z2 table
+{
+	margin : 0px 20px 20px 20px;
+	width : 600px;
+}
+#z2 table,tr,td
+{
+	border : 1px solid blue;
+}
+#z2 table tr td
+{
+	text-align : center;
+}
+#z2 table p
+{
+	margin : 5px 5px 5px 5px;
+}
+#z2 table p:hover
+{
+	background-color : gray;
+	color : white;
+}
+#w2
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 0px 0px 0px 0px;
+	width : 650px;
+	background-color : #eeeeee;
+	float : left;
+}
+#w2 h3
+{
+	margin : 0px 0px 0px 0px;
+	border-style : none;
+	padding : 30px 0px 20px 0px;
+	font-size : 20px;
+	text-align : center;
+}
+#w2 p
+{
+	font-size : 20px;
+	text-align : center;
+}
+#w2 table
+{
+	margin : 0px 50px 50px 50px;
+	width : 540px;
+}
+#w2 table,tr,td
+{
+	border : 1px solid blue;
+}
+#w2 table tr td
+{
+	text-align : center;
+}
+#w2 table tr td p
+{
+	margin : 3px;
+}
+#w2 table tr td p:hover
+{
+	background-color : gray;
+	color : white;
+}
+

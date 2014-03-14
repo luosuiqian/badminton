@@ -1,0 +1,102 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  hr
+  div(id="myCarousel",class="carousel slide",data-ride="carousel")
+    ol(class="carousel-indicators")
+      li(data-target="#myCarousel",data-slide-to="0",class="active")
+      li(data-target="#myCarousel",data-slide-to="1",class="")
+      li(data-target="#myCarousel",data-slide-to="2",class="")
+      li(data-target="#myCarousel",data-slide-to="3",class="")
+      li(data-target="#myCarousel",data-slide-to="4",class="")
+      li(data-target="#myCarousel",data-slide-to="5",class="")
+      li(data-target="#myCarousel",data-slide-to="6",class="")
+      li(data-target="#myCarousel",data-slide-to="7",class="")
+      li(data-target="#myCarousel",data-slide-to="8",class="")
+      li(data-target="#myCarousel",data-slide-to="9",class="")
+    
+    div(class="carousel-inner")
+      div(class="item active")
+        p.text-center
+          img(src="/img/1.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2013年11月 清华大学马杯团体赛合影
+      div(class="item")
+        p.text-center
+          img(src="/img/2.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2013年11月 清华大学马杯工作人员合影
+      div(class="item")
+        p.text-center
+          img(src="/img/3.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2011年10月 苏州全国赛（男单：柯锐岷）
+      div(class="item")
+        p.text-center
+          img(src="/img/4.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2011年10月 苏州全国赛（混双：张颖川，叶静婷）
+      div(class="item")
+        p.text-center
+          img(src="/img/5.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2013年4月 北京高校赛合影
+      div(class="item")
+        p.text-center
+          img(src="/img/6.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2013年6月 羽协执委会锡林郭勒草原合影
+      div(class="item")
+        p.text-center
+          img(src="/img/7.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 2011年10月 羽协执委会体验冰壶
+      div(class="item")
+        p.text-center
+          img(src="/img/8.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 羽协欢迎你！
+      div(class="item")
+        p.text-center
+          img(src="/img/9.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 羽协欢迎你！
+      div(class="item")
+        p.text-center
+          img(src="/img/10.jpg")
+        div(class="container")
+          div(class="carousel-caption")
+            p(class="btn btn-lg btn-info",role="button")
+              | 羽协欢迎你！
+    
+    a(class="left carousel-control",href="#myCarousel",data-slide="prev")
+      span(class="glyphicon glyphicon-chevron-left")
+    a(class="right carousel-control",href="#myCarousel",data-slide="next")
+      span(class="glyphicon glyphicon-chevron-right")
+  hr
+  
+  include includes/footer

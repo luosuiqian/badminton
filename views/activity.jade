@@ -1,0 +1,94 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  mixin showName(person)
+    if person == null
+      p (空)
+    else
+      p
+        if person.renrenid == ''
+          = person.name
+        else
+          a(href='http://www.renren.com/#{person.renrenid}', target='_blank')
+            = person.name
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 羽协会员活动报名
+      div(class='panel-body')
+        p
+          | 时间：#{time.time}
+        p
+          | 地点：#{time.place}
+        if open == false
+          p
+            | 现在不是预约时间，请您耐心等候
+        else
+          p
+            | 预约已经开始，欢迎报名！
+        p
+          | 报名时间：#{time.appTime}
+    hr
+    if user == null
+      p
+        | 请先登录
+    else if authority == false
+      p
+        | 抱歉，您不是羽协会员，不能预约。欢迎报名加入清华羽协！
+    else
+      p
+        | 您是羽协会员，欢迎预约！
+    p （如果会员信息有误，请发邮件到 tsinghuabadminton@gmail.com 简单说明一下情况，我们将人工处理。）
+    p （如果你是羽协老会员，注册后请你发邮件告诉我们你的学号）
+    hr
+    form(class='form-horizontal',method='post',role='form')
+      table(class='table table-striped table-bordered table-hover')
+        thead
+          tr
+            th 时间\场地
+            - for (var i=0;i<table[0].length;i++)
+              th 场地#{i+1}
+        tbody
+          - for (var i=0;i<table.length;i++)
+            tr
+              td
+                | 20:00 --- 22:00
+              - for (var j=0;j<table[i].length;j++)
+                td
+                  if open == false || authority == false
+                    +showName(table[i][j])
+                  else if result == null
+                    if table[i][j] == null
+                      label
+                        input(type='radio',name='timespace',value=i*100+j)
+                        | (空)
+                    else
+                      +showName(table[i][j])
+                  else
+                    if result.time == i && result.space == j
+                      div(class='text-success')
+                        b
+                          u
+                            +showName(table[i][j])
+                    else
+                      +showName(table[i][j])
+      if open == true && authority == true
+        div(class='text-center')
+          if result == null
+            button(type='submit',class='btn btn-primary')
+              | 提交报名
+          else
+            button(type='submit',class='btn btn-danger')
+              | 取消报名
+      input(type='hidden',name='type',value=(result==null)?'post':'delete')
+    hr
+  
+  include includes/footer

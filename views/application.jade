@@ -1,0 +1,100 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  mixin showName(person)
+    if person == null
+      p (空)
+    else
+      p(style=(person.chosen==0?'':(person.chosen==1?'background-color:#dddddd':'background-color:#dddd44')))
+        if person.renrenid == ''
+          = person.name
+        else
+          a(href='http://www.renren.com/#{person.renrenid}', target='_blank')
+            = person.name
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h2 清华大学学生羽毛球协会招新
+      div(class='panel-body')
+        h3
+          | 考试时间：2014年3月8日 晚上20:00-22:00
+        h3
+          | 地点：清华西体
+        if open == false
+          h3
+            | 招新报名已经截止
+        else
+          h3
+            | 招新已经开始，欢迎报名！
+        p
+          | (招新报名截止时间：3月7日 晚上20:00)
+        hr
+        h3
+          | 羽协活动时间：
+        p
+          | 周四 中午13:00-15:00 综体活动 6块场地 （需要预约）群众体育活动时间
+        p
+          | 周五 中午13:00-15:00 综体活动 3块场地 （需要预约）群众体育活动时间
+        p
+          | 周五 中午13:00-15:00 综体活动 3块场地 （需要预约）羽协会员活动时间
+        p
+          | 周六 晚上20:00-22:00 西体活动 4块场地 （需要预约）羽协会员活动时间
+        p
+          | 按照同学和相关老师的要求，本学期适当扩大羽协规模，同时将全部会员分为两部分：一部分为羽协会员，水平较高，安排在周五和周六活动；另一部分为群众体育会员，安排在周四和周五活动。对于羽协会员，会费仍为每学期150元；对于群众体育会员，每学期会费为70元；希望大家合理安排好活动的时间。
+    
+    div(class='page-header')
+      h4 考试结果如下：背景为黄色表示成为羽协正式会员，灰色表示成为群众体育会员
+    form(class='form-horizontal',method='post',role='form')
+      table(class='table table-striped table-bordered table-hover')
+        thead
+          tr
+            th 时间\场地
+            - for (var i=1;i<=table[0].length;i++)
+              th 场地#{i}
+        tbody
+          - var size = 5
+          - for (var i=0;i<table.length;i++)
+            tr
+              if i % 10 == 0
+                td(rowspan=size)
+                  = table[i].time
+              if i % 10 < size
+                - for (var j=0;j<table[i].length;j++)
+                  td
+                    if open == false || sex == null
+                      +showName(table[i][j])
+                    else if result == null
+                      if table[i][j] == null && ((sex == 'm' && j<=3) || (sex == 'f' && 4<=j && j<=5))
+                        label
+                          input(type='radio',name='timespace',value=i*100+j)
+                          | (空)
+                      else
+                        +showName(table[i][j])
+                    else
+                      if result.time == i && result.space == j
+                        div(class='text-success')
+                          b
+                            u
+                              +showName(table[i][j])
+                      else
+                        +showName(table[i][j])
+      if open == true && sex != null
+        div(class='text-center')
+          if result == null
+            button(type='submit',class='btn btn-primary')
+              | 提交报名
+          else
+            button(type='submit',class='btn btn-danger')
+              | 取消报名
+      input(type='hidden',name='type',value=(result==null)?'post':'delete')
+    hr
+  
+  include includes/footer
