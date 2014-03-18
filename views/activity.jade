@@ -55,12 +55,12 @@ block content
           tr
             th 时间\场地
             - for (var i=0;i<table[0].length;i++)
-              th 场地#{i+1}
+              th 场地#{i}
         tbody
           - for (var i=0;i<table.length;i++)
             tr
               td
-                | 20:00 --- 22:00
+                | #{time.time}
               - for (var j=0;j<table[i].length;j++)
                 td
                   if open == false || authority == false
