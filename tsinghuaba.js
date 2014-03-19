@@ -247,7 +247,7 @@ function Request(activityInit) {
 
 var crowdThursday = Request(
   Activity.Activity(6, 6, 'crowdThursday', 1, 1,
-    new Date(2014,3-1,11,13,0,0), new Date(2014,3-1,13,15,0,0), '清华综体'
+    new Date(2014,3-1,11,13,0,0), new Date(2014,3-1,13,15,0,0), '清华综体', [1,2,3,4,5,6]
   )
 );
 app.get('/crowdThursday', crowdThursday.get);
@@ -256,7 +256,7 @@ app.post('/crowdThursday', crowdThursday.post);
 
 var crowdFriday = Request(
   Activity.Activity(6, 3, 'crowdFriday', 1, 1,
-    new Date(2014,3-1,12,13,0,0), new Date(2014,3-1,14,15,0,0), '清华综体'
+    new Date(2014,3-1,12,13,0,0), new Date(2014,3-1,14,15,0,0), '清华综体', [3,4,5]
   )
 );
 app.get('/crowdFriday', crowdFriday.get);
@@ -265,7 +265,7 @@ app.post('/crowdFriday', crowdFriday.post);
 
 var activityFriday = Request(
   Activity.Activity(6, 3, 'activityFriday', 2, 3,
-    new Date(2014,3-1,5,13,0,0), new Date(2014,3-1,7,15,0,0), '清华综体'
+    new Date(2014,3-1,5,13,0,0), new Date(2014,3-1,7,15,0,0), '清华综体', [8,9,10]
   )
 );
 app.get('/activityFriday', activityFriday.get);
@@ -274,7 +274,7 @@ app.post('/activityFriday', activityFriday.post);
 
 var activitySaturday = Request(
   Activity.Activity(6, 4, 'activitySaturday', 2, 3,
-    new Date(2014,3-1,6,13,0,0), new Date(2014,3-1,8,22,0,0), '清华西体'
+    new Date(2014,3-1,6,13,0,0), new Date(2014,3-1,8,22,0,0), '清华西体', [5,6,7,8]
   )
 );
 app.get('/activitySaturday', activitySaturday.get);
@@ -433,17 +433,24 @@ app.get('/list', function(req, res) {
         req.flash('warning', err);
         return res.redirect('/');
       }
-      List.getAll(2, 3, function(err, list2) {
+      List.getAll(2, 2, function(err, list2) {
         if (err) {
           req.flash('warning', err);
           return res.redirect('/');
         }
-        res.render('list.jade', {
-          name: 'list',
-          user: req.session.user,
-          flash: req.flash(),
-          list1: list1,
-          list2: list2,
+        List.getAll(3, 3, function(err, list3) {
+          if (err) {
+            req.flash('warning', err);
+            return res.redirect('/');
+          }
+          res.render('list.jade', {
+            name: 'list',
+            user: req.session.user,
+            flash: req.flash(),
+            list1: list1,
+            list2: list2,
+            list3: list3,
+          });
         });
       });
     });

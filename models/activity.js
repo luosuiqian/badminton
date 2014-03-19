@@ -2,7 +2,7 @@ var util = require('util');
 var conn = require('./db');
 var Authority = require('./authority');
 
-exports.Activity = function (time, space, table, autL, autR, begin, end, pla) {
+exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sNum) {
   var maxTime = time;
   var maxSpace = space;
   var id = 0;
@@ -12,6 +12,7 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla) {
   var autLeft = autL;
   var autRight = autR;
   var place = pla;
+  var spaceNum = sNum;
   
   var ret = new Object();
   
@@ -45,6 +46,7 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla) {
       endTime.getHours()
     );
     ans.place = place;
+    ans.spaceNum = spaceNum;
     return ans;
   };
   
