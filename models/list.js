@@ -19,6 +19,23 @@ exports.getAll = function (numberL, numberR, callback) {
   });
 };
 
+exports.getAllNoAuthority = function (callback) {
+  conn().query("select user.studentid,user.name,\
+  CASE WHEN sex = 'm' THEN '男' ELSE '女' END AS sex,\
+  department.name as department,email,phone\
+  from user,department\
+  where user.departmentid = department.id\
+  and user.studentid > 1000000010\
+  and user.studentid NOT IN (SELECT studentid FROM authority)\
+  order by user.sex desc, user.studentid", function(err, results) {
+    if (err) {
+      return callback(err, null);
+    } else {
+      return callback(null, results);
+    }
+  });
+};
+
 exports.getAuthority = function (studentid, callback) {
   if (studentid == null) {
     return callback(null, false);

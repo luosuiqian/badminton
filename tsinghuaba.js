@@ -428,28 +428,35 @@ app.get('/list', function(req, res) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    List.getAll(1, 1, function(err, list1) {
+    List.getAllNoAuthority(function(err, list0) {
       if (err) {
         req.flash('warning', err);
         return res.redirect('/');
       }
-      List.getAll(2, 2, function(err, list2) {
+      List.getAll(1, 1, function(err, list1) {
         if (err) {
           req.flash('warning', err);
           return res.redirect('/');
         }
-        List.getAll(3, 3, function(err, list3) {
+        List.getAll(2, 2, function(err, list2) {
           if (err) {
             req.flash('warning', err);
             return res.redirect('/');
           }
-          res.render('list.jade', {
-            name: 'list',
-            user: req.session.user,
-            flash: req.flash(),
-            list1: list1,
-            list2: list2,
-            list3: list3,
+          List.getAll(3, 3, function(err, list3) {
+            if (err) {
+              req.flash('warning', err);
+              return res.redirect('/');
+            }
+            res.render('list.jade', {
+              name: 'list',
+              user: req.session.user,
+              flash: req.flash(),
+              list0: list0,
+              list1: list1,
+              list2: list2,
+              list3: list3,
+            });
           });
         });
       });
