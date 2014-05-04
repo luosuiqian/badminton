@@ -1,0 +1,99 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  mixin showName(title, player, edit, num)
+    div(class='text-center')
+      h4
+        =title
+    hr
+    div(class='form-group')
+      label(class='col-sm-2 control-label')
+        | 学号
+      div(class='col-sm-8')
+        input(type='text',class='form-control',name='studentid'+num,placeholder='Student ID',value=player.studentid,readonly=edit)
+    div(class='form-group')
+      label(class='col-sm-2 control-label')
+        | 姓名
+      div(class='col-sm-8')
+        input(type='text',class='form-control',name='name'+num,placeholder='Name',value=player.name,readonly=edit)
+    div(class='form-group')
+      label(class='col-sm-2 control-label')
+        | 性别
+      div(class='col-sm-8')
+        div(class='radio-inline')
+          label
+            if player.sex == 'm'
+              input(type='radio',name='sex'+num,value='m', checked, disabled)
+              | 男
+            else
+              input(type='radio',name='sex'+num,value='m', disabled)
+              | 男
+        div(class='radio-inline')
+          label
+            if player.sex == 'f'
+              input(type='radio',name='sex'+num,value='f', checked, disabled)
+              | 女
+            else
+              input(type='radio',name='sex'+num,value='f', disabled)
+              | 女
+    div(class='form-group')
+      label(class='col-sm-2 control-label')
+        | 院系
+      div(class='col-sm-8')
+        if edit == true
+          each department in departments
+            if player.departmentid == department.id
+              input(type='text',class='form-control',name='showOnly',value=department.name,readonly)
+              input(type='hidden',class='form-control',name='departmentid'+num,value=department.id)
+        else
+          select(class='form-control',name='departmentid'+num)
+            each department in departments
+              if player.departmentid == department.id
+                option(value=department.id,selected)
+                  = department.name
+              else
+                option(value=department.id)
+                  = department.name
+    div(class='form-group')
+      label(class='col-sm-2 control-label')
+        | 邮箱
+      div(class='col-sm-8')
+        input(type='text',class='form-control',name='email'+num,placeholder='Email Address',value=player.email,readonly=edit)
+    div(class='form-group')
+      label(class='col-sm-2 control-label')
+        | 电话
+      div(class='col-sm-8')
+        input(type='text',class='form-control',name='phone'+num,placeholder='Phone Number',value=player.phone,readonly=edit)
+        p(class='help-block')
+          | 必填，发通知用，邮箱和电话不会公开在本网站上
+    hr
+  
+  div(class='container')
+    form(class='form-horizontal',method='post',role='form',action='/individual')
+      div(class='text-center')
+        if type == 1
+          h3 男单报名
+        if type == 3
+          h3 男双报名
+        if type == 4
+          h3 女双报名
+        if type == 5
+          h3 混双报名
+        h5 如果信息有误，请先修改资料
+      hr
+      +showName('选手一', player1, player1.edit==false, 1)
+      if type > 1
+        +showName('选手二', player2, player2.edit==false, 2)
+      div(class='text-center')
+        button(type='submit',class='btn btn-primary')
+          | 提交
+      input(type='hidden',name='type',value=type)
+    hr
+  
+  include includes/footer

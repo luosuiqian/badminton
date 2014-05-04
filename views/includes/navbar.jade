@@ -26,8 +26,8 @@ div(class='navbar navbar-default', role='navigation')
         li(class=(name=='activity')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
             h4
-              |  羽协活动预约
               span(class="glyphicon glyphicon-chevron-down")
+              |  羽协活动预约
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             li
               a(href="./crowdThursday")
@@ -50,38 +50,49 @@ div(class='navbar navbar-default', role='navigation')
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  羽协会员活动预约（周六）
+        li(class=(name=='individual')?'active':'')
+          a(href='./individual')
+            h4
+              span(class="glyphicon glyphicon-flag")
+              |  单项赛
       ul(class='nav navbar-nav navbar-right')
-        if user == null
-          li(class=(name=='register')?'active':'')
-            a(href='./register')
-              h4
-                span(class="glyphicon glyphicon-registration-mark")
-                |  注册
-        if user == null
-          li(class=(name=='login')?'active':'')
-            a(href='./login')
-              h4
-                span(class="glyphicon glyphicon-log-in")
-                |  登录
-        if user != null
-          li(class=(name=='edit')?'active':'')
-            a(href='./edit')
-              h4
-                span(class="glyphicon glyphicon-edit")
-                |  修改资料
-        if user != null
-          li(class=(name=='logout')?'active':'')
-            a(href='./logout')
-              h4
-                span(class="glyphicon glyphicon-log-out")
-                |  登出
-        li
-          a(href='./old/index.html',target='_blank')
+        li(class=(name=='register'||name=='login'||name=='edit'||name=='list')?'active':'')
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
             h4
-              span(class="glyphicon glyphicon-new-window")
-              |  旧版本
-        li(class=(name=='list')?'active':'')
-          a(href='./list')
-            h4
-              span(class="glyphicon glyphicon-user")
-              |  管理员
+              span(class="glyphicon glyphicon-list")
+              |  帐号
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
+            if user == null
+              li(class=(name=='register')?'active':'')
+                a(href='./register')
+                  h4
+                    span(class="glyphicon glyphicon-registration-mark")
+                    |  注册
+            if user == null
+              li(class=(name=='login')?'active':'')
+                a(href='./login')
+                  h4
+                    span(class="glyphicon glyphicon-log-in")
+                    |  登录
+            if user != null
+              li(class=(name=='edit')?'active':'')
+                a(href='./edit')
+                  h4
+                    span(class="glyphicon glyphicon-edit")
+                    |  修改资料
+            if user != null
+              li(class=(name=='logout')?'active':'')
+                a(href='./logout')
+                  h4
+                    span(class="glyphicon glyphicon-log-out")
+                    |  登出
+            li
+              a(href='./old/index.html',target='_blank')
+                h4
+                  span(class="glyphicon glyphicon-new-window")
+                  |  旧版本
+            li(class=(name=='list')?'active':'')
+              a(href='./list')
+                h4
+                  span(class="glyphicon glyphicon-user")
+                  |  管理员

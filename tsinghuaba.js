@@ -5,6 +5,8 @@ db error { [Error: Connection lost: The server closed the connection.]
 The cause is 'Time out' setting.
 Fixed
 
+//***********************************************
+
 (node) warning: possible EventEmitter memory leak detected.
 11 listeners added. Use emitter.setMaxListeners() to increase limit.
 Trace
@@ -15,8 +17,6 @@ Trace
 FATAL ERROR: CALL_AND_RETRY_2 Allocation failed - process out of memory
 Upgrade node to version 0.11.11
 Fixing...
-
-//***********************************************
 
 Use the following code to debug.
 After upgrade node to version 0.11.11, the value of listenerCount
@@ -49,6 +49,22 @@ EventEmitter.prototype.on = EventEmitter.prototype.addListener;
 
 //***********************************************
 
+Error: Forbidden
+    at SendStream.error (/root/文档/badminton/node_modules/express/node_modules/send/lib/send.js:145:16)
+    at SendStream.pipe (/root/文档/badminton/node_modules/express/node_modules/send/lib/send.js:310:52)
+    at Object.staticMiddleware [as handle] (/root/文档/badminton/node_modules/express/node_modules/connect/lib/middleware/static.js:91:8)
+    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
+    at Object.methodOverride [as handle] (/root/文档/badminton/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:48:5)
+    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
+    at Object.handle (/root/文档/badminton/node_modules/connect-flash/lib/flash.js:21:5)
+    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
+    at Object.session [as handle] (/root/文档/badminton/node_modules/express/node_modules/connect/lib/middleware/session.js:304:7)
+    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
+
+Unknown bug...
+
+//***********************************************
+
 This is the end for bug record.
 
 //***********************************************/
@@ -64,6 +80,7 @@ var Department = require('./models/department');
 var Authority = require('./models/authority');
 var Activity = require('./models/activity');
 var List = require('./models/list');
+var Individual = require('./models/individual');
 
 // log
 // var fs = require('fs');
@@ -97,6 +114,198 @@ function checkNotLogin(req, res, next) {
   }
   next();
 }
+
+//individual
+app.get('/individual', function(req, res) {
+  User.get(req.session.user, function(err, userinfo) {
+    if (err) {
+      req.flash('warning', err);
+      return res.redirect('/');
+    }
+    Individual.get(2014, 1, function(err, mens_singles) {
+      if (err) {
+        req.flash('warning', err);
+        return res.redirect('/');
+      }
+      Individual.get(2014, 3, function(err, mens_doubles) {
+        if (err) {
+          req.flash('warning', err);
+          return res.redirect('/');
+        }
+        Individual.get(2014, 4, function(err, womens_doubles) {
+          if (err) {
+            req.flash('warning', err);
+            return res.redirect('/');
+          }
+          Individual.get(2014, 5, function(err, mixed_doubles) {
+            if (err) {
+              req.flash('warning', err);
+              return res.redirect('/');
+            }
+            res.render('individual.jade', {
+              name: 'individual',
+              user: req.session.user,
+              flash: req.flash(),
+              mens_singles: mens_singles,
+              mens_doubles: mens_doubles,
+              womens_doubles: womens_doubles,
+              mixed_doubles: mixed_doubles,
+              sex: (userinfo != null)?userinfo[0].sex:null,
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+var Player = function (userinfo) {
+  this.studentid = userinfo.studentid;
+  this.name = userinfo.name;
+  this.sex = userinfo.sex;
+  this.departmentid = parseInt(userinfo.departmentid);
+  this.email = userinfo.email;
+  this.phone = userinfo.phone;
+  this.edit = false;
+}
+
+var NewPlayer = function (sex) {
+  this.studentid = "";
+  this.name = "";
+  this.sex = sex;
+  this.departmentid = 1;
+  this.email = "";
+  this.phone = "";
+  this.edit = true;
+}
+
+function individualApply(type, req, res) {
+  if (Individual.checkTime() == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual');
+  }
+  User.get(req.session.user, function(err, userinfo) {
+    if (err) {
+      req.flash('warning', err);
+      return res.redirect('/');
+    }
+    Department.getAll(function(err, departments) {
+      if (err) {
+        req.flash('warning', err);
+        return res.redirect('/');
+      }
+      var sex = userinfo[0].sex;
+      if (type == 1 && sex == 'm') {
+        var p1 = new Player(userinfo[0]);
+        var p2 = null;
+      } else if (type == 3 && sex == 'm') {
+        var p1 = new Player(userinfo[0]);
+        var p2 = new NewPlayer('m');
+      } else if (type == 4 && sex == 'f') {
+        var p1 = new Player(userinfo[0]);
+        var p2 = new NewPlayer('f');
+      } else if (type == 5 && sex == 'm') {
+        var p1 = new Player(userinfo[0]);
+        var p2 = new NewPlayer('f');
+      } else if (type == 5 && sex == 'f') {
+        var p1 = new NewPlayer('m');
+        var p2 = new Player(userinfo[0]);
+      } else {
+        req.flash('warning', '报名类型错误');
+        return res.redirect('/');
+      }
+      res.render('individualApply.jade', {
+        name: 'individual',
+        user: req.session.user,
+        flash: req.flash(),
+        open: Individual.checkTime(),
+        departments: departments,
+        type: type,
+        player1: p1,
+        player2: p2,
+      });
+    });
+  });
+}
+
+app.get('/individualApply_mens_singles', checkLogin);
+app.get('/individualApply_mens_singles', function(req, res) {individualApply(1, req, res);});
+app.get('/individualApply_mens_doubles', checkLogin);
+app.get('/individualApply_mens_doubles', function(req, res) {individualApply(3, req, res);});
+app.get('/individualApply_womens_doubles', checkLogin);
+app.get('/individualApply_womens_doubles', function(req, res) {individualApply(4, req, res);});
+app.get('/individualApply_mixed_doubles', checkLogin);
+app.get('/individualApply_mixed_doubles', function(req, res) {individualApply(5, req, res);});
+
+function individualCancel(type, req, res) {
+  if (Individual.checkTime() == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual');
+  }
+  Individual.del(2014, req.session.user, type, function(err) {
+    if (err) {
+      req.flash('warning', err);
+      return res.redirect('/');
+    }
+    return res.redirect('/individual');
+  });
+}
+
+app.get('/individualCancel_mens_singles', checkLogin);
+app.get('/individualCancel_mens_singles', function(req, res) {individualCancel(1, req, res);});
+app.get('/individualCancel_mens_doubles', checkLogin);
+app.get('/individualCancel_mens_doubles', function(req, res) {individualCancel(3, req, res);});
+app.get('/individualCancel_womens_doubles', checkLogin);
+app.get('/individualCancel_womens_doubles', function(req, res) {individualCancel(4, req, res);});
+app.get('/individualCancel_mixed_doubles', checkLogin);
+app.get('/individualCancel_mixed_doubles', function(req, res) {individualCancel(5, req, res);});
+
+app.post('/individual', checkLogin);
+app.post('/individual', function(req, res) {
+  if (Individual.checkTime() == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual');
+  }
+  var newApply;
+  if (parseInt(req.body.type) == 1) {
+    newApply = new Individual.NewApply(
+      2014,
+      req.session.user,
+      req.body.type,
+      req.body.studentid1,
+      req.body.name1,
+      req.body.departmentid1,
+      req.body.email1,
+      req.body.phone1,
+      null,null,null,null,null
+    );
+  } else if (parseInt(req.body.type) >= 3) {
+    newApply = new Individual.NewApply(
+      2014,
+      req.session.user,
+      req.body.type,
+      req.body.studentid1,
+      req.body.name1,
+      req.body.departmentid1,
+      req.body.email1,
+      req.body.phone1,
+      req.body.studentid2,
+      req.body.name2,
+      req.body.departmentid2,
+      req.body.email2,
+      req.body.phone2
+    );
+  }
+  Individual.save(newApply, function(err) {
+    if (err) {
+      req.flash('warning', err);
+      return res.redirect('/individual');
+    } else {
+      req.flash('info', '报名成功');
+      return res.redirect('/individual');
+    }
+  });
+});
 
 //index
 app.get('/', function(req, res) {
