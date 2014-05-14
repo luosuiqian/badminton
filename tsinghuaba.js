@@ -142,15 +142,22 @@ app.get('/individual', function(req, res) {
               req.flash('warning', err);
               return res.redirect('/');
             }
-            res.render('individual.jade', {
-              name: 'individual',
-              user: req.session.user,
-              flash: req.flash(),
-              mens_singles: mens_singles,
-              mens_doubles: mens_doubles,
-              womens_doubles: womens_doubles,
-              mixed_doubles: mixed_doubles,
-              sex: (userinfo != null)?userinfo[0].sex:null,
+            Individual.get(2014, 9, function(err, referee) {
+              if (err) {
+                req.flash('warning', err);
+                return res.redirect('/');
+              }
+              res.render('individual.jade', {
+                name: 'individual',
+                user: req.session.user,
+                flash: req.flash(),
+                mens_singles: mens_singles,
+                mens_doubles: mens_doubles,
+                womens_doubles: womens_doubles,
+                mixed_doubles: mixed_doubles,
+                referee: referee,
+                sex: (userinfo != null)?userinfo[0].sex:null,
+              });
             });
           });
         });
@@ -210,6 +217,9 @@ function individualApply(type, req, res) {
       } else if (type == 5 && sex == 'f') {
         var p1 = new NewPlayer('m');
         var p2 = new Player(userinfo[0]);
+      } else if (type == 9) {
+        var p1 = new Player(userinfo[0]);
+        var p2 = null;
       } else {
         req.flash('warning', '报名类型错误');
         return res.redirect('/');
@@ -236,6 +246,8 @@ app.get('/individualApply_womens_doubles', checkLogin);
 app.get('/individualApply_womens_doubles', function(req, res) {individualApply(4, req, res);});
 app.get('/individualApply_mixed_doubles', checkLogin);
 app.get('/individualApply_mixed_doubles', function(req, res) {individualApply(5, req, res);});
+app.get('/individualApply_referee', checkLogin);
+app.get('/individualApply_referee', function(req, res) {individualApply(9, req, res);});
 
 function individualCancel(type, req, res) {
   if (Individual.checkTime() == false) {
@@ -259,6 +271,8 @@ app.get('/individualCancel_womens_doubles', checkLogin);
 app.get('/individualCancel_womens_doubles', function(req, res) {individualCancel(4, req, res);});
 app.get('/individualCancel_mixed_doubles', checkLogin);
 app.get('/individualCancel_mixed_doubles', function(req, res) {individualCancel(5, req, res);});
+app.get('/individualCancel_referee', checkLogin);
+app.get('/individualCancel_referee', function(req, res) {individualCancel(9, req, res);});
 
 app.post('/individual', checkLogin);
 app.post('/individual', function(req, res) {
@@ -267,7 +281,7 @@ app.post('/individual', function(req, res) {
     return res.redirect('/individual');
   }
   var newApply;
-  if (parseInt(req.body.type) == 1) {
+  if (parseInt(req.body.type) == 1 || parseInt(req.body.type) == 9) {
     newApply = new Individual.NewApply(
       2014,
       req.session.user,
@@ -279,7 +293,7 @@ app.post('/individual', function(req, res) {
       req.body.phone1,
       null,null,null,null,null
     );
-  } else if (parseInt(req.body.type) >= 3) {
+  } else if (3 <= parseInt(req.body.type) && parseInt(req.body.type) <= 5) {
     newApply = new Individual.NewApply(
       2014,
       req.session.user,

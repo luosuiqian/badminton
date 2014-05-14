@@ -85,10 +85,12 @@ block content
           h3 女双报名
         if type == 5
           h3 混双报名
+        if type == 9
+          h3 裁判报名
         h5 如果信息有误，请先修改资料
       hr
       +showName('选手一', player1, player1.edit==false, 1)
-      if type > 1
+      if 3 <= type && type <= 5
         +showName('选手二', player2, player2.edit==false, 2)
       div(class='text-center')
         button(type='submit',class='btn btn-primary')

@@ -8,7 +8,7 @@ block content
     mixin flash-messages(flash)
   
   mixin showName(type, num, link, table)
-    div(class="col-md-3 col-sm-6 col-xs-12")
+    div(class="col-md-4 col-sm-6 col-xs-12")
       - flag = false
       table(class='table table-striped table-bordered table-hover')
         thead
@@ -23,6 +23,8 @@ block content
                 | 女双
               if type == 5
                 | 混双
+              if type == 9
+                | 裁判
         tbody
           - for (var i=0;i<table.length;i++)
             tr
@@ -39,7 +41,7 @@ block content
       div(class='text-center')
         if user != null
           if flag == false
-            if (sex == 'm' && (type == 1 || type == 3 || type == 5)) || (sex == 'f' && (type == 4 || type == 5))
+            if (sex == 'm' && (type == 1 || type == 3 || type == 5 || type == 9)) || (sex == 'f' && (type == 4 || type == 5 || type == 9))
               - address = './individualApply_' + link
               a(role="button", href=address, class="btn btn-primary")
                 | 我要报名
@@ -56,11 +58,11 @@ block content
         h3 2014年清华大学羽毛球单项赛
       div(class='panel-body')
         h4
-          | 比赛时间：（暂定）2014年5月24日、25日
+          | 比赛时间：2014年6月7日、8日
         h4
-          | 比赛地点：待定
+          | 比赛地点：清华综合体育馆
         p
-          | 报名时间：（暂定）2014年5月10日~5月17日
+          | 报名时间：（暂定）2014年5月24日~5月30日
         p
           | （注：以下不是最终比赛顺序，比赛前将会重新抽签安排）
     
@@ -75,7 +77,12 @@ block content
       div(class='clearfix visible-sm')
       
       +showName(4, 2, 'womens_doubles', womens_doubles)
+      div(class='clearfix visible-md visible-lg')
       +showName(5, 2, 'mixed_doubles', mixed_doubles)
+      
+      div(class='clearfix visible-sm')
+      
+      +showName(9, 1, 'referee', referee)
     
     hr
   

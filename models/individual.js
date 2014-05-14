@@ -24,8 +24,8 @@ const maxDepartmentid = 36;
 
 exports.checkTime = function () {
   var now = new Date();
-  var beginTime = new Date(2014,5-1,10,0,0,0);
-  var deadline = new Date(2014,5-1,18,0,0,0);
+  var beginTime = new Date(2014,5-1,24,0,0,0);
+  var deadline = new Date(2014,5-1,31,0,0,0);
   return (beginTime <= now && now <= deadline);
 }
 
@@ -40,7 +40,7 @@ exports.NewApply = function (year,studentid,type,stu1,nam1,dep1,ema1,pho1,stu2,n
   this.pho1 = pho1;
   this.stu2 = stu2;
   this.nam2 = nam2;
-  if (type == 1) {
+  if (type == 1 || type == 9) {
     this.dep2 = null;
   } else {
     this.dep2 = parseInt(dep2);
@@ -84,14 +84,14 @@ function checkDetail(stu, nam, dep, ema, pho) {
 }
 
 function check(newApply) {
-  if (newApply.type != 1 && newApply.type != 3 && newApply.type != 4 && newApply.type != 5) {
+  if (newApply.type != 1 && newApply.type != 3 && newApply.type != 4 && newApply.type != 5 && newApply.type != 9) {
     return ("比赛类型错误");
   }
   var r1 = checkDetail(newApply.stu1, newApply.nam1, newApply.dep1, newApply.ema1, newApply.pho1);
   if (r1 != null) {
     return r1;
   }
-  if (newApply.type == 1) {
+  if (newApply.type == 1 || newApply.type == 9) {
     return null;
   }
   return checkDetail(newApply.stu2, newApply.nam2, newApply.dep2, newApply.ema2, newApply.pho2);
