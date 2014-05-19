@@ -24,8 +24,8 @@ const maxDepartmentid = 36;
 
 exports.checkTime = function () {
   var now = new Date();
-  var beginTime = new Date(2014,5-1,24,0,0,0);
-  var deadline = new Date(2014,5-1,31,0,0,0);
+  var beginTime = new Date(2014,5-1,18,0,0,0);
+  var deadline = new Date(2014,5-1,30,22,0,0);
   return (beginTime <= now && now <= deadline);
 }
 
