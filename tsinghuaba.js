@@ -81,6 +81,19 @@ var Authority = require('./models/authority');
 var Activity = require('./models/activity');
 var List = require('./models/list');
 var Individual = require('./models/individual');
+var IndMatch = require('./models/indMatch');
+
+/*
+IndMatch.newUser(2014, 1, 1, 128);
+IndMatch.newUser(2014, 3, 1, 128);
+IndMatch.newUser(2014, 4, 1, 128);
+IndMatch.newUser(2014, 5, 1, 128);
+IndMatch.newMatch(2014, 1, 6);
+IndMatch.newMatch(2014, 3, 5);
+IndMatch.newMatch(2014, 4, 5);
+IndMatch.newMatch(2014, 5, 5);
+return;
+*/
 
 // log
 // var fs = require('fs');
@@ -320,6 +333,27 @@ app.post('/individual', function(req, res) {
     }
   });
 });
+
+function individualResults(year, type, req, res) {
+  IndMatch.get(year, type, function(err, table) {
+    if (err) {
+      req.flash('warning', err);
+      return res.redirect('/');
+    }
+    res.render('individualResults.jade', {
+      name: 'individual',
+      user: req.session.user,
+      flash: req.flash(),
+      type: type,
+      table: table,
+    });
+  });
+}
+
+app.get('/individualResults_mens_singles', function(req, res) {individualResults(2014, 1, req, res);});
+app.get('/individualResults_mens_doubles', function(req, res) {individualResults(2014, 3, req, res);});
+app.get('/individualResults_womens_doubles', function(req, res) {individualResults(2014, 4, req, res);});
+app.get('/individualResults_mixed_doubles', function(req, res) {individualResults(2014,5, req, res);});
 
 //index
 app.get('/', function(req, res) {

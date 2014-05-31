@@ -51,10 +51,37 @@ div(class='navbar navbar-default', role='navigation')
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  羽协会员活动预约（周六）
         li(class=(name=='individual')?'active':'')
-          a(href='./individual')
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
             h4
               span(class="glyphicon glyphicon-flag")
               |  单项赛
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
+            li
+              a(href="./individual")
+                h4
+                  span(class="glyphicon glyphicon-pencil")
+                  |  单项赛报名
+            li(class="divider")
+            li
+              a(href="./individualResults_mens_singles")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  男单比赛结果
+            li
+              a(href="./individualResults_mens_doubles")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  男双比赛结果
+            li
+              a(href="./individualResults_womens_doubles")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  女双比赛结果
+            li
+              a(href="./individualResults_mixed_doubles")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  混双比赛结果
       ul(class='nav navbar-nav navbar-right')
         li(class=(name=='register'||name=='login'||name=='edit'||name=='list')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")

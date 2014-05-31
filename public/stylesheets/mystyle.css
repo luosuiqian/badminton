@@ -8,3 +8,7 @@
 .img-responsive {
   width: 100%;
 }
+.table>thead>tr>th, .table>tbody>tr>td {
+  text-align: center;
+  vertical-align: middle;
+}
