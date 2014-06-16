@@ -502,6 +502,8 @@ function Request(activityInit) {
   return ret;
 };
 
+//===========================================================================//
+/*
 var crowdThursday = Request(
   Activity.Activity(6, 6, 'crowdThursday', 1, 1,
     new Date(2014,3-1,11,13,0,0), new Date(2014,3-1,13,15,0,0), '清华综体', [1,2,3,4,5,6]
@@ -538,6 +540,16 @@ app.get('/activitySaturday', activitySaturday.get);
 app.post('/activitySaturday', checkLogin);
 app.post('/activitySaturday', activitySaturday.post);
 
+//*/
+
+app.get('/activity', function(req, res) {
+  res.render('activityClosed.jade', {
+    name: 'activity',
+    user: req.session.user,
+    flash: req.flash(),
+  });
+});
+//*/
 //===========================================================================//
 
 //register

@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 羽协会员活动
+      div(class='panel-body')
+        p
+          | 本学期的羽协活动已全部结束，感谢同学们对羽协活动的支持，祝大家期末顺利！
+        p
+          | 2014年6月16日
+  hr
+  
+  include includes/footer
