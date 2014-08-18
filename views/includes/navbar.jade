@@ -24,37 +24,38 @@ div(class='navbar navbar-default', role='navigation')
               span(class="glyphicon glyphicon-pencil")
               |  招新报名
         li(class=(name=='activity')?'active':'')
-          a(href='./activity')
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
             h4
-              span(class="glyphicon glyphicon-ban-circle")
+              span(class="glyphicon glyphicon-chevron-down")
               |  羽协活动预约
-          //-
-            a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
-              h4
-                span(class="glyphicon glyphicon-chevron-down")
-                |  羽协活动预约
-            ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
-              li
-                a(href="./crowdThursday")
-                  h4
-                    span(class="glyphicon glyphicon-thumbs-up")
-                    |  群众体育活动预约（周四）
-              li
-                a(href="./crowdFriday")
-                  h4
-                    span(class="glyphicon glyphicon-thumbs-up")
-                    |  群众体育活动预约（周五）
-              li(class="divider")
-              li
-                a(href="./activityFriday")
-                  h4
-                    span(class="glyphicon glyphicon-thumbs-up")
-                    |  羽协会员活动预约（周五）
-              li
-                a(href="./activitySaturday")
-                  h4
-                    span(class="glyphicon glyphicon-thumbs-up")
-                    |  羽协会员活动预约（周六）
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
+            li
+              a(href='./activity')
+                h4
+                  span(class="glyphicon glyphicon-ban-circle")
+                  |  羽协活动公告
+            li(class="divider")
+            li
+              a(href="./crowdThursday")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  群众体育活动预约（周四）
+            li
+              a(href="./crowdFriday")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  群众体育活动预约（周五）
+            li(class="divider")
+            li
+              a(href="./activityFriday")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  羽协会员活动预约（周五）
+            li
+              a(href="./activitySaturday")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  羽协会员活动预约（周六）
         li(class=(name=='individual')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
             h4

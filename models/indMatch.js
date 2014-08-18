@@ -168,3 +168,16 @@ exports.newUser = function (year, type, begin, end) {
     conn().query('INSERT INTO indUser SET ?', line, function(err) {});
   }
 };
+
+/*
+exports.newUser(2014, 1, 1, 128);
+exports.newUser(2014, 3, 1, 128);
+exports.newUser(2014, 4, 1, 128);
+exports.newUser(2014, 5, 1, 128);
+exports.newMatch(2014, 1, 6);
+exports.newMatch(2014, 3, 5);
+exports.newMatch(2014, 4, 5);
+exports.newMatch(2014, 5, 5);
+return;
+*/
+

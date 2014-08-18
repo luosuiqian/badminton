@@ -1,74 +1,3 @@
-/***********************************************
-
-db error { [Error: Connection lost: The server closed the connection.]
-  fatal: true, code: 'PROTOCOL_CONNECTION_LOST' }
-The cause is 'Time out' setting.
-Fixed
-
-//***********************************************
-
-(node) warning: possible EventEmitter memory leak detected.
-11 listeners added. Use emitter.setMaxListeners() to increase limit.
-Trace
-    at Socket.EventEmitter.addListener (events.js:160:15)
-    at Socket.Readable.on (_stream_readable.js:653:33)
-    at Socket.EventEmitter.once (events.js:179:8)
-    at TCP.onread (net.js:527:26)
-FATAL ERROR: CALL_AND_RETRY_2 Allocation failed - process out of memory
-Upgrade node to version 0.11.11
-Fixing...
-
-Use the following code to debug.
-After upgrade node to version 0.11.11, the value of listenerCount
-has never been greater 50 in a few days.
-Keep on tracking...
-
-var count = 0;
-var events = require("events");
-var EventEmitter = events.EventEmitter;
-EventEmitter.prototype.setMaxListeners(50);
-var originalAddListener = EventEmitter.prototype.addListener;
-EventEmitter.prototype.addListener = function (type, listener) {
-  if (EventEmitter.listenerCount(this, type) >= 50) {
-    if (count == 0) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.log(this);
-      console.log('***********************************************');
-      console.log(type);
-      console.log('===============================================');
-    }
-    count = count + 1;
-    if (count % 10000 == 0) {
-      console.log(count);
-    }
-    this.removeAllListeners(type);
-  }
-  return originalAddListener.apply(this, arguments);
-};
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-//***********************************************
-
-Error: Forbidden
-    at SendStream.error (/root/文档/badminton/node_modules/express/node_modules/send/lib/send.js:145:16)
-    at SendStream.pipe (/root/文档/badminton/node_modules/express/node_modules/send/lib/send.js:310:52)
-    at Object.staticMiddleware [as handle] (/root/文档/badminton/node_modules/express/node_modules/connect/lib/middleware/static.js:91:8)
-    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-    at Object.methodOverride [as handle] (/root/文档/badminton/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js:48:5)
-    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-    at Object.handle (/root/文档/badminton/node_modules/connect-flash/lib/flash.js:21:5)
-    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-    at Object.session [as handle] (/root/文档/badminton/node_modules/express/node_modules/connect/lib/middleware/session.js:304:7)
-    at next (/root/文档/badminton/node_modules/express/node_modules/connect/lib/proto.js:193:15)
-
-Unknown bug...
-
-//***********************************************
-
-This is the end for bug record.
-
-//***********************************************/
-
 var express = require('express');
 var flash = require('connect-flash');
 var path = require('path');
@@ -82,18 +11,6 @@ var Activity = require('./models/activity');
 var List = require('./models/list');
 var Individual = require('./models/individual');
 var IndMatch = require('./models/indMatch');
-
-/*
-IndMatch.newUser(2014, 1, 1, 128);
-IndMatch.newUser(2014, 3, 1, 128);
-IndMatch.newUser(2014, 4, 1, 128);
-IndMatch.newUser(2014, 5, 1, 128);
-IndMatch.newMatch(2014, 1, 6);
-IndMatch.newMatch(2014, 3, 5);
-IndMatch.newMatch(2014, 4, 5);
-IndMatch.newMatch(2014, 5, 5);
-return;
-*/
 
 // log
 // var fs = require('fs');
@@ -503,7 +420,7 @@ function Request(activityInit) {
 };
 
 //===========================================================================//
-/*
+//*
 var crowdThursday = Request(
   Activity.Activity(6, 6, 'crowdThursday', 1, 1,
     new Date(2014,3-1,11,13,0,0), new Date(2014,3-1,13,15,0,0), '清华综体', [1,2,3,4,5,6]
