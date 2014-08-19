@@ -1,7 +1,7 @@
 div(class='navbar navbar-default', role='navigation')
   div(class='container')
     div(class='navbar-brand')
-      a(href='./')
+      a(href='/')
         h4
           span(class="glyphicon glyphicon-star")
           |  清华羽协
@@ -14,124 +14,124 @@ div(class='navbar navbar-default', role='navigation')
     div(class='navbar-collapse collapse')
       ul(class='nav navbar-nav')
         li(class=(name=='index')?'active':'')
-          a(href='./')
+          a(href='/')
             h4
               span(class="glyphicon glyphicon-home")
               |  首页
         li(class=(name=='application')?'active':'')
-          a(href='./application')
+          a(href='/application')
             h4
               span(class="glyphicon glyphicon-pencil")
               |  招新报名
         li(class=(name=='activity')?'active':'')
-          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-chevron-down")
               |  羽协活动预约
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             li
-              a(href='./activity')
+              a(href='/activity')
                 h4
                   span(class="glyphicon glyphicon-ban-circle")
                   |  羽协活动公告
             li(class="divider")
             li
-              a(href="./crowdThursday")
+              a(href="/crowdThursday")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  群众体育活动预约（周四）
             li
-              a(href="./crowdFriday")
+              a(href="/crowdFriday")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  群众体育活动预约（周五）
             li(class="divider")
             li
-              a(href="./activityFriday")
+              a(href="/activityFriday")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  羽协会员活动预约（周五）
             li
-              a(href="./activitySaturday")
+              a(href="/activitySaturday")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  羽协会员活动预约（周六）
         li(class=(name=='individual')?'active':'')
-          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-flag")
               |  单项赛
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             li
-              a(href="./individual_2014")
+              a(href="/individual/2014")
                 h4
                   span(class="glyphicon glyphicon-pencil")
                   |  2014单项赛报名
             li(class="divider")
             li
-              a(href="./individual_2014_Results_mens_singles")
+              a(href="/individual/2014/Results_mens_singles")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  2014男单比赛结果
             li
-              a(href="./individual_2014_Results_mens_doubles")
+              a(href="/individual/2014/Results_mens_doubles")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  2014男双比赛结果
             li
-              a(href="./individual_2014_Results_womens_doubles")
+              a(href="/individual/2014/Results_womens_doubles")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  2014女双比赛结果
             li
-              a(href="./individual_2014_Results_mixed_doubles")
+              a(href="/individual/2014/Results_mixed_doubles")
                 h4
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  2014混双比赛结果
             li(class="divider")
             li
-              a(href="./individual_2015")
+              a(href="/individual/2015")
                 h4
                   span(class="glyphicon glyphicon-pencil")
                   |  2015单项赛报名
       ul(class='nav navbar-nav navbar-right')
         li(class=(name=='register'||name=='login'||name=='edit'||name=='list')?'active':'')
-          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="./")
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-list")
               |  帐号
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             if user == null
               li(class=(name=='login')?'active':'')
-                a(href='./login')
+                a(href='/login')
                   h4
                     span(class="glyphicon glyphicon-log-in")
                     |  登录
             if user == null
               li(class=(name=='register')?'active':'')
-                a(href='./register')
+                a(href='/register')
                   h4
                     span(class="glyphicon glyphicon-registration-mark")
                     |  注册
             if user != null
               li(class=(name=='logout')?'active':'')
-                a(href='./logout')
+                a(href='/logout')
                   h4
                     span(class="glyphicon glyphicon-log-out")
                     |  登出
             if user != null
               li(class=(name=='edit')?'active':'')
-                a(href='./edit')
+                a(href='/edit')
                   h4
                     span(class="glyphicon glyphicon-edit")
                     |  修改资料
             li
-              a(href='./old/index.html',target='_blank')
+              a(href='/old/index.html',target='_blank')
                 h4
                   span(class="glyphicon glyphicon-new-window")
                   |  旧版本
             li(class=(name=='list')?'active':'')
-              a(href='./list')
+              a(href='/list')
                 h4
                   span(class="glyphicon glyphicon-user")
                   |  管理员

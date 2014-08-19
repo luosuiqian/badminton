@@ -42,11 +42,11 @@ block content
         if user != null && open == true
           if flag == false
             if (sex == 'm' && (type == 1 || type == 3 || type == 5 || type == 9)) || (sex == 'f' && (type == 4 || type == 5 || type == 9))
-              - address = './individual_' + year + '_Apply_' + link
+              - address = '/individual/' + year + '/Apply_' + link
               a(role="button", href=address, class="btn btn-primary")
                 | 我要报名
           else
-            - address = './individual_' + year + '_Cancel_' + link
+            - address = '/individual/' + year + '/Cancel_' + link
             a(role="button", href=address, class="btn btn-danger")
               | 取消报名
       hr
@@ -66,7 +66,7 @@ block content
             | 报名时间：#{time}
           p
             | 章程：
-            a(href='./files/regulation2014.pdf', target='_blank')
+            a(href='/files/regulation2014.pdf', target='_blank')
               | 2014年清华大学"冠捷杯"第六届羽毛球单项锦标赛规程.pdf
           p
             | 注：
