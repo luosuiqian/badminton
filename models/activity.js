@@ -1,14 +1,27 @@
+/*
+create table if not exists activity
+(
+    num INT,
+    id INT,
+    time INT,
+    space INT,
+    studentid INT,
+    primary key(num, id, time, space)
+) character set utf8;
+*/
+
 var util = require('util');
 var conn = require('./db').getConnection;
 var Authority = require('./authority');
 
-exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sNum) {
+exports.Activity = function (time, space, table,
+                             autL, autR, begin, end, pla, sNum) {
   var maxTime = time;
   var maxSpace = space;
+  var tableNum = table;
   var id = 0;
   var beginTime = begin;
   var endTime = end;
-  var tableName = table;
   var autLeft = autL;
   var autRight = autR;
   var place = pla;
@@ -51,6 +64,7 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
   };
   
   var Activity = function (time, space, studentid) {
+    this.num = tableNum
     this.id = id;
     this.time = parseInt(time);
     this.space = parseInt(space);
@@ -58,12 +72,15 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
   };
   
   ret.get = function (time, space, callback) {
-    conn().query('SELECT * FROM ' + tableName + ' WHERE id = ? and time = ? and space = ?',
-              [id, time, space], function(err, results) {
+    conn().query('SELECT studentid FROM activity \
+                  WHERE num = ? and id = ? and time = ? and space = ?',
+              [tableNum, id, time, space], function(err, results) {
       if (err) {
         return callback(err, null);
+      } else if (results.length == 0) {
+        return callback(null, null);
       } else {
-        return callback(null, results);
+        return callback(null, results[0]);
       }
     });
   };
@@ -72,8 +89,9 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
     if (studentid == null) {
       return callback(null, null);
     }
-    conn().query('SELECT time,space FROM ' + tableName + ' WHERE id = ? and studentid = ?',
-              [id, studentid], function(err, results) {
+    conn().query('SELECT time, space FROM activity \
+                  WHERE num = ? and id = ? and studentid = ?',
+              [tableNum, id, studentid], function(err, results) {
       if (err) {
         return callback(err, null);
       } else {
@@ -86,16 +104,16 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
   };
   
   ret.getAll = function (callback) {
-    conn().query('SELECT time,space,name,renrenid FROM ' + tableName + ',user\
-              WHERE id = ? and ' + tableName + '.studentid = user.studentid',
-              [id], function(err, results) {
+    conn().query('SELECT time,space,name,renrenid FROM activity, user\
+              WHERE num = ? and id = ? and activity.studentid = user.studentid',
+              [tableNum, id], function(err, results) {
       if (err) {
         return callback(err, null);
       }
       var table = new Array(maxTime);
-      for (var i=0; i<maxTime; i++) {
+      for (var i = 0; i < maxTime; i++) {
         table[i] = new Array(maxSpace);
-        for (var j=0; j<maxSpace; j++) {
+        for (var j = 0; j < maxSpace; j++) {
           table[i][j] = null;
         }
       }
@@ -111,10 +129,8 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
     var time = parseInt(timespace / 100);
     var space = parseInt(timespace % 100);
     var activity = new Activity(time, space, user);
-    if (!(0 <= activity.time && activity.time < maxTime)) {
-      return callback("时间\场地错误，请重新选择");
-    }
-    if (!(0 <= activity.space && activity.space < maxSpace)) {
+    if ((!(0 <= activity.time && activity.time < maxTime))
+      || (!(0 <= activity.space && activity.space < maxSpace))) {
       return callback("时间\场地错误，请重新选择");
     }
     ret.getStudentid(activity.studentid, function(err, results) {
@@ -128,10 +144,11 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
         if (err) {
           return callback(err);
         }
-        if (results.length > 0) {
+        if (results != null) {
           return callback("该场次已被预定，请重新选择");
         }
-        conn().query('INSERT INTO ' + tableName + ' SET ?', [activity], function(err) {
+        conn().query('INSERT INTO activity SET ?',
+                     [activity], function(err) {
           if (err) {
             return callback(err);
           } else {
@@ -143,9 +160,9 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
   };
   
   ret.del = function (studentid, callback) {
-    conn().query('DELETE FROM ' + tableName + ' WHERE id = ? and studentid = ?',
-              [id, studentid],
-              function(err) {
+    conn().query('DELETE FROM activity \
+                  WHERE num = ? and id = ? and studentid = ?',
+                 [tableNum, id, studentid], function(err) {
       if (err) {
         return callback(err);
       } else {
@@ -162,10 +179,10 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
       if (err) {
         return callback(err, false);
       }
-      if (authority.length == 0) {
+      if (authority == null) {
         return callback(null, false);
       }
-      if (autLeft <= authority[0].rank && authority[0].rank <= autRight) {
+      if (autLeft <= authority.rank && authority.rank <= autRight) {
         return callback(null, true);
       } else {
         return callback(null, false);

@@ -1,33 +1,19 @@
 var conn = require('./db').getConnection;
+const maxDepartmentid = require('./global').maxDepartmentid;
 
-const maxDepartmentid = 36;
-
-exports.User = function (studentid,password,name,sex,departmentid,email,phone,renrenid) {
-  this.studentid = studentid;
-  this.password = password;
-  this.name = name;
-  this.sex = sex;
-  this.departmentid = parseInt(departmentid);
-  this.email = email;
-  this.phone = phone;
-  this.renrenid = renrenid;
+var User = function (body) {
+  this.studentid = body.studentid;
+  this.password = body.password;
+  this.name = body.name;
+  this.sex = body.sex;
+  this.departmentid = parseInt(body.departmentid);
+  this.email = body.email;
+  this.phone = body.phone;
+  this.renrenid = body.renrenid;
   this.privilege = 0;
 }
 
-exports.get = function (studentid, callback) {
-  if (studentid == null) {
-    return callback(null, null);
-  }
-  conn().query('SELECT * FROM user WHERE studentid = ?', [studentid], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else {
-      return callback(null, results);
-    }
-  });
-};
-
-function check(user) {
+var check = function (user) {
   if (/^\d{10,10}$/.test(user.studentid) == false) {
     return ("学号错误");
   }
@@ -63,7 +49,24 @@ function check(user) {
   return null;
 }
 
-exports.save = function (user, callback) {
+exports.get = function (studentid, callback) {
+  if (studentid == null) {
+    return callback(null, null);
+  }
+  conn().query('SELECT * FROM user WHERE studentid = ?',
+               [studentid], function(err, results) {
+    if (err) {
+      return callback(err, null);
+    } else if (results.length == 0) {
+      return callback(null, null);
+    } else {
+      return callback(null, results[0]);
+    }
+  });
+};
+
+exports.save = function (body, callback) {
+  var user = new User(body);
   var str = check(user);
   if (str != null) {
     return callback(str);
@@ -85,12 +88,14 @@ exports.save = function (user, callback) {
   });
 };
 
-exports.update = function (user, callback) {
+exports.update = function (body, callback) {
+  var user = new User(body);
   var str = check(user);
   if (str != null) {
     return callback(str);
   }
-  conn().query('UPDATE user SET ? WHERE studentid = ?', [user, user.studentid], function(err) {
+  conn().query('UPDATE user SET ? WHERE studentid = ?',
+               [user, user.studentid], function(err) {
     if (err) {
       return callback(err);
     } else {

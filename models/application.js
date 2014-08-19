@@ -1,18 +1,13 @@
+var util = require('util');
 var conn = require('./db').getConnection;
-
-const id = 1;
-const maxTime = 60;
-const maxSpace = 6;
-const beginHour = 20;
-const beginMinute = 15;
-const period = 15;
-
-exports.checkTime = function () {
-  var now = new Date();
-  var beginTime = new Date(2014,2-1,22,0,0,0);
-  var deadline = new Date(2014,3-1,7,20,0,0);
-  return (beginTime <= now && now <= deadline);
-}
+var global = require('./global');
+const id = global.id;
+const maxTime = global.maxTime;
+const maxPeople = global.maxPeople;
+const maxSpace = global.maxSpace;
+const beginHour = global.beginHour;
+const beginMinute = global.beginMinute;
+const period = global.period;
 
 var Application = function (time,space,studentid) {
   this.id = id;
@@ -27,8 +22,10 @@ exports.get = function (time, space, callback) {
              [id, time, space], function(err, results) {
     if (err) {
       return callback(err, null);
+    } else if (results.length == 0) {
+      return callback(null, null);
     } else {
-      return callback(null, results);
+      return callback(null, results[0]);
     }
   });
 };
@@ -41,10 +38,9 @@ exports.getStudentid = function (studentid, callback) {
              [id, studentid], function(err, results) {
     if (err) {
       return callback(err, null);
+    } else if (results.length == 0) {
+      return callback(null, null);
     } else {
-      if (results.length == 0) {
-        return callback(null, null);
-      }
       return callback(null, results[0]);
     }
   });
@@ -57,13 +53,13 @@ exports.getAll = function (callback) {
     if (err) {
       return callback(err, null);
     }
-    var table = new Array(maxTime);
-    for (var i=0;i<maxTime;i++) {
+    var table = new Array(maxTime * maxPeople);
+    for (var i = 0; i < maxTime * maxPeople; i++) {
       table[i] = new Array(maxSpace);
-      for (var j=0;j<maxSpace;j++) {
+      for (var j = 0; j < maxSpace; j++) {
         table[i][j] = null;
       }
-      var ii = parseInt(i/(maxTime/maxSpace));
+      var ii = parseInt(i / maxPeople);
       var h1 = beginHour + parseInt((beginMinute + ii * period) / 60);
       var m1 = (beginMinute + ii * period) % 60;
       var h2 = beginHour + parseInt((beginMinute + (ii + 1) * period) / 60);
@@ -84,10 +80,8 @@ exports.save = function (timespace, user, callback) {
   var time = parseInt(timespace / 100);
   var space = parseInt(timespace % 100);
   var application = new Application(time, space, user);
-  if (!(0 <= application.time && application.time < maxTime)) {
-    return callback("时间\场地错误，请重新选择");
-  }
-  if (!(0 <= application.space && application.space < maxSpace)) {
+  if ((!(0 <= application.time && application.time < maxTime))
+    || (!(0 <= application.space && application.space < maxSpace))) {
     return callback("时间\场地错误，请重新选择");
   }
   exports.getStudentid(application.studentid, function(err, results) {
@@ -101,7 +95,7 @@ exports.save = function (timespace, user, callback) {
       if (err) {
         return callback(err);
       }
-      if (results.length > 0) {
+      if (results != null) {
         return callback("该场次已被预定，请重新选择");
       }
       conn().query('INSERT INTO application SET ?', application, function(err) {

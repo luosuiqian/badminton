@@ -4,11 +4,14 @@ exports.get = function (studentid, callback) {
   if (studentid == null) {
     return callback(null, null);
   }
-  conn().query('SELECT * FROM authority WHERE studentid = ?', [studentid], function(err, results) {
+  conn().query('SELECT * FROM authority WHERE studentid = ?',
+               [studentid], function(err, results) {
     if (err) {
       return callback(err, null);
+    } else if (results.length == 0) {
+      return callback(null, null);
     } else {
-      return callback(null, results);
+      return callback(null, results[0]);
     }
   });
 };

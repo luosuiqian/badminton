@@ -3,12 +3,15 @@ var flash = require('connect-flash');
 var path = require('path');
 var app = express();
 
+var Global = require('./models/global');
 var User = require('./models/user');
-var Application = require('./models/application');
 var Department = require('./models/department');
 var Authority = require('./models/authority');
-var Activity = require('./models/activity');
 var List = require('./models/list');
+
+var Application = require('./models/application');
+var Activity = require('./models/activity');
+
 var Individual = require('./models/individual');
 var IndMatch = require('./models/indMatch');
 
@@ -43,36 +46,37 @@ var checkNotLogin = function (req, res, next) {
   next();
 }
 
+//===========================================================================//
 //individual
 app.get('/individual', function(req, res) {
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     Individual.get(2014, 1, function(err, mens_singles) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/');
       }
       Individual.get(2014, 3, function(err, mens_doubles) {
         if (err) {
-          req.flash('warning', err);
+          req.flash('warning', err.toString());
           return res.redirect('/');
         }
         Individual.get(2014, 4, function(err, womens_doubles) {
           if (err) {
-            req.flash('warning', err);
+            req.flash('warning', err.toString());
             return res.redirect('/');
           }
           Individual.get(2014, 5, function(err, mixed_doubles) {
             if (err) {
-              req.flash('warning', err);
+              req.flash('warning', err.toString());
               return res.redirect('/');
             }
             Individual.get(2014, 9, function(err, referee) {
               if (err) {
-                req.flash('warning', err);
+                req.flash('warning', err.toString());
                 return res.redirect('/');
               }
               res.render('individual.jade', {
@@ -101,12 +105,12 @@ var individualApply = function (type, req, res) {
   }
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     Department.getAll(function(err, departments) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/');
       }
       var tmp = Individual.getP1andP2(type, userinfo[0]);
@@ -147,7 +151,7 @@ var individualCancel = function (type, req, res) {
   }
   Individual.del(2014, req.session.user, type, function(err) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     return res.redirect('/individual');
@@ -203,7 +207,7 @@ app.post('/individual', function(req, res) {
   }
   Individual.save(newApply, function(err) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/individual');
     } else {
       req.flash('info', '报名成功');
@@ -215,7 +219,7 @@ app.post('/individual', function(req, res) {
 var individualResults = function (year, type, req, res) {
   IndMatch.get(year, type, function(err, table) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     res.render('individualResults.jade', {
@@ -233,6 +237,7 @@ app.get('/individualResults_mens_doubles', function(req, res) {individualResults
 app.get('/individualResults_womens_doubles', function(req, res) {individualResults(2014, 4, req, res);});
 app.get('/individualResults_mixed_doubles', function(req, res) {individualResults(2014,5, req, res);});
 
+//===========================================================================//
 //index
 app.get('/', function(req, res) {
   res.render('index.jade', {
@@ -246,25 +251,26 @@ app.get('/', function(req, res) {
 app.get('/application', function(req, res) {
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     Application.getAll(function(err, table) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/');
       }
       Application.getStudentid(req.session.user, function(err, result) {
         if (err) {
-          req.flash('warning', err);
+          req.flash('warning', err.toString());
           return res.redirect('/');
         }
         res.render('application.jade', {
           name: 'application',
           user: req.session.user,
           flash: req.flash(),
-          open: Application.checkTime(),
-          sex: (userinfo != null)?userinfo[0].sex:null,
+          open: Global.checkTimeForApplication(),
+          time: Global.getTimeForApplication(),
+          sex: (userinfo != null) ? userinfo.sex : null,
           table: table,
           result: result,
         });
@@ -275,14 +281,14 @@ app.get('/application', function(req, res) {
 
 app.post('/application', checkLogin);
 app.post('/application', function(req, res) {
-  if (Application.checkTime() == false) {
+  if (Global.checkTimeForApplication() == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/application');
   }
   if (req.body.type == 'delete') {
     Application.del(req.session.user, function(err) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/application');
       }
       req.flash('info', '取消报名成功');
@@ -291,7 +297,7 @@ app.post('/application', function(req, res) {
   } else if (req.body.type == 'post') {
     Application.save(req.body.timespace, req.session.user, function(err) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/application');
       } else {
         req.flash('info', '报名成功');
@@ -301,24 +307,25 @@ app.post('/application', function(req, res) {
   }
 });
 
+//===========================================================================//
 //activity
 var Request = function (activity) {
   var ret = new Object();
   ret.get = function (req, res) {
     activity.getAuthority(req.session.user, function(err, authority) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/');
       }
       activity.checkTime();
       activity.getAll(function(err, table) {
         if (err) {
-          req.flash('warning', err);
+          req.flash('warning', err.toString());
           return res.redirect('/');
         }
         activity.getStudentid(req.session.user, function(err, result) {
           if (err) {
-            req.flash('warning', err);
+            req.flash('warning', err.toString());
             return res.redirect('/');
           }
           res.render('activity.jade', {
@@ -348,7 +355,7 @@ var Request = function (activity) {
       if (req.body.type == 'delete') {
         activity.del(req.session.user, function(err) {
           if (err) {
-            req.flash('warning', err);
+            req.flash('warning', err.toString());
             return res.redirect('.');
           }
           req.flash('info', '取消报名成功');
@@ -357,7 +364,7 @@ var Request = function (activity) {
       } else if (req.body.type == 'post') {
         activity.save(req.body.timespace, req.session.user, function(err) {
           if (err) {
-            req.flash('warning', err);
+            req.flash('warning', err.toString());
             return res.redirect('.');
           } else {
             req.flash('info', '报名成功');
@@ -373,7 +380,7 @@ var Request = function (activity) {
 //===========================================================================//
 //*
 var crowdThursday = Request(
-  Activity.Activity(6, 6, 'crowdThursday', 1, 1,
+  Activity.Activity(6, 6, 1, 1, 1,
     new Date(2014,3-1,11,13,0,0), new Date(2014,3-1,13,15,0,0), '清华综体', [1,2,3,4,5,6]
   )
 );
@@ -382,7 +389,7 @@ app.post('/crowdThursday', checkLogin);
 app.post('/crowdThursday', crowdThursday.post);
 
 var crowdFriday = Request(
-  Activity.Activity(6, 3, 'crowdFriday', 1, 1,
+  Activity.Activity(6, 3, 2, 1, 1,
     new Date(2014,3-1,12,13,0,0), new Date(2014,3-1,14,15,0,0), '清华综体', [3,4,5]
   )
 );
@@ -391,7 +398,7 @@ app.post('/crowdFriday', checkLogin);
 app.post('/crowdFriday', crowdFriday.post);
 
 var activityFriday = Request(
-  Activity.Activity(6, 3, 'activityFriday', 2, 3,
+  Activity.Activity(6, 3, 3, 2, 3,
     new Date(2014,3-1,5,13,0,0), new Date(2014,3-1,7,15,0,0), '清华综体', [8,9,10]
   )
 );
@@ -400,7 +407,7 @@ app.post('/activityFriday', checkLogin);
 app.post('/activityFriday', activityFriday.post);
 
 var activitySaturday = Request(
-  Activity.Activity(6, 4, 'activitySaturday', 2, 3,
+  Activity.Activity(6, 4, 4, 2, 3,
     new Date(2014,3-1,6,13,0,0), new Date(2014,3-1,8,22,0,0), '清华西体', [5,6,7,8]
   )
 );
@@ -425,7 +432,7 @@ app.get('/register', checkNotLogin);
 app.get('/register', function(req, res) {
   Department.getAll(function(err, departments) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     res.render('register.jade', {
@@ -443,19 +450,10 @@ app.post('/register', function(req, res) {
     req.flash('warning', '密码两次输入不一致，您可以用浏览器的后退功能重新填写表单');
     return res.redirect('/register');
   }
-  var user = new User.User(
-    req.body.studentid,
-    req.body.password,
-    req.body.name,
-    req.body.sex,
-    req.body.departmentid,
-    req.body.email,
-    req.body.phone,
-    req.body.renrenid
-  );
-  User.save(user, function(err) {
+  
+  User.save(req.body, function(err) {
     if (err) {
-      req.flash('warning', err + '，您可以用浏览器的后退功能重新填写表单');
+      req.flash('warning', err.toString() + '，您可以用浏览器的后退功能重新填写表单');
       return res.redirect('/register');
     } else {
       req.flash('info', '注册成功');
@@ -469,12 +467,12 @@ app.get('/edit', checkLogin);
 app.get('/edit', function(req, res) {
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
-      req.flash('warning', err);
+      req.flash('warning', err.toString());
       return res.redirect('/');
     }
     Department.getAll(function(err, departments) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/');
       }
       res.render('edit.jade', {
@@ -482,7 +480,7 @@ app.get('/edit', function(req, res) {
         user: req.session.user,
         flash: req.flash(),
         departments: departments,
-        userinfo: userinfo[0],
+        userinfo: userinfo,
       });
     });
   });
@@ -490,10 +488,8 @@ app.get('/edit', function(req, res) {
 
 app.post('/edit', checkLogin);
 app.post('/edit', function(req, res) {
-  var studentid = req.session.user;
-  var password = req.body.password;
-  User.get(studentid, function(err, userinfo) {
-    if (userinfo[0].password != password) {
+  User.get(req.session.user, function(err, userinfo) {
+    if (userinfo.password != req.body.password) {
       req.flash('warning', '密码错误');
       return res.redirect('/edit');
     }
@@ -501,22 +497,13 @@ app.post('/edit', function(req, res) {
       req.flash('warning', '新密码两次输入不一致');
       return res.redirect('/edit');
     }
+    req.body.studentid = req.session.user;
     if (req.body.newpassword != '') {
-      password = req.body.newpassword;
+      req.body.password = req.body.newpassword;
     }
-    var user = new User.User(
-      studentid,
-      password,
-      req.body.name,
-      req.body.sex,
-      req.body.departmentid,
-      req.body.email,
-      req.body.phone,
-      req.body.renrenid
-    );
-    User.update(user, function(err) {
+    User.update(req.body, function(err) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/edit');
       } else {
         req.flash('info', '修改资料成功');
@@ -538,14 +525,12 @@ app.get('/login', function(req, res) {
 
 app.post('/login', checkNotLogin);
 app.post('/login', function(req, res) {
-  var studentid = req.body.studentid;
-  var password = req.body.password;
-  User.get(studentid, function(err, userinfo) {
-    if (userinfo.length == 0 || userinfo[0].password != password) {
+  User.get(req.body.studentid, function(err, userinfo) {
+    if (userinfo == null || userinfo.password != req.body.password) {
       req.flash('warning', '学号或密码错误');
       return res.redirect('/login');
     }
-    req.session.user = studentid;
+    req.session.user = req.body.studentid;
     req.flash('info', '登录成功');
     return res.redirect('/');
   });
@@ -567,22 +552,22 @@ app.get('/list', function(req, res) {
     }
     List.getAllNoAuthority(function(err, list0) {
       if (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.toString());
         return res.redirect('/');
       }
       List.getAll(1, 1, function(err, list1) {
         if (err) {
-          req.flash('warning', err);
+          req.flash('warning', err.toString());
           return res.redirect('/');
         }
         List.getAll(2, 2, function(err, list2) {
           if (err) {
-            req.flash('warning', err);
+            req.flash('warning', err.toString());
             return res.redirect('/');
           }
           List.getAll(3, 3, function(err, list3) {
             if (err) {
-              req.flash('warning', err);
+              req.flash('warning', err.toString());
               return res.redirect('/');
             }
             res.render('list.jade', {
@@ -600,6 +585,8 @@ app.get('/list', function(req, res) {
     });
   });
 });
+
+//===========================================================================//
 
 app.start = function() {
   app.listen(app.get('port'), function() {
