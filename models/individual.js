@@ -18,7 +18,7 @@ create table if not exists individual
 ) character set utf8;
 */
 
-var conn = require('./db');
+var conn = require('./db').getConnection;
 
 const maxDepartmentid = 36;
 
@@ -121,4 +121,47 @@ exports.del = function (year, studentid, type, callback) {
       return callback(null);
     }
   });
+}
+
+var Player = function (userinfo) {
+  this.studentid = userinfo.studentid;
+  this.name = userinfo.name;
+  this.sex = userinfo.sex;
+  this.departmentid = parseInt(userinfo.departmentid);
+  this.email = userinfo.email;
+  this.phone = userinfo.phone;
+  this.edit = false;
+}
+
+var NewPlayer = function (sex) {
+  this.studentid = "";
+  this.name = "";
+  this.sex = sex;
+  this.departmentid = 1;
+  this.email = "";
+  this.phone = "";
+  this.edit = true;
+}
+
+exports.getP1andP2 = function (type, userinfo) {
+  var sex = userinfo.sex;
+  var p1 = null, p2 = null;
+  if (type == 1 && sex == 'm') {
+    p1 = new Player(userinfo);
+  } else if (type == 3 && sex == 'm') {
+    p1 = new Player(userinfo);
+    p2 = new NewPlayer('m');
+  } else if (type == 4 && sex == 'f') {
+    p1 = new Player(userinfo);
+    p2 = new NewPlayer('f');
+  } else if (type == 5 && sex == 'm') {
+    p1 = new Player(userinfo);
+    p2 = new NewPlayer('f');
+  } else if (type == 5 && sex == 'f') {
+    p1 = new NewPlayer('m');
+    p2 = new Player(userinfo);
+  } else if (type == 9) {
+    p1 = new Player(userinfo);
+  }
+  return [p1, p2];
 }

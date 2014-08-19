@@ -12,11 +12,6 @@ var List = require('./models/list');
 var Individual = require('./models/individual');
 var IndMatch = require('./models/indMatch');
 
-// log
-// var fs = require('fs');
-// var accessLogfile = fs.createWriteStream('access.log', {flags: 'a'});
-// app.use(express.logger({stream: accessLogfile}));
-
 app.set('port', 80);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -24,12 +19,15 @@ app.use(express.favicon());
 app.use(express.urlencoded())
 app.use(express.json())
 app.use(express.cookieParser());
-app.use(express.session({secret: 'SXLlGmJfOZhCtzxtqp9T'}));
+app.use(express.session({
+  secret: 'SXLlGmJfOZhCtzxtqp9T',
+  store: require('./models/db').getStore(express)
+}));
 app.use(flash());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
-function checkLogin(req, res, next) {
+var checkLogin = function (req, res, next) {
   if (req.session.user == null) {
     req.flash('warning', '请先登录');
     return res.redirect('/login');
@@ -37,7 +35,7 @@ function checkLogin(req, res, next) {
   next();
 }
 
-function checkNotLogin(req, res, next) {
+var checkNotLogin = function (req, res, next) {
   if (req.session.user != null) {
     req.flash('warning', '请先登出');
     return res.redirect('/');
@@ -86,7 +84,7 @@ app.get('/individual', function(req, res) {
                 womens_doubles: womens_doubles,
                 mixed_doubles: mixed_doubles,
                 referee: referee,
-                sex: (userinfo != null)?userinfo[0].sex:null,
+                sex: (userinfo != null) ? userinfo[0].sex : null,
               });
             });
           });
@@ -96,27 +94,7 @@ app.get('/individual', function(req, res) {
   });
 });
 
-var Player = function (userinfo) {
-  this.studentid = userinfo.studentid;
-  this.name = userinfo.name;
-  this.sex = userinfo.sex;
-  this.departmentid = parseInt(userinfo.departmentid);
-  this.email = userinfo.email;
-  this.phone = userinfo.phone;
-  this.edit = false;
-}
-
-var NewPlayer = function (sex) {
-  this.studentid = "";
-  this.name = "";
-  this.sex = sex;
-  this.departmentid = 1;
-  this.email = "";
-  this.phone = "";
-  this.edit = true;
-}
-
-function individualApply(type, req, res) {
+var individualApply = function (type, req, res) {
   if (Individual.checkTime() == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual');
@@ -131,26 +109,9 @@ function individualApply(type, req, res) {
         req.flash('warning', err);
         return res.redirect('/');
       }
-      var sex = userinfo[0].sex;
-      if (type == 1 && sex == 'm') {
-        var p1 = new Player(userinfo[0]);
-        var p2 = null;
-      } else if (type == 3 && sex == 'm') {
-        var p1 = new Player(userinfo[0]);
-        var p2 = new NewPlayer('m');
-      } else if (type == 4 && sex == 'f') {
-        var p1 = new Player(userinfo[0]);
-        var p2 = new NewPlayer('f');
-      } else if (type == 5 && sex == 'm') {
-        var p1 = new Player(userinfo[0]);
-        var p2 = new NewPlayer('f');
-      } else if (type == 5 && sex == 'f') {
-        var p1 = new NewPlayer('m');
-        var p2 = new Player(userinfo[0]);
-      } else if (type == 9) {
-        var p1 = new Player(userinfo[0]);
-        var p2 = null;
-      } else {
+      var tmp = Individual.getP1andP2(type, userinfo[0]);
+      var p1 = tmp[0], p2 = tmp[1];
+      if (p1 == null && p2 == null) {
         req.flash('warning', '报名类型错误');
         return res.redirect('/');
       }
@@ -179,7 +140,7 @@ app.get('/individualApply_mixed_doubles', function(req, res) {individualApply(5,
 app.get('/individualApply_referee', checkLogin);
 app.get('/individualApply_referee', function(req, res) {individualApply(9, req, res);});
 
-function individualCancel(type, req, res) {
+var individualCancel = function (type, req, res) {
   if (Individual.checkTime() == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual');
@@ -251,7 +212,7 @@ app.post('/individual', function(req, res) {
   });
 });
 
-function individualResults(year, type, req, res) {
+var individualResults = function (year, type, req, res) {
   IndMatch.get(year, type, function(err, table) {
     if (err) {
       req.flash('warning', err);
@@ -328,10 +289,7 @@ app.post('/application', function(req, res) {
       return res.redirect('/application');
     });
   } else if (req.body.type == 'post') {
-    var time = parseInt(req.body.timespace / 100);
-    var space = parseInt(req.body.timespace % 100);
-    var application = new Application.Application(time, space, req.session.user);
-    Application.save(application, function(err) {
+    Application.save(req.body.timespace, req.session.user, function(err) {
       if (err) {
         req.flash('warning', err);
         return res.redirect('/application');
@@ -344,26 +302,22 @@ app.post('/application', function(req, res) {
 });
 
 //activity
-function Request(activityInit) {
-  var activity = activityInit;
+var Request = function (activity) {
   var ret = new Object();
   ret.get = function (req, res) {
     activity.getAuthority(req.session.user, function(err, authority) {
       if (err) {
-        console.log(err);
         req.flash('warning', err);
         return res.redirect('/');
       }
-      var checkTime = activity.checkTime();
+      activity.checkTime();
       activity.getAll(function(err, table) {
         if (err) {
-          console.log(err);
           req.flash('warning', err);
           return res.redirect('/');
         }
         activity.getStudentid(req.session.user, function(err, result) {
           if (err) {
-            console.log(err);
             req.flash('warning', err);
             return res.redirect('/');
           }
@@ -371,7 +325,7 @@ function Request(activityInit) {
             name: 'activity',
             user: req.session.user,
             flash: req.flash(),
-            open: checkTime,
+            open: activity.checkTime(),
             authority: authority,
             table: table,
             result: result,
@@ -401,10 +355,7 @@ function Request(activityInit) {
           return res.redirect('.');
         });
       } else if (req.body.type == 'post') {
-        var time = parseInt(req.body.timespace / 100);
-        var space = parseInt(req.body.timespace % 100);
-        var oneActivity = new activity.Activity(time, space, req.session.user);
-        activity.save(oneActivity, function(err) {
+        activity.save(req.body.timespace, req.session.user, function(err) {
           if (err) {
             req.flash('warning', err);
             return res.redirect('.');

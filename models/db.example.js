@@ -164,7 +164,14 @@ function initialize() {
 
 //initialize();
 
-module.exports = function getConnection() {
+exports.getConnection = function () {
   return connection;
 };
 
+exports.getStore = function (express) {
+  var MySQLStore = require('connect-mysql')(express);
+  var options = { 
+    config: db_config
+  };
+  return new MySQLStore(options);
+}

@@ -1,4 +1,4 @@
-var conn = require('./db');
+var conn = require('./db').getConnection;
 
 const id = 1;
 const maxTime = 60;
@@ -14,7 +14,7 @@ exports.checkTime = function () {
   return (beginTime <= now && now <= deadline);
 }
 
-exports.Application = function (time,space,studentid) {
+var Application = function (time,space,studentid) {
   this.id = id;
   this.time = parseInt(time);
   this.space = parseInt(space);
@@ -80,7 +80,10 @@ exports.getAll = function (callback) {
   });
 };
 
-exports.save = function (application, callback) {
+exports.save = function (timespace, user, callback) {
+  var time = parseInt(timespace / 100);
+  var space = parseInt(timespace % 100);
+  var application = new Application(time, space, user);
   if (!(0 <= application.time && application.time < maxTime)) {
     return callback("时间\场地错误，请重新选择");
   }

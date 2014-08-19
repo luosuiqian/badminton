@@ -1,4 +1,4 @@
-var conn = require('./db');
+var conn = require('./db').getConnection;
 
 const maxDepartmentid = 36;
 

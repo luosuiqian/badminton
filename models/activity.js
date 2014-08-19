@@ -1,5 +1,5 @@
 var util = require('util');
-var conn = require('./db');
+var conn = require('./db').getConnection;
 var Authority = require('./authority');
 
 exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sNum) {
@@ -50,7 +50,7 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
     return ans;
   };
   
-  ret.Activity = function (time, space, studentid) {
+  var Activity = function (time, space, studentid) {
     this.id = id;
     this.time = parseInt(time);
     this.space = parseInt(space);
@@ -107,7 +107,10 @@ exports.Activity = function (time, space, table, autL, autR, begin, end, pla, sN
     });
   };
   
-  ret.save = function (activity, callback) {
+  ret.save = function (timespace, user, callback) {
+    var time = parseInt(timespace / 100);
+    var space = parseInt(timespace % 100);
+    var activity = new Activity(time, space, user);
     if (!(0 <= activity.time && activity.time < maxTime)) {
       return callback("时间\场地错误，请重新选择");
     }

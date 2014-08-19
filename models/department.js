@@ -1,4 +1,4 @@
-var conn = require('./db');
+var conn = require('./db').getConnection;
 
 exports.getAll = function (callback) {
   conn().query('SELECT id,name FROM department', function(err, results) {

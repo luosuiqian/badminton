@@ -1,6 +1,6 @@
 #! /bin/sh
 
-DAEMON="node tsinghuaba.js"
+DAEMON="node cluster.js"
 NAME=Badminton
 DESC=Badminton
 PIDFILE="badminton.pid"

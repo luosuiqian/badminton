@@ -1,4 +1,4 @@
-var conn = require('./db');
+var conn = require('./db').getConnection;
 var Authority = require('./authority');
 
 exports.getAll = function (numberL, numberR, callback) {

@@ -96,29 +96,29 @@ div(class='navbar navbar-default', role='navigation')
               |  帐号
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             if user == null
-              li(class=(name=='register')?'active':'')
-                a(href='./register')
-                  h4
-                    span(class="glyphicon glyphicon-registration-mark")
-                    |  注册
-            if user == null
               li(class=(name=='login')?'active':'')
                 a(href='./login')
                   h4
                     span(class="glyphicon glyphicon-log-in")
                     |  登录
-            if user != null
-              li(class=(name=='edit')?'active':'')
-                a(href='./edit')
+            if user == null
+              li(class=(name=='register')?'active':'')
+                a(href='./register')
                   h4
-                    span(class="glyphicon glyphicon-edit")
-                    |  修改资料
+                    span(class="glyphicon glyphicon-registration-mark")
+                    |  注册
             if user != null
               li(class=(name=='logout')?'active':'')
                 a(href='./logout')
                   h4
                     span(class="glyphicon glyphicon-log-out")
                     |  登出
+            if user != null
+              li(class=(name=='edit')?'active':'')
+                a(href='./edit')
+                  h4
+                    span(class="glyphicon glyphicon-edit")
+                    |  修改资料
             li
               a(href='./old/index.html',target='_blank')
                 h4

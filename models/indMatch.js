@@ -27,7 +27,7 @@ create table if not exists indUser
 */
 
 var util = require('util');
-var conn = require('./db');
+var conn = require('./db').getConnection;
 
 function getPosition(total, leftP, rightP) {
   var dis = rightP - leftP + 1;

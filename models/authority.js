@@ -1,4 +1,4 @@
-var conn = require('./db');
+var conn = require('./db').getConnection;
 
 exports.get = function (studentid, callback) {
   if (studentid == null) {
