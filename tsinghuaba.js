@@ -98,7 +98,7 @@ app.get('/individual', function(req, res) {
 });
 
 var individualApply = function (type, req, res) {
-  if (Individual.checkTime() == false) {
+  if (Global.checkTimeForIndividual() == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual');
   }
@@ -112,9 +112,8 @@ var individualApply = function (type, req, res) {
         req.flash('warning', err.toString());
         return res.redirect('/');
       }
-      var tmp = Individual.getP1andP2(type, userinfo);
-      var p1 = tmp[0], p2 = tmp[1];
-      if (p1 == null && p2 == null) {
+      var p12 = Individual.getP1andP2(type, userinfo);
+      if (p12 == null) {
         req.flash('warning', '报名类型错误');
         return res.redirect('/');
       }
@@ -122,11 +121,11 @@ var individualApply = function (type, req, res) {
         name: 'individual',
         user: req.session.user,
         flash: req.flash(),
-        open: Individual.checkTime(),
+        open: Global.checkTimeForIndividual(),
         departments: departments,
         type: type,
-        player1: p1,
-        player2: p2,
+        player1: p12[0],
+        player2: p12[1],
       });
     });
   });
@@ -144,7 +143,7 @@ app.get('/individualApply_referee', checkLogin);
 app.get('/individualApply_referee', function(req, res) {individualApply(9, req, res);});
 
 var individualCancel = function (type, req, res) {
-  if (Individual.checkTime() == false) {
+  if (Global.checkTimeForIndividual() == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual');
   }
@@ -170,7 +169,7 @@ app.get('/individualCancel_referee', function(req, res) {individualCancel(9, req
 
 app.post('/individual', checkLogin);
 app.post('/individual', function(req, res) {
-  if (Individual.checkTime() == false) {
+  if (Global.checkTimeForIndividual() == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual');
   }

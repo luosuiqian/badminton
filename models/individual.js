@@ -20,14 +20,7 @@ create table if not exists individual
 
 var conn = require('./db').getConnection;
 
-const maxDepartmentid = 36;
-
-exports.checkTime = function () {
-  var now = new Date();
-  var beginTime = new Date(2014,5-1,18,0,0,0);
-  var deadline = new Date(2014,6-1,1,22,0,0);
-  return (beginTime <= now && now <= deadline);
-}
+const maxDepartmentid = require('./global').maxDepartmentid;
 
 exports.NewApply = function (year,studentid,type,stu1,nam1,dep1,ema1,pho1,stu2,nam2,dep2,ema2,pho2) {
   this.year = year;
@@ -162,6 +155,9 @@ exports.getP1andP2 = function (type, userinfo) {
     p2 = new Player(userinfo);
   } else if (type == 9) {
     p1 = new Player(userinfo);
+  } else {
+    return null;
   }
   return [p1, p2];
 }
+

@@ -74,3 +74,10 @@ exports.getActivitySaturday = function (request) {
   );
 };
 
+exports.checkTimeForIndividual = function () {
+  var now = new Date();
+  var beginTime = new Date(2014, 5-1, 18, 0, 0, 0);
+  var endTime = new Date(2014, 6-1, 1, 22, 0, 0);
+  return (beginTime <= now && now <= endTime);
+}
+
