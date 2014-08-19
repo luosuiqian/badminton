@@ -22,7 +22,8 @@ var conn = require('./db').getConnection;
 
 const maxDepartmentid = require('./global').maxDepartmentid;
 
-exports.NewApply = function (year,studentid,type,stu1,nam1,dep1,ema1,pho1,stu2,nam2,dep2,ema2,pho2) {
+var NewApply = function (year,studentid,type,stu1,nam1,dep1,ema1,pho1,
+                         stu2,nam2,dep2,ema2,pho2) {
   this.year = year;
   this.studentid = studentid;
   this.type = parseInt(type);
@@ -43,7 +44,8 @@ exports.NewApply = function (year,studentid,type,stu1,nam1,dep1,ema1,pho1,stu2,n
 }
 
 exports.get = function (year, type, callback) {
-  conn().query('SELECT studentid, nam1, nam2 FROM individual WHERE year = ? and type = ?',
+  conn().query('SELECT studentid, nam1, nam2 FROM individual \
+                WHERE year = ? and type = ?',
                [year, type], function(err, results) {
     if (err) {
       return callback(err, null);
@@ -77,20 +79,53 @@ function checkDetail(stu, nam, dep, ema, pho) {
 }
 
 function check(newApply) {
-  if (newApply.type != 1 && newApply.type != 3 && newApply.type != 4 && newApply.type != 5 && newApply.type != 9) {
+  if (newApply.type != 1 && newApply.type != 3 && newApply.type != 4
+    && newApply.type != 5 && newApply.type != 9) {
     return ("比赛类型错误");
   }
-  var r1 = checkDetail(newApply.stu1, newApply.nam1, newApply.dep1, newApply.ema1, newApply.pho1);
+  var r1 = checkDetail(newApply.stu1, newApply.nam1, newApply.dep1,
+                       newApply.ema1, newApply.pho1);
   if (r1 != null) {
     return r1;
   }
   if (newApply.type == 1 || newApply.type == 9) {
     return null;
   }
-  return checkDetail(newApply.stu2, newApply.nam2, newApply.dep2, newApply.ema2, newApply.pho2);
+  return checkDetail(newApply.stu2, newApply.nam2, newApply.dep2,
+                     newApply.ema2, newApply.pho2);
 }
 
-exports.save = function (newApply, callback) {
+exports.save = function (body, user, callback) {
+  var newApply;
+  if (parseInt(body.type) == 1 || parseInt(body.type) == 9) {
+    newApply = new NewApply(
+      2014,
+      user,
+      body.type,
+      body.studentid1,
+      body.name1,
+      body.departmentid1,
+      body.email1,
+      body.phone1,
+      null, null, null, null, null
+    );
+  } else if (3 <= parseInt(body.type) && parseInt(body.type) <= 5) {
+    newApply = new NewApply(
+      2014,
+      user,
+      body.type,
+      body.studentid1,
+      body.name1,
+      body.departmentid1,
+      body.email1,
+      body.phone1,
+      body.studentid2,
+      body.name2,
+      body.departmentid2,
+      body.email2,
+      body.phone2
+    );
+  }
   var str = check(newApply);
   if (str != null) {
     return callback(str);
@@ -105,7 +140,8 @@ exports.save = function (newApply, callback) {
 };
 
 exports.del = function (year, studentid, type, callback) {
-  conn().query('DELETE FROM individual WHERE year = ? and studentid = ? and type = ?',
+  conn().query('DELETE FROM individual \
+                WHERE year = ? and studentid = ? and type = ?',
              [year, studentid, type],
              function(err) {
     if (err) {

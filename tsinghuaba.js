@@ -8,9 +8,7 @@ var User = require('./models/user');
 var Department = require('./models/department');
 var Authority = require('./models/authority');
 var List = require('./models/list');
-
 var Application = require('./models/application');
-
 var Individual = require('./models/individual');
 var IndMatch = require('./models/indMatch');
 
@@ -44,196 +42,6 @@ var checkNotLogin = function (req, res, next) {
   }
   next();
 }
-
-//===========================================================================//
-//individual
-app.get('/individual', function(req, res) {
-  User.get(req.session.user, function(err, userinfo) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    Individual.get(2014, 1, function(err, mens_singles) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
-      Individual.get(2014, 3, function(err, mens_doubles) {
-        if (err) {
-          req.flash('warning', err.toString());
-          return res.redirect('/');
-        }
-        Individual.get(2014, 4, function(err, womens_doubles) {
-          if (err) {
-            req.flash('warning', err.toString());
-            return res.redirect('/');
-          }
-          Individual.get(2014, 5, function(err, mixed_doubles) {
-            if (err) {
-              req.flash('warning', err.toString());
-              return res.redirect('/');
-            }
-            Individual.get(2014, 9, function(err, referee) {
-              if (err) {
-                req.flash('warning', err.toString());
-                return res.redirect('/');
-              }
-              res.render('individual.jade', {
-                name: 'individual',
-                user: req.session.user,
-                flash: req.flash(),
-                mens_singles: mens_singles,
-                mens_doubles: mens_doubles,
-                womens_doubles: womens_doubles,
-                mixed_doubles: mixed_doubles,
-                referee: referee,
-                sex: (userinfo != null) ? userinfo.sex : null,
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-});
-
-var individualApply = function (type, req, res) {
-  if (Global.checkTimeForIndividual() == false) {
-    req.flash('warning', '现在不是报名时间');
-    return res.redirect('/individual');
-  }
-  User.get(req.session.user, function(err, userinfo) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    Department.getAll(function(err, departments) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
-      var p12 = Individual.getP1andP2(type, userinfo);
-      if (p12 == null) {
-        req.flash('warning', '报名类型错误');
-        return res.redirect('/');
-      }
-      res.render('individualApply.jade', {
-        name: 'individual',
-        user: req.session.user,
-        flash: req.flash(),
-        open: Global.checkTimeForIndividual(),
-        departments: departments,
-        type: type,
-        player1: p12[0],
-        player2: p12[1],
-      });
-    });
-  });
-}
-
-app.get('/individualApply_mens_singles', checkLogin);
-app.get('/individualApply_mens_singles', function(req, res) {individualApply(1, req, res);});
-app.get('/individualApply_mens_doubles', checkLogin);
-app.get('/individualApply_mens_doubles', function(req, res) {individualApply(3, req, res);});
-app.get('/individualApply_womens_doubles', checkLogin);
-app.get('/individualApply_womens_doubles', function(req, res) {individualApply(4, req, res);});
-app.get('/individualApply_mixed_doubles', checkLogin);
-app.get('/individualApply_mixed_doubles', function(req, res) {individualApply(5, req, res);});
-app.get('/individualApply_referee', checkLogin);
-app.get('/individualApply_referee', function(req, res) {individualApply(9, req, res);});
-
-var individualCancel = function (type, req, res) {
-  if (Global.checkTimeForIndividual() == false) {
-    req.flash('warning', '现在不是报名时间');
-    return res.redirect('/individual');
-  }
-  Individual.del(2014, req.session.user, type, function(err) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    return res.redirect('/individual');
-  });
-}
-
-app.get('/individualCancel_mens_singles', checkLogin);
-app.get('/individualCancel_mens_singles', function(req, res) {individualCancel(1, req, res);});
-app.get('/individualCancel_mens_doubles', checkLogin);
-app.get('/individualCancel_mens_doubles', function(req, res) {individualCancel(3, req, res);});
-app.get('/individualCancel_womens_doubles', checkLogin);
-app.get('/individualCancel_womens_doubles', function(req, res) {individualCancel(4, req, res);});
-app.get('/individualCancel_mixed_doubles', checkLogin);
-app.get('/individualCancel_mixed_doubles', function(req, res) {individualCancel(5, req, res);});
-app.get('/individualCancel_referee', checkLogin);
-app.get('/individualCancel_referee', function(req, res) {individualCancel(9, req, res);});
-
-app.post('/individual', checkLogin);
-app.post('/individual', function(req, res) {
-  if (Global.checkTimeForIndividual() == false) {
-    req.flash('warning', '现在不是报名时间');
-    return res.redirect('/individual');
-  }
-  var newApply;
-  if (parseInt(req.body.type) == 1 || parseInt(req.body.type) == 9) {
-    newApply = new Individual.NewApply(
-      2014,
-      req.session.user,
-      req.body.type,
-      req.body.studentid1,
-      req.body.name1,
-      req.body.departmentid1,
-      req.body.email1,
-      req.body.phone1,
-      null,null,null,null,null
-    );
-  } else if (3 <= parseInt(req.body.type) && parseInt(req.body.type) <= 5) {
-    newApply = new Individual.NewApply(
-      2014,
-      req.session.user,
-      req.body.type,
-      req.body.studentid1,
-      req.body.name1,
-      req.body.departmentid1,
-      req.body.email1,
-      req.body.phone1,
-      req.body.studentid2,
-      req.body.name2,
-      req.body.departmentid2,
-      req.body.email2,
-      req.body.phone2
-    );
-  }
-  Individual.save(newApply, function(err) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/individual');
-    } else {
-      req.flash('info', '报名成功');
-      return res.redirect('/individual');
-    }
-  });
-});
-
-var individualResults = function (year, type, req, res) {
-  IndMatch.get(year, type, function(err, table) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    res.render('individualResults.jade', {
-      name: 'individual',
-      user: req.session.user,
-      flash: req.flash(),
-      type: type,
-      table: table,
-    });
-  });
-}
-
-app.get('/individualResults_mens_singles', function(req, res) {individualResults(2014, 1, req, res);});
-app.get('/individualResults_mens_doubles', function(req, res) {individualResults(2014, 3, req, res);});
-app.get('/individualResults_womens_doubles', function(req, res) {individualResults(2014, 4, req, res);});
-app.get('/individualResults_mixed_doubles', function(req, res) {individualResults(2014,5, req, res);});
 
 //===========================================================================//
 //index
@@ -396,7 +204,6 @@ var activitySaturday = Global.getActivitySaturday(request);
 app.get('/activitySaturday', activitySaturday.get);
 app.post('/activitySaturday', checkLogin);
 app.post('/activitySaturday', activitySaturday.post);
-
 //*/
 
 app.get('/activity', function(req, res) {
@@ -407,8 +214,170 @@ app.get('/activity', function(req, res) {
   });
 });
 //*/
-//===========================================================================//
 
+//===========================================================================//
+//individual
+app.get('/individual', function(req, res) {
+  User.get(req.session.user, function(err, userinfo) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    Individual.get(2014, 1, function(err, mens_singles) {
+      if (err) {
+        req.flash('warning', err.toString());
+        return res.redirect('/');
+      }
+      Individual.get(2014, 3, function(err, mens_doubles) {
+        if (err) {
+          req.flash('warning', err.toString());
+          return res.redirect('/');
+        }
+        Individual.get(2014, 4, function(err, womens_doubles) {
+          if (err) {
+            req.flash('warning', err.toString());
+            return res.redirect('/');
+          }
+          Individual.get(2014, 5, function(err, mixed_doubles) {
+            if (err) {
+              req.flash('warning', err.toString());
+              return res.redirect('/');
+            }
+            Individual.get(2014, 9, function(err, referee) {
+              if (err) {
+                req.flash('warning', err.toString());
+                return res.redirect('/');
+              }
+              res.render('individual.jade', {
+                name: 'individual',
+                user: req.session.user,
+                flash: req.flash(),
+                mens_singles: mens_singles,
+                mens_doubles: mens_doubles,
+                womens_doubles: womens_doubles,
+                mixed_doubles: mixed_doubles,
+                referee: referee,
+                sex: (userinfo != null) ? userinfo.sex : null,
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+var individualApply = function (type, req, res) {
+  if (Global.checkTimeForIndividual() == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual');
+  }
+  User.get(req.session.user, function(err, userinfo) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    Department.getAll(function(err, departments) {
+      if (err) {
+        req.flash('warning', err.toString());
+        return res.redirect('/');
+      }
+      var p12 = Individual.getP1andP2(type, userinfo);
+      if (p12 == null) {
+        req.flash('warning', '报名类型错误');
+        return res.redirect('/');
+      }
+      res.render('individualApply.jade', {
+        name: 'individual',
+        user: req.session.user,
+        flash: req.flash(),
+        open: Global.checkTimeForIndividual(),
+        departments: departments,
+        type: type,
+        player1: p12[0],
+        player2: p12[1],
+      });
+    });
+  });
+}
+
+app.get('/individualApply_mens_singles', checkLogin);
+app.get('/individualApply_mens_singles', function(req, res) {individualApply(1, req, res);});
+app.get('/individualApply_mens_doubles', checkLogin);
+app.get('/individualApply_mens_doubles', function(req, res) {individualApply(3, req, res);});
+app.get('/individualApply_womens_doubles', checkLogin);
+app.get('/individualApply_womens_doubles', function(req, res) {individualApply(4, req, res);});
+app.get('/individualApply_mixed_doubles', checkLogin);
+app.get('/individualApply_mixed_doubles', function(req, res) {individualApply(5, req, res);});
+app.get('/individualApply_referee', checkLogin);
+app.get('/individualApply_referee', function(req, res) {individualApply(9, req, res);});
+
+var individualCancel = function (type, req, res) {
+  if (Global.checkTimeForIndividual() == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual');
+  }
+  Individual.del(2014, req.session.user, type, function(err) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    req.flash('info', '取消报名成功');
+    return res.redirect('/individual');
+  });
+}
+
+app.get('/individualCancel_mens_singles', checkLogin);
+app.get('/individualCancel_mens_singles', function(req, res) {individualCancel(1, req, res);});
+app.get('/individualCancel_mens_doubles', checkLogin);
+app.get('/individualCancel_mens_doubles', function(req, res) {individualCancel(3, req, res);});
+app.get('/individualCancel_womens_doubles', checkLogin);
+app.get('/individualCancel_womens_doubles', function(req, res) {individualCancel(4, req, res);});
+app.get('/individualCancel_mixed_doubles', checkLogin);
+app.get('/individualCancel_mixed_doubles', function(req, res) {individualCancel(5, req, res);});
+app.get('/individualCancel_referee', checkLogin);
+app.get('/individualCancel_referee', function(req, res) {individualCancel(9, req, res);});
+
+app.post('/individual', checkLogin);
+app.post('/individual', function(req, res) {
+  if (Global.checkTimeForIndividual() == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual');
+  }
+  Individual.save(req.body, req.session.user, function(err) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/individual');
+    } else {
+      req.flash('info', '报名成功');
+      return res.redirect('/individual');
+    }
+  });
+});
+
+//===========================================================================//
+var individualResults = function (year, type, req, res) {
+  IndMatch.get(year, type, function(err, table) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    res.render('individualResults.jade', {
+      name: 'individual',
+      user: req.session.user,
+      flash: req.flash(),
+      type: type,
+      table: table,
+    });
+  });
+}
+
+app.get('/individualResults_mens_singles', function(req, res) {individualResults(2014, 1, req, res);});
+app.get('/individualResults_mens_doubles', function(req, res) {individualResults(2014, 3, req, res);});
+app.get('/individualResults_womens_doubles', function(req, res) {individualResults(2014, 4, req, res);});
+app.get('/individualResults_mixed_doubles', function(req, res) {individualResults(2014,5, req, res);});
+
+//===========================================================================//
 //register
 app.get('/register', checkNotLogin);
 app.get('/register', function(req, res) {
