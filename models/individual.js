@@ -22,7 +22,8 @@ var conn = require('./db').getConnection;
 
 const maxDepartmentid = require('./global').maxDepartmentid;
 
-var NewApply = function (year,studentid,type,stu1,nam1,dep1,ema1,pho1,
+var NewApply = function (year,studentid,type,
+                         stu1,nam1,dep1,ema1,pho1,
                          stu2,nam2,dep2,ema2,pho2) {
   this.year = year;
   this.studentid = studentid;
@@ -95,11 +96,11 @@ function check(newApply) {
                      newApply.ema2, newApply.pho2);
 }
 
-exports.save = function (body, user, callback) {
+exports.save = function (year, body, user, callback) {
   var newApply;
   if (parseInt(body.type) == 1 || parseInt(body.type) == 9) {
     newApply = new NewApply(
-      2014,
+      year,
       user,
       body.type,
       body.studentid1,
@@ -111,7 +112,7 @@ exports.save = function (body, user, callback) {
     );
   } else if (3 <= parseInt(body.type) && parseInt(body.type) <= 5) {
     newApply = new NewApply(
-      2014,
+      year,
       user,
       body.type,
       body.studentid1,

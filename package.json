@@ -6,7 +6,7 @@
     "start": "node tsinghuaba.js"
   },
   "dependencies": {
-    "express": "3.4.8",
+    "express": "3.16.7",
     "jade": "1.5.0",
     "mysql": "2.4.2",
     "connect-flash": "0.1.1",

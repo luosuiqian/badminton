@@ -24,7 +24,6 @@ app.use(express.session({
   store: require('./models/db').getStore(express)
 }));
 app.use(flash());
-app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var checkLogin = function (req, res, next) {
@@ -33,7 +32,7 @@ var checkLogin = function (req, res, next) {
     return res.redirect('/login');
   }
   next();
-}
+};
 
 var checkNotLogin = function (req, res, next) {
   if (req.session.user != null) {
@@ -41,7 +40,7 @@ var checkNotLogin = function (req, res, next) {
     return res.redirect('/');
   }
   next();
-}
+};
 
 //===========================================================================//
 //index
@@ -139,10 +138,10 @@ var request = function (activity) {
             user: req.session.user,
             flash: req.flash(),
             open: activity.checkTime(),
+            time: activity.getTime(),
             authority: authority,
             table: table,
             result: result,
-            time: activity.getTime(),
           });
         });
       });
@@ -163,9 +162,10 @@ var request = function (activity) {
           if (err) {
             req.flash('warning', err.toString());
             return res.redirect('.');
+          } else {
+            req.flash('info', '取消报名成功');
+            return res.redirect('.');
           }
-          req.flash('info', '取消报名成功');
-          return res.redirect('.');
         });
       } else if (req.body.type == 'post') {
         activity.save(req.body.timespace, req.session.user, function(err) {
@@ -217,38 +217,38 @@ app.get('/activity', function(req, res) {
 
 //===========================================================================//
 //individual
-app.get('/individual', function(req, res) {
+var individual = function (year, req, res) {
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
       req.flash('warning', err.toString());
       return res.redirect('/');
     }
-    Individual.get(2014, 1, function(err, mens_singles) {
+    Individual.get(year, 1, function(err, mens_singles) {
       if (err) {
         req.flash('warning', err.toString());
         return res.redirect('/');
       }
-      Individual.get(2014, 3, function(err, mens_doubles) {
+      Individual.get(year, 3, function(err, mens_doubles) {
         if (err) {
           req.flash('warning', err.toString());
           return res.redirect('/');
         }
-        Individual.get(2014, 4, function(err, womens_doubles) {
+        Individual.get(year, 4, function(err, womens_doubles) {
           if (err) {
             req.flash('warning', err.toString());
             return res.redirect('/');
           }
-          Individual.get(2014, 5, function(err, mixed_doubles) {
+          Individual.get(year, 5, function(err, mixed_doubles) {
             if (err) {
               req.flash('warning', err.toString());
               return res.redirect('/');
             }
-            Individual.get(2014, 9, function(err, referee) {
+            Individual.get(year, 9, function(err, referee) {
               if (err) {
                 req.flash('warning', err.toString());
                 return res.redirect('/');
               }
-              res.render('individual.jade', {
+              res.render('individual' + year + '.jade', {
                 name: 'individual',
                 user: req.session.user,
                 flash: req.flash(),
@@ -257,6 +257,9 @@ app.get('/individual', function(req, res) {
                 womens_doubles: womens_doubles,
                 mixed_doubles: mixed_doubles,
                 referee: referee,
+                year: year,
+                open: Global.checkTimeForIndividual(year),
+                time: Global.getTimeForIndividual(year),
                 sex: (userinfo != null) ? userinfo.sex : null,
               });
             });
@@ -265,12 +268,12 @@ app.get('/individual', function(req, res) {
       });
     });
   });
-});
+};
 
-var individualApply = function (type, req, res) {
-  if (Global.checkTimeForIndividual() == false) {
+var individualApply = function (year, type, req, res) {
+  if (Global.checkTimeForIndividual(year) == false) {
     req.flash('warning', '现在不是报名时间');
-    return res.redirect('/individual');
+    return res.redirect('/individual_' + year);
   }
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
@@ -291,71 +294,103 @@ var individualApply = function (type, req, res) {
         name: 'individual',
         user: req.session.user,
         flash: req.flash(),
-        open: Global.checkTimeForIndividual(),
         departments: departments,
+        year: year,
         type: type,
         player1: p12[0],
         player2: p12[1],
       });
     });
   });
-}
+};
 
-app.get('/individualApply_mens_singles', checkLogin);
-app.get('/individualApply_mens_singles', function(req, res) {individualApply(1, req, res);});
-app.get('/individualApply_mens_doubles', checkLogin);
-app.get('/individualApply_mens_doubles', function(req, res) {individualApply(3, req, res);});
-app.get('/individualApply_womens_doubles', checkLogin);
-app.get('/individualApply_womens_doubles', function(req, res) {individualApply(4, req, res);});
-app.get('/individualApply_mixed_doubles', checkLogin);
-app.get('/individualApply_mixed_doubles', function(req, res) {individualApply(5, req, res);});
-app.get('/individualApply_referee', checkLogin);
-app.get('/individualApply_referee', function(req, res) {individualApply(9, req, res);});
-
-var individualCancel = function (type, req, res) {
-  if (Global.checkTimeForIndividual() == false) {
+var individualPost = function (year, req, res) {
+  if (Global.checkTimeForIndividual(year) == false) {
     req.flash('warning', '现在不是报名时间');
-    return res.redirect('/individual');
+    return res.redirect('/individual_' + year);
   }
-  Individual.del(2014, req.session.user, type, function(err) {
+  Individual.save(year, req.body, req.session.user, function(err) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/individual_' + year);
+    } else {
+      req.flash('info', '报名成功');
+      return res.redirect('/individual_' + year);
+    }
+  });
+};
+
+var individualCancel = function (year, type, req, res) {
+  if (Global.checkTimeForIndividual(year) == false) {
+    req.flash('warning', '现在不是报名时间');
+    return res.redirect('/individual_' + year);
+  }
+  Individual.del(year, req.session.user, type, function(err) {
     if (err) {
       req.flash('warning', err.toString());
       return res.redirect('/');
     }
     req.flash('info', '取消报名成功');
-    return res.redirect('/individual');
+    return res.redirect('/individual_' + year);
   });
-}
+};
 
-app.get('/individualCancel_mens_singles', checkLogin);
-app.get('/individualCancel_mens_singles', function(req, res) {individualCancel(1, req, res);});
-app.get('/individualCancel_mens_doubles', checkLogin);
-app.get('/individualCancel_mens_doubles', function(req, res) {individualCancel(3, req, res);});
-app.get('/individualCancel_womens_doubles', checkLogin);
-app.get('/individualCancel_womens_doubles', function(req, res) {individualCancel(4, req, res);});
-app.get('/individualCancel_mixed_doubles', checkLogin);
-app.get('/individualCancel_mixed_doubles', function(req, res) {individualCancel(5, req, res);});
-app.get('/individualCancel_referee', checkLogin);
-app.get('/individualCancel_referee', function(req, res) {individualCancel(9, req, res);});
+app.get('/individual_2014', function(req, res) {individual(2014, req, res);});
 
-app.post('/individual', checkLogin);
-app.post('/individual', function(req, res) {
-  if (Global.checkTimeForIndividual() == false) {
-    req.flash('warning', '现在不是报名时间');
-    return res.redirect('/individual');
-  }
-  Individual.save(req.body, req.session.user, function(err) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/individual');
-    } else {
-      req.flash('info', '报名成功');
-      return res.redirect('/individual');
-    }
-  });
-});
+app.get('/individual_2014_Apply_mens_singles', checkLogin);
+app.get('/individual_2014_Apply_mens_singles', function(req, res) {individualApply(2014, 1, req, res);});
+app.get('/individual_2014_Apply_mens_doubles', checkLogin);
+app.get('/individual_2014_Apply_mens_doubles', function(req, res) {individualApply(2014, 3, req, res);});
+app.get('/individual_2014_Apply_womens_doubles', checkLogin);
+app.get('/individual_2014_Apply_womens_doubles', function(req, res) {individualApply(2014, 4, req, res);});
+app.get('/individual_2014_Apply_mixed_doubles', checkLogin);
+app.get('/individual_2014_Apply_mixed_doubles', function(req, res) {individualApply(2014, 5, req, res);});
+app.get('/individual_2014_Apply_referee', checkLogin);
+app.get('/individual_2014_Apply_referee', function(req, res) {individualApply(2014, 9, req, res);});
+
+app.post('/individual_2014', checkLogin);
+app.post('/individual_2014', function(req, res) {individualPost(2014, req, res);});
+
+app.get('/individual_2014_Cancel_mens_singles', checkLogin);
+app.get('/individual_2014_Cancel_mens_singles', function(req, res) {individualCancel(2014, 1, req, res);});
+app.get('/individual_2014_Cancel_mens_doubles', checkLogin);
+app.get('/individual_2014_Cancel_mens_doubles', function(req, res) {individualCancel(2014, 3, req, res);});
+app.get('/individual_2014_Cancel_womens_doubles', checkLogin);
+app.get('/individual_2014_Cancel_womens_doubles', function(req, res) {individualCancel(2014, 4, req, res);});
+app.get('/individual_2014_Cancel_mixed_doubles', checkLogin);
+app.get('/individual_2014_Cancel_mixed_doubles', function(req, res) {individualCancel(2014, 5, req, res);});
+app.get('/individual_2014_Cancel_referee', checkLogin);
+app.get('/individual_2014_Cancel_referee', function(req, res) {individualCancel(2014, 9, req, res);});
+
+app.get('/individual_2015', function(req, res) {individual(2015, req, res);});
+
+app.get('/individual_2015_Apply_mens_singles', checkLogin);
+app.get('/individual_2015_Apply_mens_singles', function(req, res) {individualApply(2015, 1, req, res);});
+app.get('/individual_2015_Apply_mens_doubles', checkLogin);
+app.get('/individual_2015_Apply_mens_doubles', function(req, res) {individualApply(2015, 3, req, res);});
+app.get('/individual_2015_Apply_womens_doubles', checkLogin);
+app.get('/individual_2015_Apply_womens_doubles', function(req, res) {individualApply(2015, 4, req, res);});
+app.get('/individual_2015_Apply_mixed_doubles', checkLogin);
+app.get('/individual_2015_Apply_mixed_doubles', function(req, res) {individualApply(2015, 5, req, res);});
+app.get('/individual_2015_Apply_referee', checkLogin);
+app.get('/individual_2015_Apply_referee', function(req, res) {individualApply(2015, 9, req, res);});
+
+app.post('/individual_2015', checkLogin);
+app.post('/individual_2015', function(req, res) {individualPost(2015, req, res);});
+
+app.get('/individual_2015_Cancel_mens_singles', checkLogin);
+app.get('/individual_2015_Cancel_mens_singles', function(req, res) {individualCancel(2015, 1, req, res);});
+app.get('/individual_2015_Cancel_mens_doubles', checkLogin);
+app.get('/individual_2015_Cancel_mens_doubles', function(req, res) {individualCancel(2015, 3, req, res);});
+app.get('/individual_2015_Cancel_womens_doubles', checkLogin);
+app.get('/individual_2015_Cancel_womens_doubles', function(req, res) {individualCancel(2015, 4, req, res);});
+app.get('/individual_2015_Cancel_mixed_doubles', checkLogin);
+app.get('/individual_2015_Cancel_mixed_doubles', function(req, res) {individualCancel(2015, 5, req, res);});
+app.get('/individual_2015_Cancel_referee', checkLogin);
+app.get('/individual_2015_Cancel_referee', function(req, res) {individualCancel(2015, 9, req, res);});
 
 //===========================================================================//
+
 var individualResults = function (year, type, req, res) {
   IndMatch.get(year, type, function(err, table) {
     if (err) {
@@ -366,16 +401,17 @@ var individualResults = function (year, type, req, res) {
       name: 'individual',
       user: req.session.user,
       flash: req.flash(),
+      year: year,
       type: type,
       table: table,
     });
   });
-}
+};
 
-app.get('/individualResults_mens_singles', function(req, res) {individualResults(2014, 1, req, res);});
-app.get('/individualResults_mens_doubles', function(req, res) {individualResults(2014, 3, req, res);});
-app.get('/individualResults_womens_doubles', function(req, res) {individualResults(2014, 4, req, res);});
-app.get('/individualResults_mixed_doubles', function(req, res) {individualResults(2014,5, req, res);});
+app.get('/individual_2014_Results_mens_singles', function(req, res) {individualResults(2014, 1, req, res);});
+app.get('/individual_2014_Results_mens_doubles', function(req, res) {individualResults(2014, 3, req, res);});
+app.get('/individual_2014_Results_womens_doubles', function(req, res) {individualResults(2014, 4, req, res);});
+app.get('/individual_2014_Results_mixed_doubles', function(req, res) {individualResults(2014, 5, req, res);});
 
 //===========================================================================//
 //register

@@ -1,25 +1,9 @@
 var util = require('util');
 var Activity = require('./activity');
 
-exports.maxDepartmentid = 36;
+//===========================================================================//
 
-exports.id = 1;
-exports.maxTime = 6;
-exports.maxPeople = 10;
-exports.maxSpace = 6;
-exports.beginHour = 20;
-exports.beginMinute = 15;
-exports.period = 15;
-
-var beginTime = new Date(2014, 2-1, 22, 13, 0, 0);
-var endTime = new Date(2014, 3-1, 7, 20, 0, 0);
-  
-exports.checkTimeForApplication = function () {
-  var now = new Date();
-  return (beginTime <= now && now <= endTime);
-}
-
-exports.getTimeForApplication = function () {
+var getTime = function (beginTime, endTime) {
   var str = util.format(
     '%d年%d月%d日 %d:00 至 %d年%d月%d日 %d:00',
     beginTime.getFullYear(),
@@ -32,7 +16,35 @@ exports.getTimeForApplication = function () {
     endTime.getHours()
   );
   return str;
-}
+};
+
+//===========================================================================//
+
+exports.maxDepartmentid = 36;
+
+//===========================================================================//
+
+exports.id = 1;
+exports.maxTime = 6;
+exports.maxPeople = 10;
+exports.maxSpace = 6;
+exports.beginHour = 20;
+exports.beginMinute = 15;
+exports.period = 15;
+
+var applicationBeginTime = new Date(2014, 2-1, 22, 13, 0, 0);
+var applicationEndTime = new Date(2014, 3-1, 7, 20, 0, 0);
+  
+exports.checkTimeForApplication = function () {
+  var now = new Date();
+  return (applicationBeginTime <= now && now <= applicationEndTime);
+};
+
+exports.getTimeForApplication = function () {
+  return getTime(applicationBeginTime, applicationEndTime);
+};
+
+//===========================================================================//
 
 exports.getCrowdThursday = function (request) {
   return request(
@@ -74,10 +86,29 @@ exports.getActivitySaturday = function (request) {
   );
 };
 
-exports.checkTimeForIndividual = function () {
+//===========================================================================//
+
+var individual2014BeginTime = new Date(2014, 5-1, 18, 0, 0, 0);
+var individual2014EndTime = new Date(2014, 6-1, 1, 22, 0, 0);
+var individual2015BeginTime = new Date(2015, 5-1, 1, 13, 0, 0);
+var individual2015EndTime = new Date(2015, 5-1, 16, 22, 0, 0);
+
+exports.checkTimeForIndividual = function (year) {
   var now = new Date();
-  var beginTime = new Date(2014, 5-1, 18, 0, 0, 0);
-  var endTime = new Date(2014, 6-1, 1, 22, 0, 0);
-  return (beginTime <= now && now <= endTime);
-}
+  if (year == 2014) {
+    return (individual2014BeginTime <= now && now <= individual2014EndTime);
+  } else if (year == 2015) {
+    return (individual2015BeginTime <= now && now <= individual2015EndTime);
+  } else {
+    return false;
+  }
+};
+
+exports.getTimeForIndividual = function (year) {
+  if (year == 2014) {
+    return getTime(individual2014BeginTime, individual2014EndTime);
+  } else if (year == 2015) {
+    return getTime(individual2015BeginTime, individual2015EndTime);
+  }
+};
 

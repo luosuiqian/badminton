@@ -1,0 +1,108 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  mixin showName(type, num, link, table)
+    div(class="col-md-4 col-sm-6 col-xs-12")
+      - flag = false
+      table(class='table table-striped table-bordered table-hover')
+        thead
+          tr
+            th 序号
+            th(colspan=num)
+              if type == 1
+                | 男单
+              if type == 3
+                | 男双
+              if type == 4
+                | 女双
+              if type == 5
+                | 混双
+              if type == 9
+                | 裁判
+        tbody
+          - for (var i=0;i<table.length;i++)
+            tr
+              td #{i+1}
+                td
+                  p(style=(table[i].studentid == user?'background-color:#dddd44':''))
+                    = table[i].nam1
+                if num == 2
+                  td
+                    p(style=(table[i].studentid == user?'background-color:#dddd44':''))
+                      = table[i].nam2
+              if table[i].studentid == user
+                - flag = true
+      div(class='text-center')
+        if user != null && open == true
+          if flag == false
+            if (sex == 'm' && (type == 1 || type == 3 || type == 5 || type == 9)) || (sex == 'f' && (type == 4 || type == 5 || type == 9))
+              - address = './individual_' + year + '_Apply_' + link
+              a(role="button", href=address, class="btn btn-primary")
+                | 我要报名
+          else
+            - address = './individual_' + year + '_Cancel_' + link
+            a(role="button", href=address, class="btn btn-danger")
+              | 取消报名
+      hr
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 2014年清华大学羽毛球单项赛
+      div(class='panel-body')
+        div(class="col-md-6 col-sm-6 col-xs-12")
+          h4
+            | 比赛时间：2014年6月7日、8日
+          h4
+            | 比赛地点：清华综合体育馆
+          p
+            | 报名时间：#{time}
+          p
+            | 章程：
+            a(href='./files/regulation2014.pdf', target='_blank')
+              | 2014年清华大学"冠捷杯"第六届羽毛球单项锦标赛规程.pdf
+          p
+            | 注：
+          p
+            | 1.每人最多可报 2 项比赛，双打比赛只需其中一人报名即可。
+          p
+            | 2.裁判将赠送一件衣服。
+          p
+            | 3.报名费：单打 25 元/人，双打 50 元/对。报名费收取时间：2014年6月2、3日中午12:00-12:30，下午5:00-5:30。地点：清华大学综合体育馆订场等候区。
+          p
+            | 4.以下不是最终比赛顺序，比赛前将会重新抽签安排。
+        div(class="col-md-6 col-sm-6 col-xs-12")
+          h4
+            | 羽协五周年特别活动
+          p
+            | 双打比赛中，羽毛球击中对手场地特殊区域上的羽协标志，并且死球得分，可获赠羽协5周年精美礼品。是否击中特殊区域由裁判评定，每人限一次得奖机会。奖品总数为30份，送完为止。特殊区域如下图红色区域标注。
+          img(src="/img/area.jpg", class="img-responsive")
+    
+    if user == null
+      p 请先登录
+      hr
+    
+    div(class='row')
+      +showName(1, 1, 'mens_singles', mens_singles)
+      +showName(3, 2, 'mens_doubles', mens_doubles)
+      
+      div(class='clearfix visible-sm')
+      
+      +showName(4, 2, 'womens_doubles', womens_doubles)
+      div(class='clearfix visible-md visible-lg')
+      +showName(5, 2, 'mixed_doubles', mixed_doubles)
+      
+      div(class='clearfix visible-sm')
+      
+      +showName(9, 1, 'referee', referee)
+    
+    hr
+  
+  include includes/footer
