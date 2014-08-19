@@ -10,7 +10,6 @@ var Authority = require('./models/authority');
 var List = require('./models/list');
 
 var Application = require('./models/application');
-var Activity = require('./models/activity');
 
 var Individual = require('./models/individual');
 var IndMatch = require('./models/indMatch');
@@ -88,7 +87,7 @@ app.get('/individual', function(req, res) {
                 womens_doubles: womens_doubles,
                 mixed_doubles: mixed_doubles,
                 referee: referee,
-                sex: (userinfo != null) ? userinfo[0].sex : null,
+                sex: (userinfo != null) ? userinfo.sex : null,
               });
             });
           });
@@ -113,7 +112,7 @@ var individualApply = function (type, req, res) {
         req.flash('warning', err.toString());
         return res.redirect('/');
       }
-      var tmp = Individual.getP1andP2(type, userinfo[0]);
+      var tmp = Individual.getP1andP2(type, userinfo);
       var p1 = tmp[0], p2 = tmp[1];
       if (p1 == null && p2 == null) {
         req.flash('warning', '报名类型错误');
@@ -309,7 +308,7 @@ app.post('/application', function(req, res) {
 
 //===========================================================================//
 //activity
-var Request = function (activity) {
+var request = function (activity) {
   var ret = new Object();
   ret.get = function (req, res) {
     activity.getAuthority(req.session.user, function(err, authority) {
@@ -379,38 +378,22 @@ var Request = function (activity) {
 
 //===========================================================================//
 //*
-var crowdThursday = Request(
-  Activity.Activity(6, 6, 1, 1, 1,
-    new Date(2014,3-1,11,13,0,0), new Date(2014,3-1,13,15,0,0), '清华综体', [1,2,3,4,5,6]
-  )
-);
+var crowdThursday = Global.getCrowdThursday(request);
 app.get('/crowdThursday', crowdThursday.get);
 app.post('/crowdThursday', checkLogin);
 app.post('/crowdThursday', crowdThursday.post);
 
-var crowdFriday = Request(
-  Activity.Activity(6, 3, 2, 1, 1,
-    new Date(2014,3-1,12,13,0,0), new Date(2014,3-1,14,15,0,0), '清华综体', [3,4,5]
-  )
-);
+var crowdFriday = Global.getCrowdFriday(request);
 app.get('/crowdFriday', crowdFriday.get);
 app.post('/crowdFriday', checkLogin);
 app.post('/crowdFriday', crowdFriday.post);
 
-var activityFriday = Request(
-  Activity.Activity(6, 3, 3, 2, 3,
-    new Date(2014,3-1,5,13,0,0), new Date(2014,3-1,7,15,0,0), '清华综体', [8,9,10]
-  )
-);
+var activityFriday = Global.getActivityFriday(request);
 app.get('/activityFriday', activityFriday.get);
 app.post('/activityFriday', checkLogin);
 app.post('/activityFriday', activityFriday.post);
 
-var activitySaturday = Request(
-  Activity.Activity(6, 4, 4, 2, 3,
-    new Date(2014,3-1,6,13,0,0), new Date(2014,3-1,8,22,0,0), '清华西体', [5,6,7,8]
-  )
-);
+var activitySaturday = Global.getActivitySaturday(request);
 app.get('/activitySaturday', activitySaturday.get);
 app.post('/activitySaturday', checkLogin);
 app.post('/activitySaturday', activitySaturday.post);
@@ -450,7 +433,6 @@ app.post('/register', function(req, res) {
     req.flash('warning', '密码两次输入不一致，您可以用浏览器的后退功能重新填写表单');
     return res.redirect('/register');
   }
-  
   User.save(req.body, function(err) {
     if (err) {
       req.flash('warning', err.toString() + '，您可以用浏览器的后退功能重新填写表单');

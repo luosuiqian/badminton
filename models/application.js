@@ -1,6 +1,19 @@
+/*
+create table if not exists application
+(
+    id INT,
+    time INT,
+    space INT,
+    studentid INT,
+    chosen INT,
+    primary key(id, time, space)
+) character set utf8;
+*/
+
 var util = require('util');
 var conn = require('./db').getConnection;
 var global = require('./global');
+
 const id = global.id;
 const maxTime = global.maxTime;
 const maxPeople = global.maxPeople;

@@ -1,3 +1,12 @@
+/*
+create table if not exists authority
+(
+    studentid INT,
+    rank INT,
+    primary key(studentid)
+) character set utf8;
+*/
+
 var conn = require('./db').getConnection;
 
 exports.get = function (studentid, callback) {

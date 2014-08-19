@@ -1,4 +1,21 @@
+/*
+create table if not exists user
+(
+    studentid INT,
+    password VARCHAR(100),
+    name VARCHAR(20),
+    sex CHAR(1),
+    departmentid INT,
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    renrenid VARCHAR(15),
+    privilege INT,
+    primary key(studentid)
+) character set utf8;
+*/
+
 var conn = require('./db').getConnection;
+
 const maxDepartmentid = require('./global').maxDepartmentid;
 
 var User = function (body) {
