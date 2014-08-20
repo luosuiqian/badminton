@@ -3,6 +3,7 @@ create table if not exists indMatch
 (
     year INT,
     type INT,
+    totalP INT,
     leftP INT,
     rightP INT,
     id1 INT,
@@ -128,6 +129,7 @@ exports.get = function (year, type, callback) {
   });
 };
 
+/*
 exports.newMatch = function (year, type, round) {
   var total = 1;
   for (var i = 1; i <= round; i++) total *= 2;
@@ -179,6 +181,7 @@ exports.newUser = function (year, type, begin, end) {
     conn().query('INSERT INTO indUser SET ?', line, function(err) {});
   }
 };
+*/
 
 /*
 exports.newUser(2014, 1, 1, 128);
