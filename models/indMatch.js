@@ -22,6 +22,7 @@ create table if not exists indUser
     id INT,
     name VARCHAR(20),
     dep INT,
+    superId INT,
     primary key(year, type, id)
 ) character set utf8;
 */
@@ -59,13 +60,16 @@ exports.get = function (year, type, callback) {
       if (err) {
         return callback(err, null);
       }
-      var name = {};
-      for (var i = 0; i < indUser.length; i++) {
-        name[indUser[i].id] = indUser[i].name;
-      }
       var total = 0;
       for (var i = 0; i < indMatch.length; i++) {
         if (total < indMatch[i].rightP) total = indMatch[i].rightP;
+      }
+      var name = new Array(total * 2 + 1);
+      for (var i = 0; i < name.length; i++) {
+        name[i] = '（空）';
+      }
+      for (var i = 0; i < indUser.length; i++) {
+        name[indUser[i].id] = indUser[i].name;
       }
       var pos = getPosition(total, 1, total);
       var table = new Array(total + 1);
