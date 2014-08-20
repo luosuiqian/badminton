@@ -42,11 +42,11 @@ block content
         if user != null && open == true
           if flag == false
             if (sex == 'm' && (type == 1 || type == 3 || type == 5 || type == 9)) || (sex == 'f' && (type == 4 || type == 5 || type == 9))
-              - address = '/individual/' + year + '/Apply_' + link
+              - address = '/individual/' + year + '/Apply/' + link
               a(role="button", href=address, class="btn btn-primary")
                 | 我要报名
           else
-            - address = '/individual/' + year + '/Cancel_' + link
+            - address = '/individual/' + year + '/Cancel/' + link
             a(role="button", href=address, class="btn btn-danger")
               | 取消报名
       hr
