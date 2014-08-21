@@ -83,9 +83,9 @@ app.get('/team/:year/Apply/:dep/:id', cTeam.applyDepIdGet);
 app.post('/team/:year/Apply/:dep/:id', cUser.checkLogin);
 app.post('/team/:year/Apply/:dep/:id', cTeam.applyDepIdPost);
 
-// app.get('/team/:year/list', cTeam.individualCancel);
+app.get('/team/:year/list', cTeam.userListGet);
 
-// app.get('/team/:year/Results/:type', cTeam.individualResults);
+app.get('/team/:year/Results/:type', cTeam.resultsGet);
 
 //===========================================================================//
 

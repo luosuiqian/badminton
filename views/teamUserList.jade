@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 #{year}年清华大学羽毛球团体赛
+      div(class='panel-body')
+        h5
+          | 报名选手
+    hr
+    table(class='table table-striped table-bordered table-hover')
+      thead
+        tr
+          th 序号
+          th 选手id
+          th 姓名
+          th 院系
+      tbody
+        - for (var i=0;i<results.length;i++)
+          tr
+            td= i+1
+            td= results[i].id
+            td= results[i].name
+            td= results[i].dep
+    hr
+  
+  include includes/footer

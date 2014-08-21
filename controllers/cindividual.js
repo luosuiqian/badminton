@@ -1,7 +1,7 @@
 var Global = require('../models/global');
 var User = require('../models/user');
 var Department = require('../models/department');
-var Individual = require('../models/individual');
+var IndApply = require('../models/indApply');
 var IndMatch = require('../models/indMatch');
 
 exports.individualGet = function (req, res) {
@@ -16,27 +16,27 @@ exports.individualGet = function (req, res) {
       req.flash('warning', err.toString());
       return res.redirect('/');
     }
-    Individual.get(year, 1, function(err, mens_singles) {
+    IndApply.get(year, 1, function(err, mens_singles) {
       if (err) {
         req.flash('warning', err.toString());
         return res.redirect('/');
       }
-      Individual.get(year, 3, function(err, mens_doubles) {
+      IndApply.get(year, 3, function(err, mens_doubles) {
         if (err) {
           req.flash('warning', err.toString());
           return res.redirect('/');
         }
-        Individual.get(year, 4, function(err, womens_doubles) {
+        IndApply.get(year, 4, function(err, womens_doubles) {
           if (err) {
             req.flash('warning', err.toString());
             return res.redirect('/');
           }
-          Individual.get(year, 5, function(err, mixed_doubles) {
+          IndApply.get(year, 5, function(err, mixed_doubles) {
             if (err) {
               req.flash('warning', err.toString());
               return res.redirect('/');
             }
-            Individual.get(year, 9, function(err, referee) {
+            IndApply.get(year, 9, function(err, referee) {
               if (err) {
                 req.flash('warning', err.toString());
                 return res.redirect('/');
@@ -51,8 +51,8 @@ exports.individualGet = function (req, res) {
                 mixed_doubles: mixed_doubles,
                 referee: referee,
                 year: year,
-                open: Global.checkTimeForIndividual(year),
-                time: Global.getTimeForIndividual(year),
+                open: Global.checkTimeForIndApply(year),
+                time: Global.getTimeForIndApply(year),
                 sex: (userinfo != null) ? userinfo.sex : null,
               });
             });
@@ -90,7 +90,7 @@ exports.individualApply = function (req, res) {
     return res.redirect('/');
   }
   var year = parseInt(yearStr);
-  if (Global.checkTimeForIndividual(year) == false) {
+  if (Global.checkTimeForIndApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
   }
@@ -104,7 +104,7 @@ exports.individualApply = function (req, res) {
         req.flash('warning', err.toString());
         return res.redirect('/');
       }
-      var p12 = Individual.getP1andP2(type, userinfo);
+      var p12 = IndApply.getP1andP2(type, userinfo);
       if (p12 == null) {
         req.flash('warning', '报名类型错误');
         return res.redirect('/');
@@ -130,11 +130,11 @@ exports.individualPost = function (req, res) {
     return res.redirect('/');
   }
   year = parseInt(yearStr);
-  if (Global.checkTimeForIndividual(year) == false) {
+  if (Global.checkTimeForIndApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
   }
-  Individual.save(year, req.body, req.session.user, function(err) {
+  IndApply.save(year, req.body, req.session.user, function(err) {
     if (err) {
       req.flash('warning', err.toString());
       return res.redirect('/individual/' + year);
@@ -153,11 +153,11 @@ exports.individualCancel = function (req, res) {
     return res.redirect('/');
   }
   year = parseInt(yearStr);
-  if (Global.checkTimeForIndividual(year) == false) {
+  if (Global.checkTimeForIndApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
   }
-  Individual.del(year, req.session.user, type, function(err) {
+  IndApply.del(year, req.session.user, type, function(err) {
     if (err) {
       req.flash('warning', err.toString());
       return res.redirect('/');

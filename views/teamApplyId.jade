@@ -8,13 +8,8 @@ block content
     mixin flash-messages(flash)
   
   div(class='container')
-    hr
-    div(class='panel panel-info')
-      div(class='panel-heading')
-        h3 #{year}年清华大学羽毛球团体赛报名
-      div(class='panel-body')
-        h5
-          | 欢迎报名
+    div(class='text-center')
+      h4 请填写选手信息
     hr
     form(class='form-horizontal',method='post',role='form')
       div(class='form-group')
@@ -42,9 +37,10 @@ block content
           p(class='help-block')
             | 必填，发通知用，邮箱和电话不会公开在本网站上
       div(class='form-group')
-        div(class='col-sm-offset-2 col-sm-8')
+        div(class='col-sm-offset-2 col-sm-2')
           button(type='submit',class='btn btn-danger')
             | 提交
+          | &nbsp;
           - address = '/team/' + year + '/Apply/' + dep
           a(role="button", href=address, class="btn btn-primary")
             | 返回

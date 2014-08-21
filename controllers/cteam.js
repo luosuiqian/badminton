@@ -2,6 +2,8 @@ var Global = require('../models/global');
 var Department = require('../models/department');
 var TeamAuth = require('../models/teamAuth');
 var TeamApply = require('../models/teamApply');
+var TeamUser = require('../models/teamUser');
+var TeamMatch = require('../models/teamMatch');
 
 exports.applyGet = function (req, res) {
   var year = parseInt(req.params.year);
@@ -20,6 +22,7 @@ exports.applyGet = function (req, res) {
       flash: req.flash(),
       departments: departments,
       year: year,
+      time: Global.getTimeForTeamApply(year),
     });
   });
 };
@@ -56,6 +59,8 @@ exports.applyDepGet = function (req, res) {
         year: year,
         dep: dep,
         results: results,
+        open: Global.checkTimeForTeamApply(year),
+        time: Global.getTimeForTeamApply(year),
       });
     });
   });
@@ -75,6 +80,10 @@ exports.applyDepIdGet = function (req, res) {
   var id = parseInt(req.params.id);
   if (!(11 <= id && id <= 16 || 21 <= id && id <= 26 || id == 31)) {
     req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  if (Global.checkTimeForTeamApply(year) == false) {
+    req.flash('warning', '现在不是报名时间');
     return res.redirect('/');
   }
   TeamAuth.get(year, dep, req.session.user, function(err, auth) {
@@ -137,6 +146,54 @@ exports.applyDepIdPost = function (req, res) {
         req.flash('info', '修改成功');
         return res.redirect('..');
       }
+    });
+  });
+};
+
+exports.userListGet = function (req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2013) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  TeamUser.get(year, function(err, results) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    res.render('teamUserList.jade', {
+      name: 'team',
+      user: req.session.user,
+      flash: req.flash(),
+      year: year,
+      results: results,
+    });
+  });
+};
+
+exports.resultsGet = function (req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2013) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  var type = parseInt(req.params.type);
+  if (!(1 <= type && type <= 5)) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  TeamMatch.get(year, type, function(err, results) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    res.render('teamResults.jade', {
+      name: 'team',
+      user: req.session.user,
+      flash: req.flash(),
+      year: year,
+      type: type,
+      results: results,
     });
   });
 };

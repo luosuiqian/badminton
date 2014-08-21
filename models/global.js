@@ -85,7 +85,7 @@ var individual2014EndTime = new Date(2014, 6-1, 1, 22, 0, 0);
 var individual2015BeginTime = new Date(2015, 5-1, 1, 13, 0, 0);
 var individual2015EndTime = new Date(2015, 5-1, 16, 22, 0, 0);
 
-exports.checkTimeForIndividual = function (year) {
+exports.checkTimeForIndApply = function (year) {
   var now = new Date();
   if (year == 2014) {
     return (individual2014BeginTime <= now && now <= individual2014EndTime);
@@ -96,11 +96,31 @@ exports.checkTimeForIndividual = function (year) {
   }
 };
 
-exports.getTimeForIndividual = function (year) {
+exports.getTimeForIndApply = function (year) {
   if (year == 2014) {
     return getTime(individual2014BeginTime, individual2014EndTime);
   } else if (year == 2015) {
     return getTime(individual2015BeginTime, individual2015EndTime);
+  }
+};
+
+//===========================================================================//
+
+var team2014BeginTime = new Date(2014, 11-1, 1, 13, 0, 0);
+var team2014EndTime = new Date(2014, 11-1, 15, 22, 0, 0);
+
+exports.checkTimeForTeamApply = function (year) {
+  var now = new Date();
+  if (year == 2014) {
+    return (team2014BeginTime <= now && now <= team2014EndTime);
+  } else {
+    return false;
+  }
+};
+
+exports.getTimeForTeamApply = function (year) {
+  if (year == 2014) {
+    return getTime(team2014BeginTime, team2014EndTime);
   }
 };
 
