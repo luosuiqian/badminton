@@ -5,11 +5,6 @@ var numCPUs = os.cpus().length;
 
 var workers = {};
 if (cluster.isMaster) {
-  cluster.on('death', function (worker) {
-    delete workers[worker.pid];
-    worker = cluster.fork();
-    workers[worker.pid] = worker;
-  });
   for (var i = 0; i < numCPUs; i++) {
     var worker = cluster.fork();
     workers[worker.pid] = worker;

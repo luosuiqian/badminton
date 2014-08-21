@@ -5,12 +5,11 @@ var IndApply = require('../models/indApply');
 var IndMatch = require('../models/indMatch');
 
 exports.individualGet = function (req, res) {
-  var yearStr = req.params.year;
-  if (yearStr != '2014' && yearStr != '2015') {
+  var year = parseInt(req.params.year);
+  if (year != 2014 && year != 2015) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  year = parseInt(yearStr);
   User.get(req.session.user, function(err, userinfo) {
     if (err) {
       req.flash('warning', err.toString());
@@ -83,13 +82,12 @@ var getType = function (typeStr) {
 };
 
 exports.individualApply = function (req, res) {
-  var yearStr = req.params.year;
+  var year = parseInt(req.params.year);
   var type = getType(req.params.type);
-  if ((yearStr != '2014' && yearStr != '2015') || type == null) {
+  if ((year != 2014 && year != 2015) || type == null) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  var year = parseInt(yearStr);
   if (Global.checkTimeForIndApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
@@ -124,12 +122,11 @@ exports.individualApply = function (req, res) {
 };
 
 exports.individualPost = function (req, res) {
-  var yearStr = req.params.year;
-  if (yearStr != '2014' && yearStr != '2015') {
+  var year = parseInt(req.params.year);
+  if (year != 2014 && year != 2015) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  year = parseInt(yearStr);
   if (Global.checkTimeForIndApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
@@ -146,13 +143,12 @@ exports.individualPost = function (req, res) {
 };
 
 exports.individualCancel = function (req, res) {
-  var yearStr = req.params.year;
+  var year = parseInt(req.params.year);
   var type = getType(req.params.type);
-  if ((yearStr != '2014' && yearStr != '2015') || type == null) {
+  if ((year != 2014 && year != 2015) || type == null) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  year = parseInt(yearStr);
   if (Global.checkTimeForIndApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
@@ -168,13 +164,12 @@ exports.individualCancel = function (req, res) {
 };
 
 exports.individualResults = function (req, res) {
-  var yearStr = req.params.year;
+  var year = parseInt(req.params.year);
   var type = getType(req.params.type);
-  if ((yearStr != '2014') || type == null) {
+  if ((year != 2014) || type == null) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  year = parseInt(yearStr);
   IndMatch.get(year, type, function(err, table) {
     if (err) {
       req.flash('warning', err.toString());

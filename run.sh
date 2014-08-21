@@ -1,14 +1,13 @@
 #! /bin/sh
 
-DAEMON="node cluster.js"
+CMD="node cluster.js"
 NAME=Badminton
-DESC=Badminton
 PIDFILE="badminton.pid"
 
 case "$1" in
   start)
-        echo "Starting $DESC: "
-        nohup $DAEMON >> info.log 2>&1 &
+        echo "Starting $NAME: "
+        nohup $CMD >> info.log 2>&1 &
         echo $! > $PIDFILE
         echo "$NAME."
         ;;
@@ -16,12 +15,16 @@ case "$1" in
         ps aux | grep node
         ;;
   stop)
-        echo "Stopping $DESC: "
+        echo "Stopping $NAME: "
         pid=`cat $PIDFILE`
         kill $pid
         rm $PIDFILE
         echo "$NAME."
         ;;
-    esac
+  *)
+        echo "Usage: ( start | status | stop )"
+        ;;
+esac
 
-    exit 0
+exit 0
+

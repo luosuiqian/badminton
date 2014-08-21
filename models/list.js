@@ -12,11 +12,7 @@ exports.getAll = function (numberL, numberR, callback) {
                 and ? <= authority.rank and authority.rank <= ?\
                 order by sex desc, user.studentid",
               [numberL, numberR], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else {
-      return callback(null, results);
-    }
+    return callback(err, results);
   });
 };
 
@@ -30,11 +26,7 @@ exports.getAllNoAuthority = function (callback) {
                 and user.studentid NOT IN (SELECT studentid FROM authority)\
                 order by user.sex desc, user.studentid",
               function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else {
-      return callback(null, results);
-    }
+    return callback(err, results);
   });
 };
 
