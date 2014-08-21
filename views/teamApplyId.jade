@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 #{year}年清华大学羽毛球团体赛报名
+      div(class='panel-body')
+        h5
+          | 欢迎报名
+    hr
+    form(class='form-horizontal',method='post',role='form')
+      div(class='form-group')
+        label(class='col-sm-2 control-label')
+          | 学号
+        div(class='col-sm-8')
+          input(type='text',class='form-control',name='stu',placeholder='Student Id',value=results[id]?results[id].stu:'')
+      div(class='form-group')
+        label(class='col-sm-2 control-label')
+          | 姓名
+        div(class='col-sm-8')
+          input(type='text',class='form-control',name='nam',placeholder='Name',value=results[id]?results[id].nam:'')
+          p(class='help-block')
+            | 请填写真实姓名
+      div(class='form-group')
+        label(class='col-sm-2 control-label')
+          | 邮箱
+        div(class='col-sm-8')
+          input(type='text',class='form-control',name='ema',placeholder='Email Address',value=results[id]?results[id].ema:'')
+      div(class='form-group')
+        label(class='col-sm-2 control-label')
+          | 电话
+        div(class='col-sm-8')
+          input(type='text',class='form-control',name='pho',placeholder='Phone Number',value=results[id]?results[id].pho:'')
+          p(class='help-block')
+            | 必填，发通知用，邮箱和电话不会公开在本网站上
+      div(class='form-group')
+        div(class='col-sm-offset-2 col-sm-8')
+          button(type='submit',class='btn btn-danger')
+            | 提交
+          - address = '/team/' + year + '/Apply/' + dep
+          a(role="button", href=address, class="btn btn-primary")
+            | 返回
+    hr
+  
+  include includes/footer

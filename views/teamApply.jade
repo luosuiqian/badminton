@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 #{year}年清华大学羽毛球团体赛报名
+      div(class='panel-body')
+        h5
+          | 仅对各个院系队长开放，请各院系确定队长后，先在本网站上注册，然后将队长学号发送至 tsinghuabadminton@gmail.com ，我们将尽快开通权限。
+    hr
+    table(class='table table-striped table-bordered table-hover')
+      thead
+        tr
+          th 序号
+          th 院系
+      tbody
+        - for (var i=0;i<departments.length;i++)
+          tr
+            td
+              p #{departments[i].id}
+            td
+              p
+                a(href="/team/2014/Apply/" + departments[i].id)
+                  = departments[i].name
+    hr
+  
+  include includes/footer

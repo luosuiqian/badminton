@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 #{year}年清华大学羽毛球团体赛报名
+      div(class='panel-body')
+        h5
+          | 欢迎报名
+    hr
+    table(class='table table-striped table-bordered table-hover')
+      thead
+        tr
+          th 类型
+          th 学号
+          th 姓名
+          th 邮箱
+          th 电话
+          th 操作
+      tbody
+        - for (var i=11;i<=31;i++)
+          if 11<=i && i<=16 || 21<=i && i<=26 || i==31
+            tr
+              if 11<=i && i<=16
+                td 男队员#{i-10}
+              if 21<=i && i<=26
+                td 女队员#{i-20}
+              if i==31
+                td 裁判
+              if results[i] == null
+                td （空）
+                td （空）
+                td （空）
+                td （空）
+              else
+                td= results[i].stu
+                td= results[i].nam
+                td= results[i].ema
+                td= results[i].pho
+              td
+                - address = '/team/' + year + '/Apply/' + dep + '/' + i
+                a(role="button", href=address, class="btn btn-danger")
+                  | 修改
+    div(class='text-center')
+      a(role="button", href='/team/' + year + '/Apply', class="btn btn-primary")
+        | 返回
+    hr
+  
+  include includes/footer

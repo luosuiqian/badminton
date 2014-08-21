@@ -7,6 +7,7 @@ var cUser = require('./controllers/cuser');
 var cApplication = require('./controllers/capplication');
 var cIndividual = require('./controllers/cindividual');
 var cActivity = require('./controllers/cactivity');
+var cTeam = require('./controllers/cteam');
 
 app.set('port', 80);
 app.set('views', __dirname + '/views');
@@ -68,6 +69,23 @@ app.get('/individual/:year/Cancel/:type', cUser.checkLogin);
 app.get('/individual/:year/Cancel/:type', cIndividual.individualCancel);
 
 app.get('/individual/:year/Results/:type', cIndividual.individualResults);
+
+//===========================================================================//
+
+app.get('/team/:year/Apply', cTeam.applyGet);
+
+app.get('/team/:year/Apply/:dep', cUser.checkLogin);
+app.get('/team/:year/Apply/:dep', cTeam.applyDepGet);
+
+app.get('/team/:year/Apply/:dep/:id', cUser.checkLogin);
+app.get('/team/:year/Apply/:dep/:id', cTeam.applyDepIdGet);
+
+app.post('/team/:year/Apply/:dep/:id', cUser.checkLogin);
+app.post('/team/:year/Apply/:dep/:id', cTeam.applyDepIdPost);
+
+// app.get('/team/:year/list', cTeam.individualCancel);
+
+// app.get('/team/:year/Results/:type', cTeam.individualResults);
 
 //===========================================================================//
 
