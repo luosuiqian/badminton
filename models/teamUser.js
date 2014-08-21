@@ -13,7 +13,8 @@ create table if not exists teamUser
 var conn = require('./db').getConnection;
 
 exports.get = function (year, callback) {
-  conn().query('select id, name, dep from teamUser where year = ?',
+  conn().query('select teamUser.id, teamUser.name, department.name as dep \
+                from teamUser, department where year = ? and dep = department.id',
                 [year], function(err, results) {
     return callback(err, results);
   });

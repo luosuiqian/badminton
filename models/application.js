@@ -94,7 +94,7 @@ exports.save = function (timespace, user, callback) {
   var time = parseInt(timespace / 100);
   var space = parseInt(timespace % 100);
   var application = new Application(time, space, user);
-  if ((!(0 <= application.time && application.time < maxTime))
+  if ((!(0 <= application.time && application.time < maxTime * maxPeople))
     || (!(0 <= application.space && application.space < maxSpace))) {
     return callback("时间\场地错误，请重新选择");
   }
