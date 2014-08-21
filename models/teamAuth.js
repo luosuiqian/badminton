@@ -3,8 +3,10 @@ create table if not exists teamAuth
 (
     year INT,
     dep INT,
+    type INT,
     stu INT,
-    primary key(year, dep, stu)
+    name VARCHAR(20),
+    primary key(year, dep, type)
 ) character set utf8;
 */
 
@@ -21,6 +23,15 @@ exports.get = function (year, dep, studentid, callback) {
       return callback(null, false);
     }
     return callback(null, true);
+  });
+};
+
+exports.getList = function (year, callback) {
+  conn().query('select id, department.name, teamAuth.name as leader \
+                from department left join teamAuth \
+                on id = dep and year = ? and type = 0',
+                [year], function(err, results) {
+    return callback(err, results);
   });
 };
 

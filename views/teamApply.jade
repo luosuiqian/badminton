@@ -14,7 +14,7 @@ block content
         h3 #{year}年清华大学羽毛球团体赛报名
       div(class='panel-body')
         h5
-          | 仅对各个院系队长开放，请各院系确定队长后，先在本网站上注册，然后将队长学号发送至 tsinghuabadminton@gmail.com ，我们将尽快开通权限。
+          | 仅对各个院系队长开放，请各院系确定队长后，先在本网站上注册，然后将队长姓名学号发送至 tsinghuabadminton@gmail.com ，我们将尽快开通权限。
         h5
           | 报名时间： 暂定 #{time}
     hr
@@ -23,6 +23,7 @@ block content
         tr
           th 序号
           th 院系
+          th 队长
       tbody
         - for (var i=0;i<departments.length;i++)
           tr
@@ -34,6 +35,9 @@ block content
                 h4
                   a(href="/team/2014/Apply/" + departments[i].id)
                     = departments[i].name
+            td
+              p
+                h4= departments[i].leader
     hr
   
   include includes/footer

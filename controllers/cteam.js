@@ -1,5 +1,4 @@
 var Global = require('../models/global');
-var Department = require('../models/department');
 var TeamAuth = require('../models/teamAuth');
 var TeamApply = require('../models/teamApply');
 var TeamUser = require('../models/teamUser');
@@ -11,7 +10,7 @@ exports.applyGet = function (req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Department.getAll(function(err, departments) {
+  TeamAuth.getList(year, function(err, departments) {
     if (err) {
       req.flash('warning', err.toString());
       return res.redirect('/');
@@ -20,8 +19,8 @@ exports.applyGet = function (req, res) {
       name: 'team',
       user: req.session.user,
       flash: req.flash(),
-      departments: departments,
       year: year,
+      departments: departments,
       time: Global.getTimeForTeamApply(year),
     });
   });
