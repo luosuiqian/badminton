@@ -1,5 +1,5 @@
 /*
-create table if not exists individual
+create table if not exists indApply
 (
     year INT,
     studentid INT,
@@ -45,7 +45,7 @@ var NewApply = function (year,studentid,type,
 }
 
 exports.get = function (year, type, callback) {
-  conn().query('SELECT studentid, nam1, nam2 FROM individual \
+  conn().query('SELECT studentid, nam1, nam2 FROM indApply \
                 WHERE year = ? and type = ?',
                [year, type], function(err, results) {
     if (err) {
@@ -131,7 +131,7 @@ exports.save = function (year, body, user, callback) {
   if (str != null) {
     return callback(str);
   }
-  conn().query('INSERT INTO individual SET ?', newApply, function(err) {
+  conn().query('INSERT INTO indApply SET ?', newApply, function(err) {
     if (err) {
       return callback(err);
     } else {
@@ -141,7 +141,7 @@ exports.save = function (year, body, user, callback) {
 };
 
 exports.del = function (year, studentid, type, callback) {
-  conn().query('DELETE FROM individual \
+  conn().query('DELETE FROM indApply \
                 WHERE year = ? and studentid = ? and type = ?',
              [year, studentid, type],
              function(err) {
