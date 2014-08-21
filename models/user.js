@@ -91,7 +91,7 @@ exports.save = function (body, callback) {
     if (err) {
       return callback(err);
     }
-    if (results.length > 0) {
+    if (results != null) {
       return callback("该学号已注册");
     }
     conn().query('INSERT INTO user SET ?', user, function(err) {
