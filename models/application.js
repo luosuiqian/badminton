@@ -31,7 +31,8 @@ var Application = function (time,space,studentid) {
 }
 
 exports.get = function (time, space, callback) {
-  conn().query('SELECT * FROM application WHERE id = ? and time = ? and space = ?',
+  conn().query('SELECT studentid, chosen FROM application \
+                WHERE id = ? and time = ? and space = ?',
              [id, time, space], function(err, results) {
     if (err) {
       return callback(err, null);

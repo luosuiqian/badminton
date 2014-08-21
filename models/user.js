@@ -9,7 +9,6 @@ create table if not exists user
     email VARCHAR(100),
     phone VARCHAR(15),
     renrenid VARCHAR(15),
-    privilege INT,
     primary key(studentid)
 ) character set utf8;
 */
@@ -27,7 +26,6 @@ var User = function (body) {
   this.email = body.email;
   this.phone = body.phone;
   this.renrenid = body.renrenid;
-  this.privilege = 0;
 }
 
 var check = function (user) {
@@ -70,7 +68,8 @@ exports.get = function (studentid, callback) {
   if (studentid == null) {
     return callback(null, null);
   }
-  conn().query('SELECT * FROM user WHERE studentid = ?',
+  conn().query('SELECT studentid, password, name, sex, departmentid, \
+                email, phone, renrenid FROM user WHERE studentid = ?',
                [studentid], function(err, results) {
     if (err) {
       return callback(err, null);

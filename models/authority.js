@@ -13,7 +13,7 @@ exports.get = function (studentid, callback) {
   if (studentid == null) {
     return callback(null, null);
   }
-  conn().query('SELECT * FROM authority WHERE studentid = ?',
+  conn().query('SELECT studentid, rank FROM authority WHERE studentid = ?',
                [studentid], function(err, results) {
     if (err) {
       return callback(err, null);

@@ -14,11 +14,11 @@ var util = require('util');
 var conn = require('./db').getConnection;
 var Authority = require('./authority');
 
-exports.Activity = function (time, space, table,
+exports.Activity = function (table, space, time,
                              autL, autR, begin, end, pla, sNum) {
-  var maxTime = time;
-  var maxSpace = space;
   var tableNum = table;
+  var maxSpace = space;
+  var maxTime = time;
   var id = 0;
   var beginTime = begin;
   var endTime = end;

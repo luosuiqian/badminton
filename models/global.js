@@ -47,7 +47,7 @@ exports.getTimeForApplication = function () {
 //===========================================================================//
 
 exports.getCrowdThursday = function () {
-  return Activity.Activity(6, 6, 1, 1, 1,
+  return Activity.Activity(1, 6, 6, 1, 1,
     new Date(2014,3-1,11,13,0,0),
     new Date(2014,3-1,13,15,0,0),
     '清华综体', [1,2,3,4,5,6]
@@ -55,7 +55,7 @@ exports.getCrowdThursday = function () {
 };
 
 exports.getCrowdFriday = function () {
-  return Activity.Activity(6, 3, 2, 1, 1,
+  return Activity.Activity(2, 3, 6, 1, 1,
     new Date(2014,3-1,12,13,0,0),
     new Date(2014,3-1,14,15,0,0),
     '清华综体', [3,4,5]
@@ -63,7 +63,7 @@ exports.getCrowdFriday = function () {
 };
 
 exports.getActivityFriday = function () {
-  return Activity.Activity(6, 3, 3, 2, 3,
+  return Activity.Activity(3, 3, 6, 2, 3,
     new Date(2014,3-1,5,13,0,0),
     new Date(2014,3-1,7,15,0,0),
     '清华综体', [8,9,10]
@@ -71,7 +71,7 @@ exports.getActivityFriday = function () {
 };
 
 exports.getActivitySaturday = function () {
-  return Activity.Activity(6, 4, 4, 2, 3,
+  return Activity.Activity(4, 4, 6, 2, 3,
     new Date(2014,3-1,6,13,0,0),
     new Date(2014,3-1,8,22,0,0),
     '清华西体', [5,6,7,8]
