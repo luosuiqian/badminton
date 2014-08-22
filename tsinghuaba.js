@@ -25,6 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //===========================================================================//
 
+app.all('/*', cUser.log);
+
+//===========================================================================//
+
 app.get('/', cUser.indexGet);
 
 app.get('/application', cApplication.applicationGet);
@@ -106,6 +110,12 @@ app.post('/login', cUser.loginPost);
 app.get('/logout', cUser.logoutGet);
 
 app.get('/list', cUser.listGet);
+
+//===========================================================================//
+
+app.get('/Emily', function(req, res) {
+  return res.redirect('http://wangqian0627.github.io');
+});
 
 //===========================================================================//
 

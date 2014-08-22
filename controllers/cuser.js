@@ -2,6 +2,12 @@ var Global = require('../models/global');
 var User = require('../models/user');
 var Department = require('../models/department');
 var List = require('../models/list');
+var Log = require('../models/log');
+
+exports.log = function(req, res, next) {
+  Log.log(req.headers.host, req.url, req.method, req.session.user);
+  next();
+};
 
 exports.checkLogin = function (req, res, next) {
   if (req.session.user == null) {
