@@ -5,7 +5,7 @@ var List = require('../models/list');
 var Log = require('../models/log');
 
 exports.log = function(req, res, next) {
-  Log.log(req.headers.host, req.url, req.method, req.session.user);
+  Log.log(req.ip, req.url, req.method, req.session.user);
   next();
 };
 
