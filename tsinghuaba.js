@@ -92,6 +92,8 @@ app.get('/individual/:year/Results/:type', cIndividual.individualResults);
 
 //===========================================================================//
 
+app.get('/map', cUser.mapGet);
+
 app.get('/register', cUser.checkNotLogin);
 app.get('/register', cUser.registerGet);
 app.post('/register', cUser.checkNotLogin);

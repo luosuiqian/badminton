@@ -1,0 +1,36 @@
+extends layout
+
+block headlink
+  script(src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js')
+  link(href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css', rel='stylesheet')
+  script(src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js')
+  link(href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.css', rel='stylesheet')
+  style.
+    #map { position:relative; width:100%; height:500px; }
+    .leaflet-control-attribution.leaflet-control {display: none;}
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 地图
+      div(class='panel-body', id='map')
+    hr
+  
+  include includes/footer
+  
+  script.
+    L.mapbox.accessToken = 'pk.eyJ1IjoicnVvemhpIiwiYSI6ImZZaVZaMmsifQ.nfbMX75qwv3_MqS1vLvGBg';
+    var map = L.mapbox.map('map', 'ruozhi.jaoeiog8').setView([40.007, 116.321], 15)
+      .on('ready', function() {
+          new L.Control.MiniMap(L.mapbox.tileLayer('examples.map-i86nkdio'))
+              .addTo(map);
+      });
+  

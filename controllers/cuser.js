@@ -180,3 +180,11 @@ exports.listGet = function(req, res) {
   });
 };
 
+exports.mapGet = function(req, res) {
+  res.render('map.jade', {
+    name: 'map',
+    user: req.session.user,
+    flash: req.flash(),
+  });
+};
+

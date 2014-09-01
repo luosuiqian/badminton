@@ -26,13 +26,13 @@ div(class='navbar navbar-default', role='navigation')
         li(class=(name=='activity')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
-              span(class="glyphicon glyphicon-chevron-down")
+              span(class="glyphicon glyphicon-circle-arrow-down")
               |  羽协活动预约
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             li
               a(href='/activity')
                 h4
-                  span(class="glyphicon glyphicon-ban-circle")
+                  span(class="glyphicon glyphicon-off")
                   |  羽协活动公告
             li(class="divider")
             li
@@ -65,32 +65,32 @@ div(class='navbar navbar-default', role='navigation')
             li
               a(href="/team/2013/list")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2013团体赛参赛选手名单
             li
               a(href="/team/2013/Results/1")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2013团体赛甲组小组赛
             li
               a(href="/team/2013/Results/2")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2013团体赛乙组小组赛
             li
               a(href="/team/2013/Results/3")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2013团体赛甲组淘汰赛
             li
               a(href="/team/2013/Results/4")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2013团体赛乙组淘汰赛
             li
               a(href="/team/2013/Results/5")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2013团体赛甲乙组总决赛
             li(class="divider")
             li
@@ -113,22 +113,22 @@ div(class='navbar navbar-default', role='navigation')
             li
               a(href="/individual/2014/Results/mens_singles")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2014男单比赛结果
             li
               a(href="/individual/2014/Results/mens_doubles")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2014男双比赛结果
             li
               a(href="/individual/2014/Results/womens_doubles")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2014女双比赛结果
             li
               a(href="/individual/2014/Results/mixed_doubles")
                 h4
-                  span(class="glyphicon glyphicon-thumbs-up")
+                  span(class="glyphicon glyphicon-info-sign")
                   |  2014混双比赛结果
             li(class="divider")
             li
@@ -137,6 +137,11 @@ div(class='navbar navbar-default', role='navigation')
                   span(class="glyphicon glyphicon-pencil")
                   |  2015单项赛报名
       ul(class='nav navbar-nav navbar-right')
+        li(class=(name=='map')?'active':'')
+          a(href='/map')
+            h4
+              span(class="glyphicon glyphicon-map-marker")
+              |  地图
         li(class=(name=='register'||name=='login'||name=='edit'||name=='list')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
