@@ -28,20 +28,12 @@ block content
       div(class='col-sm-8')
         div(class='radio-inline')
           label
-            if player.sex == 'm'
-              input(type='radio',name='sex'+num,value='m', checked, disabled)
-              | 男
-            else
-              input(type='radio',name='sex'+num,value='m', disabled)
-              | 男
+            input(type='radio',name='sex'+num,value='m', checked=(player.sex == 'm'), disabled)
+            | 男
         div(class='radio-inline')
           label
-            if player.sex == 'f'
-              input(type='radio',name='sex'+num,value='f', checked, disabled)
-              | 女
-            else
-              input(type='radio',name='sex'+num,value='f', disabled)
-              | 女
+            input(type='radio',name='sex'+num,value='f', checked=(player.sex == 'f'), disabled)
+            | 女
     div(class='form-group')
       label(class='col-sm-2 control-label')
         | 院系
@@ -54,12 +46,8 @@ block content
         else
           select(class='form-control',name='departmentid'+num)
             each department in departments
-              if player.departmentid == department.id
-                option(value=department.id,selected)
-                  = department.name
-              else
-                option(value=department.id)
-                  = department.name
+              option(value=department.id)
+                = department.name
     div(class='form-group')
       label(class='col-sm-2 control-label')
         | 邮箱

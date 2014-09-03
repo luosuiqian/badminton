@@ -26,7 +26,7 @@ block content
   
   include includes/footer
   
-  script.
+  script(type='text/javascript').
     L.mapbox.accessToken = 'pk.eyJ1IjoicnVvemhpIiwiYSI6ImZZaVZaMmsifQ.nfbMX75qwv3_MqS1vLvGBg';
     var map = L.mapbox.map('map', 'ruozhi.jaoeiog8').setView([40.007, 116.321], 15)
       .on('ready', function() {
