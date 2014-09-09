@@ -36,7 +36,7 @@ app.post('/application', cUser.checkLogin);
 app.post('/application', cApplication.applicationPost);
 
 //===========================================================================//
-
+/*
 var crowdThursday = cActivity.crowdThursday();
 app.get('/crowdThursday', crowdThursday.get);
 app.post('/crowdThursday', cUser.checkLogin);
@@ -56,7 +56,7 @@ var activitySaturday = cActivity.activitySaturday();
 app.get('/activitySaturday', activitySaturday.get);
 app.post('/activitySaturday', cUser.checkLogin);
 app.post('/activitySaturday', activitySaturday.post);
-
+*/
 app.get('/activity', cActivity.activityGet);
 
 //===========================================================================//
@@ -70,11 +70,11 @@ app.get('/team/:year/Apply/:dep/:id', cUser.checkLogin);
 app.get('/team/:year/Apply/:dep/:id', cTeam.applyDepIdGet);
 app.post('/team/:year/Apply/:dep/:id', cUser.checkLogin);
 app.post('/team/:year/Apply/:dep/:id', cTeam.applyDepIdPost);
-
+/*
 app.get('/team/:year/list', cTeam.userListGet);
 
 app.get('/team/:year/Results/:type', cTeam.resultsGet);
-
+*/
 //===========================================================================//
 
 app.get('/individual/:year', cIndividual.individualGet);
