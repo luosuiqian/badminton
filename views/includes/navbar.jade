@@ -14,10 +14,21 @@ div(class='navbar navbar-default', role='navigation')
               span(class="glyphicon glyphicon-home")
               |  首页
         li(class=(name=='application')?'active':'')
-          a(href='/application')
+          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
-              span(class="glyphicon glyphicon-pencil")
-              |  招新报名
+              span(class="glyphicon glyphicon-thumbs-up")
+              |  羽协招新
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
+            li
+              a(href='/confirm')
+                h4
+                  span(class="glyphicon glyphicon-heart")
+                  |  老会员确认
+            li
+              a(href='/application')
+                h4
+                  span(class="glyphicon glyphicon-pencil")
+                  |  招新报名
         li(class=(name=='activity')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
@@ -175,8 +186,8 @@ div(class='navbar navbar-default', role='navigation')
                   h4
                     span(class="glyphicon glyphicon-new-window")
                     |  旧版本
-            li(class=(name=='list')?'active':'')
-              a(href='/list')
-                h4
-                  span(class="glyphicon glyphicon-user")
-                  |  管理员
+              li(class=(name=='list')?'active':'')
+                a(href='/list')
+                  h4
+                    span(class="glyphicon glyphicon-user")
+                    |  管理员

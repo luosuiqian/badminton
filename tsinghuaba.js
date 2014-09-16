@@ -35,6 +35,11 @@ app.get('/application', cApplication.applicationGet);
 app.post('/application', cUser.checkLogin);
 app.post('/application', cApplication.applicationPost);
 
+app.get('/confirm', cUser.checkLogin);
+app.get('/confirm', cUser.confirmGet);
+app.post('/confirm', cUser.checkLogin);
+app.post('/confirm', cUser.confirmPost);
+
 //===========================================================================//
 /*
 var crowdThursday = cActivity.crowdThursday();

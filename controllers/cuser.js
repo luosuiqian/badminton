@@ -3,6 +3,7 @@ var User = require('../models/user');
 var Department = require('../models/department');
 var List = require('../models/list');
 var Log = require('../models/log');
+var Authority = require('../models/authority');
 
 exports.log = function(req, res, next) {
   Log.log(req.ip, req.url, req.method, req.session.user);
@@ -186,5 +187,33 @@ exports.mapGet = function(req, res) {
     user: req.session.user,
     flash: req.flash(),
   });
+};
+
+exports.confirmGet = function(req, res) {
+  Authority.get(req.session.user, function(err, result){
+    res.render('confirm.jade', {
+      name: 'application',
+      user: req.session.user,
+      flash: req.flash(),
+      rank: result == null ? 0 : result.rank,
+    });
+  });
+};
+
+exports.confirmPost = function(req, res) {
+  if (req.body.choice == 'y') {
+    Authority.set(req.session.user, 3, function(err) {
+      req.flash('info', '操作成功');
+      return res.redirect('/confirm');
+    });
+  } else if (req.body.choice == 'n') {
+    Authority.set(req.session.user, 1, function(err) {
+      req.flash('info', '操作成功');
+      return res.redirect('/confirm');
+    });
+  } else {
+    req.flash('warning', '操作失败');
+    return res.redirect('/confirm');
+  }
 };
 

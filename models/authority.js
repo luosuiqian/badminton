@@ -25,3 +25,10 @@ exports.get = function (studentid, callback) {
   });
 };
 
+exports.set = function (studentid, rank, callback) {
+  conn().query('UPDATE authority SET rank = ? WHERE studentid = ?',
+               [rank, studentid], function(err) {
+    return callback(err);
+  });
+};
+

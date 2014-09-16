@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    if rank == 2
+      form(id="defaultForm",class='form-horizontal',method='post',role='form',
+            data-bv-message="This value is not valid",
+            data-bv-feedbackicons-valid="glyphicon glyphicon-ok",
+            data-bv-feedbackicons-invalid="glyphicon glyphicon-remove",
+            data-bv-feedbackicons-validating="glyphicon glyphicon-refresh")
+        div(class='form-group')
+          label(class='col-sm-2 control-label')
+            | 参加活动？
+          div(class='col-sm-8')
+            div(class='radio-inline')
+              label
+                input(type='radio',name='choice',value='y',required,data-bv-notempty-message="The choice is required")
+                | 是
+            div(class='radio-inline')
+              label
+                input(type='radio',name='choice',value='n')
+                | 否
+            p(class='help-block')
+              | 请选择，2014年秋季学期是否继续参加羽协活动
+        div(class='form-group')
+          div(class='col-sm-offset-2 col-sm-8')
+            button(type='submit',class='btn btn-primary')
+              | 确认
+    if rank == 0
+      div(class='panel panel-info')
+        div(class='panel-heading')
+          h2 清华大学学生羽毛球协会
+        div(class='panel-body')
+          h4
+            | 你不是羽协会员，欢迎报名加入羽协！
+    if rank == 1
+      div(class='panel panel-info')
+        div(class='panel-heading')
+          h2 清华大学学生羽毛球协会
+        div(class='panel-body')
+          h4
+            | 你已选择不再参加羽协活动，感谢你对羽协的支持。
+    if rank == 3
+      div(class='panel panel-info')
+        div(class='panel-heading')
+          h2 清华大学学生羽毛球协会
+        div(class='panel-body')
+          h4
+            | 你已选择继续参加羽协活动，我们将会邮件通知这学期具体的活动安排，感谢你对羽协的支持。
+    hr
+  
+  include includes/footer
+  
+  if rank == 2
+    script(type='text/javascript').
+      $(document).ready(function() {
+        $('#defaultForm').bootstrapValidator();
+      });

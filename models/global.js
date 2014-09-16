@@ -24,16 +24,16 @@ exports.maxDepartmentid = 36;
 
 //===========================================================================//
 
-exports.id = 1;
+exports.id = 2;
 exports.maxTime = 6;
 exports.maxPeople = 10;
 exports.maxSpace = 6;
-exports.beginHour = 20;
+exports.beginHour = 10;
 exports.beginMinute = 15;
 exports.period = 15;
 
-var applicationBeginTime = new Date(2014, 2-1, 22, 13, 0, 0);
-var applicationEndTime = new Date(2014, 3-1, 7, 20, 0, 0);
+var applicationBeginTime = new Date(2014, 10-1, 8, 0, 0, 0);
+var applicationEndTime = new Date(2014, 10-1, 10, 22, 0, 0);
   
 exports.checkTimeForApplication = function () {
   var now = new Date();
