@@ -16,8 +16,8 @@ block content
           th 姓名
           th 性别
           th 院系
-          th 邮箱
-          th 电话
+          th 已交费
+          th 操作
       tbody
         - for (var i=0;i<table.length;i++)
           tr
@@ -26,17 +26,18 @@ block content
             td= table[i].name
             td= table[i].sex
             td= table[i].department
-            td= table[i].email
-            td= table[i].phone
+            td #{table[i].money}元
+            td
+              - address = '/sign/' + table[i].studentid + '/' + table[i].prikey
+              a(role="button", href=address, class="btn btn-danger")
+                | 修改
   
   div(class='container')
     hr
-    h3 仅注册
-    +showTable(list0)
-    hr
-    h3 未选择
-    +showTable(list1)
-    hr
+    //-
+      h3 群众会员
+      +showTable(list1)
+      hr
     h3 正式会员
     +showTable(list2)
     hr

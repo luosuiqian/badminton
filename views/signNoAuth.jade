@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 学号
+      div(class='panel-body')
+        p= studentid
+    hr
+  
+  include includes/footer

@@ -1,10 +1,9 @@
 var conn = require('./db').getConnection;
-var Authority = require('./authority');
 
 exports.getAll = function (numberL, numberR, callback) {
   conn().query("select user.studentid,user.name,\
                 CASE WHEN sex = 'm' THEN '男' ELSE '女' END AS sex,\
-                department.name as department,email,phone\
+                department.name as department,email,phone,prikey,money\
                 from user,department,authority\
                 where user.departmentid = department.id\
                 and user.studentid = authority.studentid\
@@ -27,25 +26,6 @@ exports.getAllNoAuthority = function (callback) {
                 order by user.sex desc, user.studentid",
               function(err, results) {
     return callback(err, results);
-  });
-};
-
-exports.getAuthority = function (studentid, callback) {
-  if (studentid == null) {
-    return callback(null, false);
-  }
-  Authority.get(studentid, function(err, authority) {
-    if (err) {
-      return callback(err, false);
-    }
-    if (authority == null) {
-      return callback(null, false);
-    }
-    if (authority.rank == 3) {
-      return callback(null, true);
-    } else {
-      return callback(null, false);
-    }
   });
 };
 

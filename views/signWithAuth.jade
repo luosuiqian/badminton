@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    form(class='form-horizontal',method='post',role='form')
+      div(class='text-center')
+        h3= result.studentid
+        h3= result.name
+        if result.rank == 1
+          h3 群众体育会员
+        if result.rank == 2
+          h3 正式会员
+        if result.rank >= 3
+          h3 内阁会员
+        h3 已交费#{result.money}元
+        if bsign == true
+          h3 今天已签到
+        if bsign == false
+          h3 未签到
+          - address = '/sign/' + result.studentid + '/' + result.prikey + '/signin'
+          a(role="button", href=address, class="btn btn-primary")
+            | 签到
+        hr
+        hr
+        input(type='text',class='form-control',name='money',value=result.rank==1?70:150)
+        hr
+        button(type='submit',class='btn btn-danger')
+          | 更改
+        | &nbsp;
+        a(role="button", href='/sign', class="btn btn-primary")
+          | 返回列表
+    hr
+  
+  include includes/footer

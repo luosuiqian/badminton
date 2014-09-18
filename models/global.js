@@ -124,3 +124,16 @@ exports.getTimeForTeamApply = function (year) {
   }
 };
 
+//===========================================================================//
+
+var dayid = 0;
+var signTime = new Date(2014, 9-1, 1, 0, 0, 0);
+exports.getDayid = function () {
+  var now = new Date();
+  while (signTime < now) {
+    dayid = dayid + 1;
+    signTime.setTime(signTime.getTime() + (24 * 60 * 60 * 1000));
+  }
+  return dayid;
+};
+

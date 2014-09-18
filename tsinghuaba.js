@@ -7,6 +7,7 @@ var cUser = require('./controllers/cuser');
 var cApplication = require('./controllers/capplication');
 var cActivity = require('./controllers/cactivity');
 var cTeam = require('./controllers/cteam');
+var cSign = require('./controllers/csign');
 var cIndividual = require('./controllers/cindividual');
 
 app.set('port', 80);
@@ -94,6 +95,15 @@ app.get('/individual/:year/Cancel/:type', cUser.checkLogin);
 app.get('/individual/:year/Cancel/:type', cIndividual.individualCancel);
 
 app.get('/individual/:year/Results/:type', cIndividual.individualResults);
+
+//===========================================================================//
+
+app.get('/sign', cSign.signGet);
+
+app.get('/sign/:id/:psw', cSign.signStuGet);
+app.post('/sign/:id/:psw', cSign.signStuPost);
+
+app.get('/sign/:id/:psw/signin', cSign.signStuSigninGet);
 
 //===========================================================================//
 

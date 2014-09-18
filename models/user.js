@@ -17,7 +17,23 @@ var conn = require('./db').getConnection;
 
 const maxDepartmentid = require('./global').maxDepartmentid;
 
-var User = function (body) {
+var getKey = function() {
+  var prikey = '';
+  for (var i = 0; i < 16; i++) {
+    var a = parseInt(Math.random()*62);
+    if (0 <=  a && a <= 25) {
+      var b = String.fromCharCode(a + 65);
+    } else if (26 <= a && a <= 51) {
+      var b = String.fromCharCode(a - 26 + 97);
+    } else if (52 <= a && a <= 61) {
+      var b = String.fromCharCode(a - 52 + 48);
+    }
+    prikey += b;
+  }
+  return prikey;
+}
+
+var User = function (body, create) {
   this.studentid = body.studentid;
   this.password = body.password;
   this.name = body.name;
@@ -26,6 +42,9 @@ var User = function (body) {
   this.email = body.email;
   this.phone = body.phone;
   this.renrenid = body.renrenid;
+  if (create) {
+    this.prikey = getKey();
+  }
 }
 
 var check = function (user) {
@@ -82,7 +101,7 @@ exports.get = function (studentid, callback) {
 };
 
 exports.save = function (body, callback) {
-  var user = new User(body);
+  var user = new User(body, true);
   var str = check(user);
   if (str != null) {
     return callback(str);
@@ -105,7 +124,7 @@ exports.save = function (body, callback) {
 };
 
 exports.update = function (body, callback) {
-  var user = new User(body);
+  var user = new User(body, false);
   var str = check(user);
   if (str != null) {
     return callback(str);

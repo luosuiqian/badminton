@@ -9,7 +9,7 @@ block content
   
   div(class='container')
     hr
-    if rank == 2
+    if rank == 1
       form(id="defaultForm",class='form-horizontal',method='post',role='form',
             data-bv-message="This value is not valid",
             data-bv-feedbackicons-valid="glyphicon glyphicon-ok",
@@ -33,21 +33,21 @@ block content
           div(class='col-sm-offset-2 col-sm-8')
             button(type='submit',class='btn btn-primary')
               | 确认
-    if rank == 0
+    if rank == -1
       div(class='panel panel-info')
         div(class='panel-heading')
           h2 清华大学学生羽毛球协会
         div(class='panel-body')
           h4
             | 你不是羽协会员，欢迎报名加入羽协！
-    if rank == 1
+    if rank == 0
       div(class='panel panel-info')
         div(class='panel-heading')
           h2 清华大学学生羽毛球协会
         div(class='panel-body')
           h4
             | 你已选择不再参加羽协活动，感谢你对羽协的支持。
-    if rank == 3
+    if rank == 2
       div(class='panel panel-info')
         div(class='panel-heading')
           h2 清华大学学生羽毛球协会
@@ -58,7 +58,7 @@ block content
   
   include includes/footer
   
-  if rank == 2
+  if rank == 1
     script(type='text/javascript').
       $(document).ready(function() {
         $('#defaultForm').bootstrapValidator();
