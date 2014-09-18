@@ -105,6 +105,9 @@ app.post('/sign/:id/:psw', cSign.signStuPost);
 
 app.get('/sign/:id/:psw/signin', cSign.signStuSigninGet);
 
+app.get('/qrcode', cUser.checkLogin);
+//app.get('/qrcode', cSign.qucodeGet);
+
 //===========================================================================//
 
 app.get('/map', cUser.mapGet);

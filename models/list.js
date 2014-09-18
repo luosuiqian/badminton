@@ -1,16 +1,19 @@
 var conn = require('./db').getConnection;
+var Global = require('./global');
 
 exports.getAll = function (numberL, numberR, callback) {
+  var dayid = Global.getDayid();
   conn().query("select user.studentid,user.name,\
                 CASE WHEN sex = 'm' THEN '男' ELSE '女' END AS sex,\
-                department.name as department,email,phone,prikey,money\
-                from user,department,authority\
+                department.name as department,email,phone,prikey,money,sign.dayid\
+                from authority,department,user \
+                LEFT JOIN sign on user.studentid = sign.studentid and sign.dayid = ? \
                 where user.departmentid = department.id\
                 and user.studentid = authority.studentid\
                 and user.studentid > 1000000010\
                 and ? <= authority.rank and authority.rank <= ?\
                 order by sex desc, user.studentid",
-              [numberL, numberR], function(err, results) {
+              [dayid, numberL, numberR], function(err, results) {
     return callback(err, results);
   });
 };

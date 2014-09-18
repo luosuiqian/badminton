@@ -4,7 +4,7 @@ var Authority = require('../models/authority');
 var Sign = require('../models/sign');
 
 exports.signGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 4, function(err, authority) {
+  Authority.getAuthority(req.session.user, 3, function(err, authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -39,7 +39,7 @@ exports.signGet = function(req, res) {
 };
 
 exports.signStuGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 4, function(err, authority) {
+  Authority.getAuthority(req.session.user, 3, function(err, authority) {
     if (authority == false) {
       return res.render('signNoAuth.jade', {
         name: 'sign',
@@ -52,7 +52,7 @@ exports.signStuGet = function(req, res) {
     Authority.getInfo(studentid, req.params.psw, function(err, result) {
       if (err) {
         req.flash('warning', err.toString());
-        return res.redirect('/');
+        return res.redirect('/sign');
       }
       var dayid = Global.getDayid();
       Sign.get(studentid, dayid, function(err, bsign) {
@@ -69,7 +69,7 @@ exports.signStuGet = function(req, res) {
 };
 
 exports.signStuSigninGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 4, function(err, authority) {
+  Authority.getAuthority(req.session.user, 3, function(err, authority) {
     if (authority == false) {
       return res.render('signNoAuth.jade', {
         name: 'sign',
@@ -82,13 +82,13 @@ exports.signStuSigninGet = function(req, res) {
     Authority.getInfo(studentid, req.params.psw, function(err, result) {
       if (err) {
         req.flash('warning', err.toString());
-        return res.redirect('/');
+        return res.redirect('/sign');
       }
       var dayid = Global.getDayid();
       Sign.set(studentid, dayid, function(err) {
         if (err) {
           req.flash('warning', err.toString());
-          return res.redirect('/');
+          return res.redirect('/sign');
         }
         return res.redirect('/sign/' + req.params.id + '/' + req.params.psw);
       });
@@ -99,24 +99,20 @@ exports.signStuSigninGet = function(req, res) {
 exports.signStuPost = function(req, res) {
   Authority.getAuthority(req.session.user, 4, function(err, authority) {
     if (authority == false) {
-      return res.render('signNoAuth.jade', {
-        name: 'sign',
-        user: req.session.user,
-        flash: req.flash(),
-        studentid: req.params.id,
-      });
+      req.flash('warning', '抱歉，您没有权限更改');
+      return res.redirect('.');
     }
     var studentid = parseInt(req.params.id);
     Authority.getInfo(studentid, req.params.psw, function(err, result) {
       if (err) {
         req.flash('warning', err.toString());
-        return res.redirect('/');
+        return res.redirect('/sign');
       }
       var money = parseInt(req.body.money);
-      Authority.setMoney(studentid, money, function(err) {
+      Authority.setMoney(studentid, money, req.session.user, function(err) {
         if (err) {
           req.flash('warning', err.toString());
-          return res.redirect('/');
+          return res.redirect('/sign');
         }
         return res.redirect('/sign/' + req.params.id + '/' + req.params.psw);
       });

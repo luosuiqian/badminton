@@ -4,6 +4,7 @@ create table if not exists authority
     studentid INT,
     rank INT,
     money INT,
+    admin INT,
     primary key(studentid)
 ) character set utf8;
 */
@@ -33,9 +34,9 @@ exports.set = function (studentid, rank, callback) {
   });
 };
 
-exports.setMoney = function (studentid, money, callback) {
-  conn().query('UPDATE authority SET money = ? WHERE studentid = ?',
-               [money, studentid], function(err) {
+exports.setMoney = function (studentid, money, admin, callback) {
+  conn().query('UPDATE authority SET money = ?, admin = ? WHERE studentid = ?',
+               [money, admin, studentid], function(err) {
     return callback(err);
   });
 };
@@ -48,7 +49,7 @@ exports.getInfo = function (studentid, prikey, callback) {
       return callback(err, null);
     }
     if (results.length == 0) {
-      callback('二维码错误！', null);
+      callback('你不是羽协会员！（或二维码出错）', null);
     } else {
       callback(null, results[0]);
     }
