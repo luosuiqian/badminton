@@ -88,7 +88,7 @@ exports.get = function (studentid, callback) {
     return callback(null, null);
   }
   conn().query('SELECT studentid, password, name, sex, departmentid, \
-                email, phone, renrenid FROM user WHERE studentid = ?',
+                email, phone, renrenid, prikey FROM user WHERE studentid = ?',
                [studentid], function(err, results) {
     if (err) {
       return callback(err, null);

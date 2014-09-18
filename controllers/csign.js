@@ -2,6 +2,7 @@ var Global = require('../models/global');
 var List = require('../models/list');
 var Authority = require('../models/authority');
 var Sign = require('../models/sign');
+var User = require('../models/user');
 
 exports.signGet = function(req, res) {
   Authority.getAuthority(req.session.user, 3, function(err, authority) {
@@ -116,6 +117,21 @@ exports.signStuPost = function(req, res) {
         }
         return res.redirect('/sign/' + req.params.id + '/' + req.params.psw);
       });
+    });
+  });
+};
+
+exports.qucodeGet = function(req, res) {
+  User.get(req.session.user, function(err, result) {
+    if (err) {
+      req.flash('warning', err.toString());
+      return res.redirect('/');
+    }
+    res.render('qrcode.jade', {
+      name: 'sign',
+      user: req.session.user,
+      flash: req.flash(),
+      result: result,
     });
   });
 };
