@@ -20,6 +20,7 @@ block content
           th 签到
           th 操作
       tbody
+        - sum = 0
         - for (var i=0;i<table.length;i++)
           tr
             td= (i+1)
@@ -28,6 +29,7 @@ block content
             td= table[i].sex
             td= table[i].department
             td #{table[i].money}元
+            - sum = sum + table[i].money
             if table[i].dayid != null
               td
                 h4
@@ -39,6 +41,15 @@ block content
               - address = '/sign/' + table[i].studentid + '/' + table[i].prikey
               a(role="button", href=address, class="btn btn-danger")
                 | 修改
+        tr
+          td 共计
+          td &nbsp;
+          td &nbsp;
+          td &nbsp;
+          td &nbsp;
+          td #{sum}元
+          td &nbsp;
+          td &nbsp;
   
   div(class='container')
     hr

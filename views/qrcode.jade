@@ -21,6 +21,7 @@ block content
         div(class="col-md-8 col-sm-8 col-xs-12 text-center")
           h4 请下载下方的二维码到手机上作为本学期参与活动的凭证。
           h4 收费和签到的时候，都可以通过扫描二维码进行确认。
+          h4 （如果无法显示，请尝试刷新）
           - address = 'http://tsba.tk/sign/' + result.studentid + '/' + result.prikey
           img(src='http://qr.liantu.com/api.php?logo=http://luosuiqian.github.io/badminton/public/img/logo.png&w=400&text='+address)
     hr
