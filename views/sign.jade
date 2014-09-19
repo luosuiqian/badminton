@@ -21,6 +21,7 @@ block content
           th 操作
       tbody
         - sum = 0
+        - sign = 0
         - for (var i=0;i<table.length;i++)
           tr
             td= (i+1)
@@ -34,6 +35,7 @@ block content
               td
                 h4
                   span(class="glyphicon glyphicon-ok-sign")
+              - sign = sign + 1
             else
               td
                 | &nbsp;
@@ -48,7 +50,7 @@ block content
           td &nbsp;
           td &nbsp;
           td #{sum}元
-          td &nbsp;
+          td #{sign}人签到
           td &nbsp;
   
   div(class='container')

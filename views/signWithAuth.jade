@@ -13,29 +13,32 @@ block content
       div(class='text-center')
         h1= result.studentid
         h1= result.name
-        if result.rank == 1
-          h1 群众体育会员
-        if result.rank == 2
-          h1 正式会员
-        if result.rank >= 3
-          h1 内阁会员
-        h1 已交费#{result.money}元
-        if bsign == true
-          h1 今天已签到
-        if bsign == false
-          h1 未签到
-          - address = '/sign/' + result.studentid + '/' + result.prikey + '/signin'
-          a(role="button", href=address, class="btn btn-primary")
-            h1 签到
-        hr
-        hr
-        input(type='text',class='form-control',name='money',value=result.rank==1?70:150)
-        hr
-        button(type='submit',class='btn btn-danger')
-          h3 更改
-        | &nbsp;
-        a(role="button", href='/sign', class="btn btn-primary")
-          h3 返回列表
+        if result.rank == null
+          h1 不是会员
+        else
+          if result.rank == 1
+            h1 群众体育会员
+          if result.rank == 2
+            h1 正式会员
+          if result.rank >= 3
+            h1 内阁会员
+          h1 已交费#{result.money}元
+          if bsign == true
+            h1 今天已签到
+          if bsign == false
+            h1 未签到
+            - address = '/sign/' + result.studentid + '/' + result.prikey + '/signin'
+            a(role="button", href=address, class="btn btn-primary")
+              h1 签到
+          hr
+          hr
+          input(type='text',class='form-control',name='money',value=result.rank==1?70:150)
+          hr
+          button(type='submit',class='btn btn-danger')
+            h3 更改
+          | &nbsp;
+          a(role="button", href='/sign', class="btn btn-primary")
+            h3 返回列表
     hr
   
   include includes/footer

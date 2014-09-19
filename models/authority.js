@@ -42,14 +42,15 @@ exports.setMoney = function (studentid, money, admin, callback) {
 };
 
 exports.getInfo = function (studentid, prikey, callback) {
-  conn().query('select user.studentid, name, rank, money, prikey from user,authority\
-                where user.studentid = ? and authority.studentid = user.studentid and prikey = ?',
+  conn().query('select user.studentid, name, rank, money, prikey from user \
+                LEFT JOIN authority on user.studentid = authority.studentid \
+                where user.studentid = ? and prikey = ?',
                [studentid, prikey], function(err, results) {
     if (err) {
       return callback(err, null);
     }
     if (results.length == 0) {
-      callback('你不是羽协会员！（或二维码出错）', null);
+      callback('二维码出错！', null);
     } else {
       callback(null, results[0]);
     }
