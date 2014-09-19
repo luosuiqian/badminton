@@ -32,7 +32,7 @@ exports.beginHour = 10;
 exports.beginMinute = 15;
 exports.period = 15;
 
-var applicationBeginTime = new Date(2014, 10-1, 8, 0, 0, 0);
+var applicationBeginTime = new Date(2014, 9-1, 19, 0, 0, 0);
 var applicationEndTime = new Date(2014, 10-1, 10, 22, 0, 0);
   
 exports.checkTimeForApplication = function () {
