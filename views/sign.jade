@@ -50,9 +50,11 @@ block content
           td &nbsp;
           td &nbsp;
           td #{sum}元
+          - total = total + sum
           td #{sign}人签到
           td &nbsp;
   
+  - total = 0
   div(class='container')
     hr
     h3 群众体育
@@ -63,6 +65,11 @@ block content
     hr
     h3 内阁
     +showTable(list3)
+    hr
+  
+  div(class='container')
+    p(class="text-center")
+      | 交费收入一共#{total}元
     hr
   
   include includes/footer
