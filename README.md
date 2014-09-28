@@ -8,12 +8,10 @@ http://tsba.tk
 
 ## Usage
 
-...bash
-npm install
-cp models/db.example.js models/db.js
-vi models/db.js
-./run.sh start
-...
+1. `npm install`
+2. `cp models/db.example.js models/db.js`
+3. `vi models/db.js`
+4. `./run.sh start`
 
 ## Author
 
