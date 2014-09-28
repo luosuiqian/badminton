@@ -10,16 +10,26 @@ var cTeam = require('./controllers/cteam');
 var cSign = require('./controllers/csign');
 var cIndividual = require('./controllers/cindividual');
 
+var favicon = require('serve-favicon');
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+
 app.set('port', 80);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.urlencoded())
-app.use(express.json())
-app.use(express.cookieParser());
-app.use(express.session({
+app.use(favicon(__dirname + '/public/img/favicon.png'));
+app.use(methodOverride());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  key: 'sessions',
   secret: 'SXLlGmJfOZhCtzxtqp9T',
-  store: require('./models/db').getStore(express)
+  store: require('./models/db').getStore()
 }));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));

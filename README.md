@@ -2,22 +2,22 @@
 
 A website for Badminton Association in Tsinghua University.
 
-http://tsinghuaba.tk
+http://tsba.tk
 
-(This website can only be reached in Tsinghua University)
+![](http://luosuiqian.github.io/badminton/public/img/logo.png)
 
-# Usage
+## Usage
 
+...bash
+npm install
 cp models/db.example.js models/db.js
-
 vi models/db.js
-
 ./run.sh start
+...
 
-./run.sh stop
-
-# Author
+## Author
 
 Suiqian Luo
 
 2014-03-14
+

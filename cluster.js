@@ -10,7 +10,7 @@ if (cluster.isMaster) {
     workers[worker.pid] = worker;
   }
 } else {
-  var app = require('./tsinghuaba');
+  var app = require('./tsba');
   app.start();
 }
 

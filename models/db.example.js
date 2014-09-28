@@ -36,11 +36,8 @@ exports.getConnection = function () {
   return connection;
 };
 
-exports.getStore = function (express) {
-  var MySQLStore = require('connect-mysql')(express);
-  var options = { 
-    config: db_config
-  };
-  return new MySQLStore(options);
+exports.getStore = function () {
+  var SessionStore = require('express-mysql-session');
+  return new SessionStore(db_config);
 }
 
