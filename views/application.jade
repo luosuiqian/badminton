@@ -73,7 +73,7 @@ block content
                     if open == false || sex == null
                       +showName(table[i][j])
                     else if result == null
-                      if table[i][j] == null && ((sex == 'm' && j<=3) || (sex == 'f' && 4<=j && j<=5))
+                      if table[i][j] == null && ((sex == 'm' && (j<=3 || j>=6)) || (sex == 'f' && 4<=j && j<=5))
                         label
                           input(type='radio',name='timespace',value=i*100+j)
                           | (空)
