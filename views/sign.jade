@@ -21,6 +21,7 @@ block content
           th 操作
       tbody
         - sum = 0
+        - num = 0
         - sign = 0
         - for (var i=0;i<table.length;i++)
           tr
@@ -31,6 +32,8 @@ block content
             td= table[i].department
             td #{table[i].money}元
             - sum = sum + table[i].money
+            if table[i].money > 0
+              - num = num + 1
             if table[i].dayid != null
               td
                 h4
@@ -49,7 +52,7 @@ block content
           td &nbsp;
           td &nbsp;
           td &nbsp;
-          td #{sum}元
+          td #{sum}元/#{num}人
           - total = total + sum
           td #{sign}人签到
           td &nbsp;

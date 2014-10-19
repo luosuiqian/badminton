@@ -52,7 +52,8 @@ block content
           | 清华大学学生羽毛球协会每一周都有固定的活动时间和场地，周六上午10点到12点在综合体育馆我们有多达8块场地！羽毛球这项运动呢技巧性比较强，爱好者那么多，想加入羽毛球协会就需要先通过一个“招新考试”。所谓“考试”其实只是让羽毛球校队同学和新会员一对一打球，测试一下基本技术，所以正常发挥就好！我们的正式会员为70人左右。如果你的基础平常一些，也没有关系，因为我们在每周四下午1点到3点也在综体准备了4块场地举办“群众体育”，大家都可以来打球！无论周四还是周六羽协都有高水平选手现场指导和组织训练。你还有机会和全清华最牛的选手“过过招”！心动的话赶快注册并报名招新考试的预约吧！
     
     div(class='page-header')
-      h4 考试结果如下：背景为黄色表示成为羽协会员
+      h4 考试结果如下：背景为黄色表示成为正式会员，其余为群众体育会员
+      h4 （注：在临时报名的同学中，余翱，林生勇，梁言，春名林，Aisyah等5位同学为正式会员）
     form(class='form-horizontal',method='post',role='form')
       table(class='table table-striped table-bordered table-hover')
         thead
@@ -61,7 +62,7 @@ block content
             - for (var i=1;i<=table[0].length;i++)
               th 场地#{i}
         tbody
-          - var size = 5
+          - var size = 6
           - for (var i=0;i<table.length;i++)
             tr
               if i % 10 == 0
