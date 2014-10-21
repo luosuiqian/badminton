@@ -15,12 +15,13 @@ var conn = require('./db').getConnection;
 var Authority = require('./authority');
 
 exports.Activity = function (table, space, time,
-                             autL, autR, begin, end, pla, sNum) {
+                             autL, autR, begin, begin2, end, pla, sNum) {
   var tableNum = table;
   var maxSpace = space;
   var maxTime = time;
   var id = 0;
   var beginTime = begin;
+  var beginTime2 = begin2;
   var endTime = end;
   var autLeft = autL;
   var autRight = autR;
@@ -34,6 +35,7 @@ exports.Activity = function (table, space, time,
     while (endTime < now) {
       id = id + 1;
       beginTime.setTime(beginTime.getTime() + (7 * 24 * 60 * 60 * 1000));
+      beginTime2.setTime(beginTime2.getTime() + (7 * 24 * 60 * 60 * 1000));
       endTime.setTime(endTime.getTime() + (7 * 24 * 60 * 60 * 1000));
     }
     return (beginTime <= now && now <= endTime);
@@ -42,21 +44,25 @@ exports.Activity = function (table, space, time,
   ret.getTime = function () {
     var ans = new Object();
     ans.time = util.format(
-      '%d年%d月%d日 %d:00-%d:00',
+      '%d年%d月%d日 %d:%s-%d:%s',
       endTime.getFullYear(),
       endTime.getMonth() + 1,
       endTime.getDate(),
-      endTime.getHours() - 2,
-      endTime.getHours()
+      beginTime2.getHours(),
+      ("0" + beginTime2.getMinutes()).substr(-2),
+      endTime.getHours(),
+      ("0" + endTime.getMinutes()).substr(-2)
     );
     ans.appTime = util.format(
-      '%d月%d日 %d:00 至 %d月%d日 %d:00',
+      '%d月%d日 %d:%s 至 %d月%d日 %d:%s',
       beginTime.getMonth() + 1,
       beginTime.getDate(),
       beginTime.getHours(),
+      ("0" + beginTime.getMinutes()).substr(-2),
       endTime.getMonth() + 1,
       endTime.getDate(),
-      endTime.getHours()
+      endTime.getHours(),
+      ("0" + endTime.getMinutes()).substr(-2)
     );
     ans.place = place;
     ans.spaceNum = spaceNum;

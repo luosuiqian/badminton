@@ -47,20 +47,20 @@ var request = function (Activity) {
         Activity.del(req.session.user, function(err) {
           if (err) {
             req.flash('warning', err.toString());
-            return res.redirect('.');
+            return res.redirect('back');
           } else {
             req.flash('info', '取消报名成功');
-            return res.redirect('.');
+            return res.redirect('back');
           }
         });
       } else if (req.body.type == 'post') {
         Activity.save(req.body.timespace, req.session.user, function(err) {
           if (err) {
             req.flash('warning', err.toString());
-            return res.redirect('.');
+            return res.redirect('back');
           } else {
             req.flash('info', '报名成功');
-            return res.redirect('.');
+            return res.redirect('back');
           }
         });
       }
@@ -69,20 +69,20 @@ var request = function (Activity) {
   return ret;
 };
 
-exports.crowdThursday = function () {
-  return request(Global.getCrowdThursday());
+exports.crowd1 = function () {
+  return request(Global.getCrowd1());
 }
 
-exports.crowdFriday = function () {
-  return request(Global.getCrowdFriday());
+exports.crowd2 = function () {
+  return request(Global.getCrowd2());
 }
 
-exports.activityFriday = function () {
-  return request(Global.getActivityFriday());
+exports.crowd3 = function () {
+  return request(Global.getCrowd3());
 }
 
-exports.activitySaturday = function () {
-  return request(Global.getActivitySaturday());
+exports.official = function () {
+  return request(Global.getOfficial());
 }
 
 exports.activityGet = function(req, res) {

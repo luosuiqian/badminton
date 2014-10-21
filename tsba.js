@@ -53,29 +53,29 @@ app.post('/confirm', cUser.checkLogin);
 app.post('/confirm', cUser.confirmPost);
 */
 //===========================================================================//
+
+var crowd1 = cActivity.crowd1();
+app.get('/crowd1', crowd1.get);
+app.post('/crowd1', cUser.checkLogin);
+app.post('/crowd1', crowd1.post);
+
+var crowd2 = cActivity.crowd2();
+app.get('/crowd2', crowd2.get);
+app.post('/crowd2', cUser.checkLogin);
+app.post('/crowd2', crowd2.post);
+
+var crowd3 = cActivity.crowd3();
+app.get('/crowd3', crowd3.get);
+app.post('/crowd3', cUser.checkLogin);
+app.post('/crowd3', crowd3.post);
 /*
-var crowdThursday = cActivity.crowdThursday();
-app.get('/crowdThursday', crowdThursday.get);
-app.post('/crowdThursday', cUser.checkLogin);
-app.post('/crowdThursday', crowdThursday.post);
-
-var crowdFriday = cActivity.crowdFriday();
-app.get('/crowdFriday', crowdFriday.get);
-app.post('/crowdFriday', cUser.checkLogin);
-app.post('/crowdFriday', crowdFriday.post);
-
-var activityFriday = cActivity.activityFriday();
-app.get('/activityFriday', activityFriday.get);
-app.post('/activityFriday', cUser.checkLogin);
-app.post('/activityFriday', activityFriday.post);
-
-var activitySaturday = cActivity.activitySaturday();
-app.get('/activitySaturday', activitySaturday.get);
-app.post('/activitySaturday', cUser.checkLogin);
-app.post('/activitySaturday', activitySaturday.post);
-*/
+var official = cActivity.official();
+app.get('/official', official.get);
+app.post('/official', cUser.checkLogin);
+app.post('/official', official.post);
+/*
 app.get('/activity', cActivity.activityGet);
-
+//*/
 //===========================================================================//
 
 app.get('/team/:year/Apply', cTeam.applyGet);

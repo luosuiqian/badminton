@@ -46,35 +46,39 @@ exports.getTimeForApplication = function () {
 
 //===========================================================================//
 
-exports.getCrowdThursday = function () {
-  return Activity.Activity(1, 6, 6, 1, 1,
-    new Date(2014,3-1,11,13,0,0),
-    new Date(2014,3-1,13,15,0,0),
-    '清华综体', [1,2,3,4,5,6]
+exports.getCrowd1 = function () {
+  return Activity.Activity(11, 4, 6, 1, 4,
+    new Date(2014,10-1,21,13,0,0),
+    new Date(2014,10-1,23,11,30,0),
+    new Date(2014,10-1,23,13,0,0),
+    '清华综体', [1,2,3,4]
   );
 };
 
-exports.getCrowdFriday = function () {
-  return Activity.Activity(2, 3, 6, 1, 1,
-    new Date(2014,3-1,12,13,0,0),
-    new Date(2014,3-1,14,15,0,0),
-    '清华综体', [3,4,5]
+exports.getCrowd2 = function () {
+  return Activity.Activity(12, 4, 6, 1, 4,
+    new Date(2014,10-1,21,13,0,0),
+    new Date(2014,10-1,23,13,0,0),
+    new Date(2014,10-1,23,14,0,0),
+    '清华综体', [1,2,3,4]
   );
 };
 
-exports.getActivityFriday = function () {
-  return Activity.Activity(3, 3, 6, 2, 3,
-    new Date(2014,3-1,5,13,0,0),
-    new Date(2014,3-1,7,15,0,0),
-    '清华综体', [8,9,10]
+exports.getCrowd3 = function () {
+  return Activity.Activity(13, 4, 6, 1, 4,
+    new Date(2014,10-1,21,13,0,0),
+    new Date(2014,10-1,23,14,0,0),
+    new Date(2014,10-1,23,15,0,0),
+    '清华综体', [1,2,3,4]
   );
 };
 
-exports.getActivitySaturday = function () {
-  return Activity.Activity(4, 4, 6, 2, 3,
-    new Date(2014,3-1,6,13,0,0),
-    new Date(2014,3-1,8,22,0,0),
-    '清华西体', [5,6,7,8]
+exports.getOfficial = function () {
+  return Activity.Activity(14, 8, 6, 2, 4,
+    new Date(2014,10-1,23,13,0,0),
+    new Date(2014,10-1,25,20,0,0),
+    new Date(2014,10-1,25,22,0,0),
+    '清华综体', [1,2,3,4,5,6,7,8]
   );
 };
 
