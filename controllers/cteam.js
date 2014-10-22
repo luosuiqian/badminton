@@ -44,7 +44,7 @@ exports.applyDepGet = function (req, res) {
     }
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('..');
+      return res.redirect('.');
     }
     TeamApply.get(year, dep, function(err, results) {
       if (err) {
@@ -92,7 +92,7 @@ exports.applyDepIdGet = function (req, res) {
     }
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('..');
+      return res.redirect('.');
     }
     TeamApply.get(year, dep, function(err, results) {
       if (err) {
@@ -135,15 +135,15 @@ exports.applyDepIdPost = function (req, res) {
     }
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('..');
+      return res.redirect('.');
     }
     TeamApply.save(year, dep, id, req.body, function(err, results) {
       if (err) {
         req.flash('warning', '修改失败： ' + err.toString());
-        return res.redirect('..');
+        return res.redirect('.');
       } else {
         req.flash('info', '修改成功');
-        return res.redirect('..');
+        return res.redirect('.');
       }
     });
   });
