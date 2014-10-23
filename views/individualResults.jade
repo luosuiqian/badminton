@@ -24,7 +24,7 @@ block content
             | 混双
           | 比赛结果
     hr
-    table(class='table table-striped table-bordered table-hover')
+    table(class='table table-bordered')
       thead
         tr
           th 结果
@@ -39,9 +39,8 @@ block content
               if table[i][j].height > 0
                 td(rowspan=table[i][j].height)
                   br
-                  p #{table[i][j].content[0]}
-                  p #{table[i][j].content[1]}
-                  p #{table[i][j].content[2]}
+                  - for (var k=0;k<table[i][j].content.length;k++)
+                    p #{table[i][j].content[k]}
                   br
                   p #{table[i][j].detail}
     hr

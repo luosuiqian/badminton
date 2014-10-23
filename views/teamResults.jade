@@ -7,6 +7,46 @@ block content
     include includes/flash-messages
     mixin flash-messages(flash)
   
+  mixin showTable(title, teamId, table)
+    h3= title
+    table(class='table table-bordered')
+      thead
+        tr
+          - for (var i=0;i<table[0].length;i++)
+            if type <= 2
+              th= table[0][i]
+            else
+              th= table[0][i].content
+      tbody
+        - for (var i=1;i<table.length;i++)
+          tr
+            - for (var j=0;j<table[i].length;j++)
+              if type <= 2
+                td
+                  if j > 0 && j < table.length && i != j
+                    if i < j
+                      - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
+                    else
+                      - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
+                    a(href=link, target='_blank')= table[i][j]
+                  else
+                    = table[i][j]
+              else
+                if table[i][j].height > 0
+                  if j > 0
+                    td(rowspan=table[i][j].height)
+                      - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/'
+                      if j < table[i].length - 1
+                        - link += i + '/' + (i + table[i][j].height - 1)
+                      else if i == 1
+                        - link += '1/' + (table.length - 1)
+                      else
+                        - link += (table.length - 1) + '/1'
+                      a(href=link, target='_blank')= table[i][j].content
+                  else
+                    td(rowspan=table[i][j].height)= table[i][j].content
+    hr
+  
   div(class='container')
     hr
     div(class='panel panel-info')
@@ -25,46 +65,12 @@ block content
           if type == 5
             | 甲乙组总决赛
     hr
-    table(class='table table-striped table-bordered table-hover')
-      thead
-        tr
-          th 序号
-          th 组号/队伍数量
-          th 组内编号/区间
-          th 组内编号/区间
-          th 院系
-          th 院系
-          th 总分
-          th 总分
-          th 场次
-          th 比赛类型
-          th 选手
-          th 选手
-          th 选手
-          th 选手
-          th 得分
-          th 得分
-          th 详细
-      tbody
-        - for (var i=0;i<results.length;i++)
-          tr
-            td= i+1
-            td= results[i].teamId
-            td= results[i].leftP
-            td= results[i].rightP
-            td= results[i].dep12
-            td= results[i].dep34
-            td= results[i].total12
-            td= results[i].total34
-            td= results[i].matchId
-            td= results[i].matchType
-            td= results[i].id1
-            td= results[i].id2
-            td= results[i].id3
-            td= results[i].id4
-            td= results[i].score12
-            td= results[i].score34
-            td= results[i].detail
-    hr
+    - for (var i=0;i<tables.length;i++)
+      - title = '比赛结果'
+      - teamId = tables[i].length - 1
+      if tables.length > 1
+        - title = '第' + (i+1) + '组'
+        - teamId = i + 1
+      +showTable(title, teamId, tables[i])
   
   include includes/footer

@@ -87,11 +87,11 @@ app.get('/team/:year/Apply/:dep/:id', cUser.checkLogin);
 app.get('/team/:year/Apply/:dep/:id', cTeam.applyDepIdGet);
 app.post('/team/:year/Apply/:dep/:id', cUser.checkLogin);
 app.post('/team/:year/Apply/:dep/:id', cTeam.applyDepIdPost);
-/*
+//*
 app.get('/team/:year/list', cTeam.userListGet);
-
 app.get('/team/:year/Results/:type', cTeam.resultsGet);
-*/
+app.get('/team/:year/Details/:type/:teamId/:left/:right', cTeam.resultsGetDetails);
+//*/
 //===========================================================================//
 
 app.get('/individual/:year', cIndividual.individualGet);

@@ -71,43 +71,42 @@ div(class='navbar navbar-default', role='navigation')
               span(class="glyphicon glyphicon-flag")
               |  团体赛
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
-            //-
-              li
-                a(href="/team/2013/list")
-                  h4
-                    span(class="glyphicon glyphicon-info-sign")
-                    |  2013团体赛参赛选手名单
-              li
-                a(href="/team/2013/Results/1")
-                  h4
-                    span(class="glyphicon glyphicon-info-sign")
-                    |  2013团体赛甲组小组赛
-              li
-                a(href="/team/2013/Results/2")
-                  h4
-                    span(class="glyphicon glyphicon-info-sign")
-                    |  2013团体赛乙组小组赛
-              li
-                a(href="/team/2013/Results/3")
-                  h4
-                    span(class="glyphicon glyphicon-info-sign")
-                    |  2013团体赛甲组淘汰赛
-              li
-                a(href="/team/2013/Results/4")
-                  h4
-                    span(class="glyphicon glyphicon-info-sign")
-                    |  2013团体赛乙组淘汰赛
-              li
-                a(href="/team/2013/Results/5")
-                  h4
-                    span(class="glyphicon glyphicon-info-sign")
-                    |  2013团体赛甲乙组总决赛
-              li(class="divider")
             li
               a(href="/team/2014/Apply")
                 h4
                   span(class="glyphicon glyphicon-pencil")
                   |  2014团体赛报名
+            li(class="divider")
+            li
+              a(href="/team/2013/list")
+                h4
+                  span(class="glyphicon glyphicon-info-sign")
+                  |  2013团体赛参赛选手名单
+            li
+              a(href="/team/2013/Results/1")
+                h4
+                  span(class="glyphicon glyphicon-info-sign")
+                  |  2013团体赛甲组小组赛
+            li
+              a(href="/team/2013/Results/2")
+                h4
+                  span(class="glyphicon glyphicon-info-sign")
+                  |  2013团体赛乙组小组赛
+            li
+              a(href="/team/2013/Results/3")
+                h4
+                  span(class="glyphicon glyphicon-info-sign")
+                  |  2013团体赛甲组淘汰赛
+            li
+              a(href="/team/2013/Results/4")
+                h4
+                  span(class="glyphicon glyphicon-info-sign")
+                  |  2013团体赛乙组淘汰赛
+            li
+              a(href="/team/2013/Results/5")
+                h4
+                  span(class="glyphicon glyphicon-info-sign")
+                  |  2013团体赛甲乙组总决赛
         li(class=(name=='individual')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
@@ -198,12 +197,6 @@ div(class='navbar navbar-default', role='navigation')
                   h4
                     span(class="glyphicon glyphicon-edit")
                     |  修改资料
-            //-
-              li
-                a(href='/old/index.html',target='_blank')
-                  h4
-                    span(class="glyphicon glyphicon-new-window")
-                    |  旧版本
             li(class=(name=='list')?'active':'')
               a(href='/list')
                 h4

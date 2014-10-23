@@ -1,0 +1,77 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  mixin showType(t)
+    if t==1
+      | 男单
+    if t==2
+      | 女单
+    if t==3
+      | 男双
+    if t==4
+      | 女双
+    if t==5
+      | 混双
+  mixin getName(s)
+    if s == null
+      | （未知）
+    else
+      | #{s}
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 #{year}年清华大学羽毛球团体赛比赛结果
+      div(class='panel-body')
+        h5
+          if type == 1
+            | 甲组小组赛
+          if type == 2
+            | 乙组小组赛
+          if type == 3
+            | 甲组淘汰赛
+          if type == 4
+            | 乙组淘汰赛
+          if type == 5
+            | 甲乙组总决赛
+    hr
+    div(class='text-center')
+      h3= results[0].dep12 + ' ' + results[0].total12 + ':' + results[0].total34 + ' ' + results[0].dep34
+    table(class='table table-striped table-bordered table-hover')
+      thead
+        tr
+          th 场次
+          th 比赛类型
+          th= results[0].dep12
+          th 比分
+          th= results[0].dep34
+          th 详细
+      tbody
+        - for (var i=0;i<results.length;i++)
+          tr
+            td= results[i].matchId
+            td
+              +showType(results[i].matchType)
+            td
+              +getName(results[i].id1)
+              if results[i].matchType > 2
+                | /
+                +getName(results[i].id2)
+            td
+              +getName(' ' + results[i].score12 + ':' + results[i].score34 + ' ')
+            td
+              +getName(results[i].id3)
+              if results[i].matchType > 2
+                | /
+                +getName(results[i].id4)
+            td= results[i].detail
+    hr
+  
+  include includes/footer

@@ -49,7 +49,7 @@ var getPosition = function (total, leftP, rightP) {
 };
 
 exports.get = function (year, type, callback) {
-  conn().query('SELECT leftP, rightP, id1, id2, id3, id4, \
+  conn().query('SELECT totalP, leftP, rightP, id1, id2, id3, id4, \
                 score12, score34, detail FROM indMatch \
                 WHERE year = ? and type = ?',
                [year, type], function(err, indMatch) {
@@ -61,10 +61,7 @@ exports.get = function (year, type, callback) {
       if (err) {
         return callback(err, null);
       }
-      var total = 0;
-      for (var i = 0; i < indMatch.length; i++) {
-        if (total < indMatch[i].rightP) total = indMatch[i].rightP;
-      }
+      var total = indMatch[0].totalP;
       var name = new Array(total * 2 + 1);
       for (var i = 0; i < name.length; i++) {
         name[i] = '（空）';
@@ -77,10 +74,7 @@ exports.get = function (year, type, callback) {
       for (var i = 0; i < table.length; i++) {
         table[i] = new Array(pos.col + 1);
         for (var j = 0; j < table[i].length; j++) {
-          table[i][j] = {};
-          table[i][j].height = 0;
-          table[i][j].content = ['（空）','',''];
-          table[i][j].detail = '';
+          table[i][j] = {height:0, content:['（空）'], detail:''};
         }
       }
       for (var i = 1; i < table[0].length; i++) {

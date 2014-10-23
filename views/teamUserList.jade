@@ -20,16 +20,16 @@ block content
       thead
         tr
           th 序号
-          th 选手id
-          th 姓名
           th 院系
+          th 性别
+          th(colspan=6) 参赛选手
       tbody
-        - for (var i=0;i<results.length;i++)
+        - for (var i=0;i<table.length;i++)
           tr
-            td= i+1
-            td= results[i].id
-            td= results[i].name
-            td= results[i].dep
+            - for (var j=0;j<table[i].length;j++)
+              if table[i][j].height > 0
+                td(rowspan=table[i][j].height)
+                  p= table[i][j].content
     hr
   
   include includes/footer
