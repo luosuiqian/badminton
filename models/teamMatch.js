@@ -182,6 +182,9 @@ exports.getDetails = function (year, type, teamId, left, right, callback) {
     if (err) {
       return callback(err, null);
     }
+    if (results.length == 0) {
+      return callback('URL错误', null);
+    }
     callback(null, results);
   });
 };

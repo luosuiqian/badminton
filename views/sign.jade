@@ -18,7 +18,8 @@ block content
           th 院系
           th 已交费
           th 签到
-          th 操作
+          th 修改
+          th 签到
       tbody
         - sum = 0
         - num = 0
@@ -42,10 +43,13 @@ block content
             else
               td
                 | &nbsp;
+            - address = '/sign/' + table[i].studentid + '/' + table[i].prikey
             td
-              - address = '/sign/' + table[i].studentid + '/' + table[i].prikey
               a(role="button", href=address, class="btn btn-danger")
                 | 修改
+            td
+              a(role="button", href=address + '/signin', class="btn btn-primary")
+                | 签到
         tr
           td 共计
           td &nbsp;

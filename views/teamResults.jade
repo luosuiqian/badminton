@@ -28,7 +28,8 @@ block content
                       - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
                     else
                       - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
-                    a(href=link, target='_blank')= table[i][j]
+                    a(href=link, target='_blank')
+                      h4= table[i][j]
                   else
                     = table[i][j]
               else

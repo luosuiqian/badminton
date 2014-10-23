@@ -91,7 +91,7 @@ exports.signStuSigninGet = function(req, res) {
           req.flash('warning', err.toString());
           return res.redirect('/sign');
         }
-        return res.redirect('/sign/' + req.params.id + '/' + req.params.psw);
+        return res.redirect('/sign');
       });
     });
   });
