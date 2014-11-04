@@ -9,6 +9,7 @@ var cActivity = require('./controllers/cactivity');
 var cTeam = require('./controllers/cteam');
 var cSign = require('./controllers/csign');
 var cIndividual = require('./controllers/cindividual');
+var cStatistics = require('./controllers/cstatistics');
 
 var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
@@ -118,6 +119,10 @@ app.get('/sign/:id/:psw/signin', cSign.signStuSigninGet);
 
 app.get('/qrcode', cUser.checkLogin);
 app.get('/qrcode', cSign.qucodeGet);
+
+//===========================================================================//
+
+app.get('/statistics/:superId', cStatistics.get);
 
 //===========================================================================//
 

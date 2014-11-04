@@ -14,7 +14,7 @@ var Global = require('./global');
 var conn = require('./db').getConnection;
 
 exports.get = function (year, callback) {
-  conn().query('select teamUser.id, teamUser.name, department.name as dep \
+  conn().query('select teamUser.id, teamUser.name, superId, department.name as dep \
                 from teamUser, department where year = ? and dep = department.id',
                 [year], function(err, results) {
     var table = new Array(Global.maxDepartmentid * 2);
@@ -40,6 +40,7 @@ exports.get = function (year, callback) {
       }
       var col = results[i].id % 10 + 2;
       table[row][col].content = results[i].name;
+      table[row][col].superId = results[i].superId;
     }
     return callback(err, table);
   });

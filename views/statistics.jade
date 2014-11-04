@@ -1,0 +1,142 @@
+extends layout
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  mixin showType(t)
+    if t==1
+      | 男单
+    if t==2
+      | 女单
+    if t==3
+      | 男双
+    if t==4
+      | 女双
+    if t==5
+      | 混双
+  
+  mixin getName(s, id)
+    if s == null
+      | （未知）
+    else if id == null
+      | #{s}
+    else if superId != id
+      a(href='/statistics/' + id, target='_blank')= s
+    else
+      span(style='background-color:#66eeee')= s
+  
+  mixin getType(t, teamId, round)
+    if t == 1
+      | 甲组小组赛第#{teamId}组
+    if t == 2
+      | 乙组小组赛第#{teamId}组
+    if t == 3
+      | 甲组淘汰赛#{round}
+    if t == 4
+      | 乙组淘汰赛#{round}
+    if t == 5
+      | 甲乙组总决赛
+  
+  div(class='container')
+    hr
+    div(class='panel panel-info')
+      div(class='panel-heading')
+        h3 清华大学羽毛球比赛数据统计
+      div(class='panel-body')
+        h5 （如果信息有误，请发邮件到 tsinghuabadminton@gmail.com 简单说明一下情况，我们将人工修正。）
+    hr
+    if team.length == 0 && ind.length == 0
+      div(class='text-center')
+        h3 无数据
+      hr
+    if team.length > 0
+      div(class='text-center')
+        h3 团体赛
+      table(class='table table-striped table-bordered table-hover')
+        thead
+          tr
+            th 年份
+            th 类型
+            th 场次
+            th 项目
+            th 院系
+            th 选手
+            th 比分
+            th 选手
+            th 院系
+            th 详细
+        tbody
+          - for (var i=0;i<team.length;i++)
+            tr
+              td= team[i].year
+              td
+                +getType(team[i].type, team[i].teamId, team[i].round)
+              td
+                | 第#{team[i].matchId}场
+              td
+                +showType(team[i].matchType)
+              td= team[i].dep12
+              td
+                +getName(team[i].id1, team[i].superId1)
+                if team[i].matchType > 2
+                  | /
+                  +getName(team[i].id2, team[i].superId2)
+              td
+                +getName(' ' + team[i].score12 + ':' + team[i].score34 + ' ', null)
+              td
+                +getName(team[i].id3, team[i].superId3)
+                if team[i].matchType > 2
+                  | /
+                  +getName(team[i].id4, team[i].superId4)
+              td= team[i].dep34
+              td= team[i].detail
+      hr
+    if ind.length > 0
+      div(class='text-center')
+        h3 单项赛
+      table(class='table table-striped table-bordered table-hover')
+        thead
+          tr
+            th 年份
+            th 项目
+            th 院系
+            th 选手
+            th 比分
+            th 选手
+            th 院系
+            th 详细
+        tbody
+          - for (var i=0;i<ind.length;i++)
+            tr
+              td= ind[i].year
+              td
+                +showType(ind[i].type)
+                | #{ind[i].round}
+              td
+                | #{ind[i].dep1}
+                if ind[i].type > 2
+                  | /#{ind[i].dep2}
+              td
+                +getName(ind[i].id1, ind[i].superId1)
+                if ind[i].type > 2
+                  | /
+                  +getName(ind[i].id2, ind[i].superId2)
+              td
+                +getName(' ' + ind[i].score12 + ':' + ind[i].score34 + ' ', null)
+              td
+                +getName(ind[i].id3, ind[i].superId3)
+                if ind[i].type > 2
+                  | /
+                  +getName(ind[i].id4, ind[i].superId4)
+              td
+                | #{ind[i].dep3}
+                if ind[i].type > 2
+                  | /#{ind[i].dep4}
+              td= ind[i].detail
+      hr
+  
+  include includes/footer

@@ -197,7 +197,7 @@ exports.resultsGet = function (req, res) {
   });
 };
 
-exports.resultsGetDetails = function(req, res) {
+exports.resultsGetDetails = function (req, res) {
   var year = parseInt(req.params.year);
   if (year != 2013) {
     req.flash('warning', 'URL错误');

@@ -29,7 +29,11 @@ block content
             - for (var j=0;j<table[i].length;j++)
               if table[i][j].height > 0
                 td(rowspan=table[i][j].height)
-                  div= table[i][j].content
+                  if table[i][j].superId == null
+                    div= table[i][j].content
+                  else
+                    div
+                      a(href='/statistics/' + table[i][j].superId, target='_blank')= table[i][j].content
     hr
   
   include includes/footer

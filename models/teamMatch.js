@@ -169,6 +169,10 @@ exports.getDetails = function (year, type, teamId, left, right, callback) {
                 team2.name as id2,\
                 team3.name as id3,\
                 team4.name as id4,\
+                team1.superId as superId1,\
+                team2.superId as superId2,\
+                team3.superId as superId3,\
+                team4.superId as superId4,\
                 score12, score34, detail from teamMatch \
                 left join teamUser as team1 on id1 = team1.id and team1.year = ? \
                 left join teamUser as team2 on id2 = team2.id and team2.year = ? \

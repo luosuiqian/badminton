@@ -18,11 +18,16 @@ block content
       | 女双
     if t==5
       | 混双
-  mixin getName(s)
+  
+  mixin getName(s, id)
     if s == null
       | （未知）
-    else
+    else if id == null
       | #{s}
+    else if superId != id
+      a(href='/statistics/' + id, target='_blank')= s
+    else
+      span(style='background-color:#66eeee')= s
   
   div(class='container')
     hr
@@ -60,17 +65,17 @@ block content
             td
               +showType(results[i].matchType)
             td
-              +getName(results[i].id1)
+              +getName(results[i].id1, results[i].superId1)
               if results[i].matchType > 2
                 | /
-                +getName(results[i].id2)
+                +getName(results[i].id2, results[i].superId2)
             td
-              +getName(' ' + results[i].score12 + ':' + results[i].score34 + ' ')
+              +getName(' ' + results[i].score12 + ':' + results[i].score34 + ' ', null)
             td
-              +getName(results[i].id3)
+              +getName(results[i].id3, results[i].superId3)
               if results[i].matchType > 2
                 | /
-                +getName(results[i].id4)
+                +getName(results[i].id4, results[i].superId4)
             td= results[i].detail
     hr
   
