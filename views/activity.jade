@@ -9,9 +9,9 @@ block content
   
   mixin showName(person)
     if person == null
-      p (空)
+      div (空)
     else
-      p
+      div
         if person.renrenid == ''
           = person.name
         else

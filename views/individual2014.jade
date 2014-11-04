@@ -30,11 +30,11 @@ block content
             tr
               td #{i+1}
                 td
-                  p(style=(table[i].studentid == user?'background-color:#dddd44':''))
+                  div(style=(table[i].studentid == user?'background-color:#dddd44':''))
                     = table[i].nam1
                 if num == 2
                   td
-                    p(style=(table[i].studentid == user?'background-color:#dddd44':''))
+                    div(style=(table[i].studentid == user?'background-color:#dddd44':''))
                       = table[i].nam2
               if table[i].studentid == user
                 - flag = true

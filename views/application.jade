@@ -9,9 +9,9 @@ block content
   
   mixin showName(person)
     if person == null
-      p (空)
+      div (空)
     else
-      p(style=(person.chosen==0?'':(person.chosen==1?'background-color:#dddddd':'background-color:#dddd44')))
+      div(style=(person.chosen==0?'':(person.chosen==1?'background-color:#dddddd':'background-color:#dddd44')))
         if person.renrenid == ''
           = person.name
         else

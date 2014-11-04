@@ -29,7 +29,7 @@ block content
             - for (var j=0;j<table[i].length;j++)
               if table[i][j].height > 0
                 td(rowspan=table[i][j].height)
-                  p= table[i][j].content
+                  div= table[i][j].content
     hr
   
   include includes/footer

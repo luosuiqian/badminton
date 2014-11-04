@@ -34,7 +34,7 @@ block content
         - for (var i=1;i<table.length;i++)
           tr
             td
-              p #{table[i][0].content}
+              div= table[i][0].content
             - for (var j=1;j<table[i].length;j++)
               if table[i][j].height > 0
                 td(rowspan=table[i][j].height)
