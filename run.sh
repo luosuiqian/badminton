@@ -21,8 +21,20 @@ case "$1" in
         rm $PIDFILE
         echo "$NAME."
         ;;
+  restart)
+        echo "Stopping $NAME: "
+        pid=`cat $PIDFILE`
+        kill $pid
+        rm $PIDFILE
+        echo "$NAME."
+        rm info.log
+        echo "Starting $NAME: "
+        nohup $CMD >> info.log 2>&1 &
+        echo $! > $PIDFILE
+        echo "$NAME."
+        ;;
   *)
-        echo "Usage: ( start | status | stop )"
+        echo "Usage: ( start | status | stop | restart)"
         ;;
 esac
 

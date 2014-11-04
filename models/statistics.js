@@ -42,7 +42,7 @@ exports.getTeam = function (superId, callback) {
                 or teamMatch.year = teamUser.year and id2 = teamUser.id \
                 or teamMatch.year = teamUser.year and id3 = teamUser.id \
                 or teamMatch.year = teamUser.year and id4 = teamUser.id) \
-                order by year desc, type desc',
+                order by year desc, type desc, abs(rightP - leftP) desc',
                 [superId], function(err, teamMatch) {
     if (err) {
       return callback(err, null);
@@ -82,7 +82,7 @@ exports.getInd = function (superId, callback) {
                 or indMatch.year = indUser.year and indMatch.type = indUser.type and id2 = indUser.id \
                 or indMatch.year = indUser.year and indMatch.type = indUser.type and id3 = indUser.id \
                 or indMatch.year = indUser.year and indMatch.type = indUser.type and id4 = indUser.id) \
-                order by year desc, type asc',
+                order by year desc, type asc, abs(rightP - leftP) desc',
                 [superId], function(err, indMatch) {
     if (err) {
       return callback(err, null);
