@@ -7,6 +7,14 @@ block content
     include includes/flash-messages
     mixin flash-messages(flash)
   
+  mixin getName(s, id)
+    if s == null
+      | （空）
+    else if id == null
+      | #{s}
+    else
+      a(href='/statistics/' + id, target='_blank')= s
+  
   div(class='container')
     hr
     div(class='panel panel-info')
@@ -29,20 +37,36 @@ block content
         tr
           th 结果
           - for (var i=1;i<table[0].length;i++)
-            th #{table[0][i].content}
+            th= table[0][i].content
       tbody
         - for (var i=1;i<table.length;i++)
           tr
             td
-              div= table[i][0].content
+              div
+                +getName(table[i][0].id1, table[i][0].superId1)
+                if type >= 3
+                  | /
+                  +getName(table[i][0].id2, table[i][0].superId2)
             - for (var j=1;j<table[i].length;j++)
               if table[i][j].height > 0
                 td(rowspan=table[i][j].height)
-                  br
-                  - for (var k=0;k<table[i][j].content.length;k++)
-                    p #{table[i][j].content[k]}
-                  br
-                  p #{table[i][j].detail}
+                  if table[i][j].score == null
+                    | （空）
+                  else
+                    br
+                    p
+                      +getName(table[i][j].id1, table[i][j].superId1)
+                      if type >= 3
+                        | /
+                        +getName(table[i][j].id2, table[i][j].superId2)
+                    p= table[i][j].score
+                    p
+                      +getName(table[i][j].id3, table[i][j].superId3)
+                      if type >= 3
+                        | /
+                        +getName(table[i][j].id4, table[i][j].superId4)
+                    br
+                    p= table[i][j].detail
     hr
   
   include includes/footer
