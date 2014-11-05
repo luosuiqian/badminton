@@ -27,7 +27,7 @@ block content
     else if superId != id
       a(href='/statistics/' + id, target='_blank')= s
     else
-      span(style='background-color:#66eeee')= s
+      span(style='font-weight:bold')= s
   
   mixin getType(t, teamId, round)
     if t == 1

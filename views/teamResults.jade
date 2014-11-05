@@ -28,8 +28,11 @@ block content
                       - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
                     else
                       - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
-                    a(href=link, target='_blank')
-                      h4= table[i][j]
+                    if table[i][j] == null
+                      | &nbsp;
+                    else
+                      a(href=link, target='_blank')
+                        h4= table[i][j]
                   else
                     = table[i][j]
               else
@@ -43,7 +46,10 @@ block content
                         - link += '1/' + (table.length - 1)
                       else
                         - link += (table.length - 1) + '/1'
-                      a(href=link, target='_blank')= table[i][j].content
+                      if table[i][j].content == ''
+                        | &nbsp;
+                      else
+                        a(href=link, target='_blank')= table[i][j].content
                   else
                     td(rowspan=table[i][j].height)= table[i][j].content
     hr

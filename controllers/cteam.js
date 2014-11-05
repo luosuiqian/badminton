@@ -151,7 +151,7 @@ exports.applyDepIdPost = function (req, res) {
 
 exports.userListGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2013) {
+  if (year != 2013 && year != 2014) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
@@ -172,7 +172,7 @@ exports.userListGet = function (req, res) {
 
 exports.resultsGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2013) {
+  if (year != 2013 && year != 2014) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
@@ -199,7 +199,7 @@ exports.resultsGet = function (req, res) {
 
 exports.resultsGetDetails = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2013) {
+  if (year != 2013 && year != 2014) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
