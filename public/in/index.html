@@ -1,0 +1,665 @@
+﻿<!DOCTYPE HTML>
+<html>
+  <head>
+    <style type="text/css">
+      .user1 {border:2px solid #0000aa;padding:5px;}
+      .user2 {border:2px solid #aa0000;padding:5px;}
+      p {margin:2px;}
+    </style>
+  </head>
+  <body>
+    <div id='table1'></div>
+    <hr />
+    <div id='table2'></div>
+    <hr />
+    <div id='table3'></div>
+    <hr />
+    <div id='table4'></div>
+    <hr />
+    <div id='table5'></div>
+    <hr />
+    
+    <select id="dep12" name="dep12" onchange="depChange(1)">
+      <option value="">-- 请选择院系 --</option>
+      <option value="1">电子工程系</option>
+      <option value="2">计算机科学与技术</option>
+      <option value="3">电机系</option>
+      <option value="4">土木建管系</option>
+      <option value="5">工程物理系</option>
+      <option value="6">化工系</option>
+      <option value="7">自动化系</option>
+      <option value="8">机械系</option>
+      <option value="9">建筑学院</option>
+      <option value="10">经济管理学院</option>
+      <option value="11">生命科学学院</option>
+      <option value="12">航天航空学院</option>
+      <option value="13">美术学院</option>
+      <option value="14">材料学院</option>
+      <option value="15">水利系</option>
+      <option value="16">环境学院</option>
+      <option value="17">热能工程系</option>
+      <option value="18">汽车系</option>
+      <option value="19">教育研究院</option>
+      <option value="20">物理系</option>
+      <option value="21">人文学院</option>
+      <option value="22">新闻与传播学院</option>
+      <option value="23">软件学院</option>
+      <option value="24">数学科学系</option>
+      <option value="25">化学系</option>
+      <option value="26">法学院</option>
+      <option value="27">医学院</option>
+      <option value="28">核能与新能源技术研究院</option>
+      <option value="29">公共管理学院</option>
+      <option value="30">微纳电子系</option>
+      <option value="31">协和医学院</option>
+      <option value="32">交叉信息研究院</option>
+      <option value="33">精密仪器系</option>
+      <option value="34">五道口金融学院</option>
+      <option value="35">社科学院</option>
+      <option value="36">工业工程</option>
+    </select>
+    <select id="dep34" name="dep34" onchange="depChange(2)">
+      <option value="">-- 请选择院系 --</option>
+      <option value="1">电子工程系</option>
+      <option value="2">计算机科学与技术</option>
+      <option value="3">电机系</option>
+      <option value="4">土木建管系</option>
+      <option value="5">工程物理系</option>
+      <option value="6">化工系</option>
+      <option value="7">自动化系</option>
+      <option value="8">机械系</option>
+      <option value="9">建筑学院</option>
+      <option value="10">经济管理学院</option>
+      <option value="11">生命科学学院</option>
+      <option value="12">航天航空学院</option>
+      <option value="13">美术学院</option>
+      <option value="14">材料学院</option>
+      <option value="15">水利系</option>
+      <option value="16">环境学院</option>
+      <option value="17">热能工程系</option>
+      <option value="18">汽车系</option>
+      <option value="19">教育研究院</option>
+      <option value="20">物理系</option>
+      <option value="21">人文学院</option>
+      <option value="22">新闻与传播学院</option>
+      <option value="23">软件学院</option>
+      <option value="24">数学科学系</option>
+      <option value="25">化学系</option>
+      <option value="26">法学院</option>
+      <option value="27">医学院</option>
+      <option value="28">核能与新能源技术研究院</option>
+      <option value="29">公共管理学院</option>
+      <option value="30">微纳电子系</option>
+      <option value="31">协和医学院</option>
+      <option value="32">交叉信息研究院</option>
+      <option value="33">精密仪器系</option>
+      <option value="34">五道口金融学院</option>
+      <option value="35">社科学院</option>
+      <option value="36">工业工程</option>
+    </select>
+    <hr />
+    
+    <table border='1px'>
+      <thead>
+        <tr>
+          <th>男</th>
+          <th>女</th>
+          <th width='100'></th>
+          <th>男</th>
+          <th>女</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div id="Le11" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left11" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Le21" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left21" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td></td>
+          <td><div id="Ri11" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right11" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Ri21" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right21" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+        </tr>
+        <tr>
+          <td><div id="Le12" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left12" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Le22" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left22" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td></td>
+          <td><div id="Ri12" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right12" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Ri22" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right22" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+        </tr>
+        <tr>
+          <td><div id="Le13" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left13" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Le23" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left23" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td></td>
+          <td><div id="Ri13" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right13" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Ri23" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right23" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+        </tr>
+        <tr>
+          <td><div id="Le14" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left14" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Le24" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left24" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td></td>
+          <td><div id="Ri14" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right14" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Ri24" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right24" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+        </tr>
+        <tr>
+          <td><div id="Le15" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left15" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Le25" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left25" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td></td>
+          <td><div id="Ri15" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right15" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Ri25" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right25" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+        </tr>
+        <tr>
+          <td><div id="Le16" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left16" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Le26" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left26" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td></td>
+          <td><div id="Ri16" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right16" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+          <td><div id="Ri26" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right26" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    
+    <hr />
+    <table border='1px'>
+      <thead>
+        <tr>
+          <th>场次</th>
+          <th>项目</th>
+          <th>男1</th>
+          <th>男2</th>
+          <th>女1</th>
+          <th>女2</th>
+          <th>得分</th>
+          <th>得分</th>
+          <th>男1</th>
+          <th>男2</th>
+          <th>女1</th>
+          <th>女2</th>
+          <th>详细</th>
+          <th>上调</th>
+          <th>下调</th>
+          <th>有效</th>
+        </tr>
+      </thead>
+      <tbody id='result'>
+        <tr>
+          <td>1</td>
+          <td>混双</td>
+          <td><div id="L51" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td><div id="L52" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td><input type='text' id='L5' size='1' value='0' /></td>
+          <td><input type='text' id='R5' size='1' value='0' /></td>
+          <td><div id="R51" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td><div id="R52" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td><input type='text' id='X5' /></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>男单</td>
+          <td><div id="L11" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><input type='text' id='L1' size='1' value='0' /></td>
+          <td><input type='text' id='R1' size='1' value='0' /></td>
+          <td><div id="R11" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><input type='text' id='X1' /></td>
+          <td></td>
+          <td><button onclick="swap(2,3)">↓</button></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>女单</td>
+          <td></td>
+          <td></td>
+          <td><div id="L21" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td><input type='text' id='L2' size='1' value='0' /></td>
+          <td><input type='text' id='R2' size='1' value='0' /></td>
+          <td></td>
+          <td></td>
+          <td><div id="R21" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td><input type='text' id='X2' /></td>
+          <td><button onclick="swap(2,3)">↑</button></td>
+          <td><button onclick="swap(3,4)">↓</button></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>男双</td>
+          <td><div id="L31" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td><div id="L32" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td></td>
+          <td><input type='text' id='L3' size='1' value='0' /></td>
+          <td><input type='text' id='R3' size='1' value='0' /></td>
+          <td><div id="R31" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td><div id="R32" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td></td>
+          <td></td>
+          <td><input type='text' id='X3' /></td>
+          <td><button onclick="swap(3,4)">↑</button></td>
+          <td><button onclick="swap(4,5)">↓</button></td>
+          <td><input id='check4' type="checkbox" checked onclick='if(!document.getElementById("check4").checked) document.getElementById("check5").checked = false;' /></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>女双</td>
+          <td></td>
+          <td></td>
+          <td><div id="L41" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td><div id="L42" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td><input type='text' id='L4' size='1' value='0' /></td>
+          <td><input type='text' id='R4' size='1' value='0' /></td>
+          <td></td>
+          <td></td>
+          <td><div id="R41" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td><div id="R42" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"></div></td>
+          <td><input type='text' id='X4' /></td>
+          <td><button onclick="swap(4,5)">↑</button></td>
+          <td></td>
+          <td><input id='check5' type="checkbox" checked onclick='if(document.getElementById("check5").checked) document.getElementById("check4").checked = true;'/></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    
+    <button onclick="output()">输出</button>
+    
+    <hr />
+    <p>复制粘贴到 data.js</p>
+    <div id='out1'></div>
+    <hr />
+    <p>复制粘贴到 data.txt</p>
+    <div id='out2'></div>
+    <hr />
+    
+    <script type='text/javascript' src='data.js'></script>
+    <script type='text/javascript'>
+      
+      var year = 2014;
+      
+      var depChange = function (t) {
+        var dep, str;
+        if (t == 1) {
+          dep = document.getElementById('dep12').value;
+          str = 'Left';
+        }
+        if (t == 2) {
+          dep = document.getElementById('dep34').value;
+          str = 'Right';
+        }
+        for (var i = 1; i <= 6; i++) {
+          var pHtml = document.getElementById(str + '1' + i);
+          pHtml.innerHTML = '（空）';
+          pHtml = document.getElementById(str + '2' + i);
+          pHtml.innerHTML = '（空）';
+        }
+        if (dep > 0) {
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].dep == dep) {
+              var id = users[i].id % 100;
+              var pHtml = document.getElementById(str + id);
+              pHtml.innerHTML = users[i].name;
+            }
+          }
+        }
+        return;
+      };
+      
+      var allowDrop = function (ev) {
+        ev.preventDefault();
+      };
+      
+      var drapId;
+      function drag(ev) {
+        ev.dataTransfer.setData("Text", ev.target.id);
+        drapId = ev.target.id;
+      };
+      
+      var drop = function (ev) {
+        ev.preventDefault();
+        if (ev.target.firstChild) {
+          return;
+        }
+        var targetId = ev.target.id;
+        if (!drapId || !targetId) return;
+        var lr = drapId.substring(0, 1);
+        var mf = drapId.slice(-2).substring(0, 1);
+        var tLr = targetId.substring(0, 1);
+        var tMf = '0';
+        if (targetId.length == 4) {
+          tMf = targetId.substring(2, 3);
+        } else if (targetId.substring) {
+          var s = targetId.substring(1, 3);
+          if (s == '51' || s == '11' || s == '31' || s == '32') {
+            tMf = '1';
+          }
+          if (s == '52' || s == '21' || s == '41' || s == '42') {
+            tMf = '2';
+          }
+        }
+        if (lr != tLr || mf != tMf) return;
+        var data = ev.dataTransfer.getData("Text");
+        ev.target.appendChild(document.getElementById(data));
+      };
+      
+      var swapElements = function (obj1, obj2) {
+        // create marker element and insert it where obj1 is
+        var temp = document.createElement("div");
+        obj1.parentNode.insertBefore(temp, obj1);
+
+        // move obj1 to right before obj2
+        obj2.parentNode.insertBefore(obj1, obj2);
+
+        // move obj2 to right before where obj1 used to be
+        temp.parentNode.insertBefore(obj2, temp);
+
+        // remove temporary marker node
+        temp.parentNode.removeChild(temp);
+      };
+      
+      var swap = function (x, y) {
+        var tbodyHtml = document.getElementById('result');
+        var a = tbodyHtml.childNodes[x*2-1];
+        var b = tbodyHtml.childNodes[y*2-1];
+        for (var i = 1; i <= 12; i++) {
+          var tmpa = a.childNodes[i*2+1];
+          var tmpb = b.childNodes[i*2+1];
+          swapElements(a.childNodes[i*2+1], b.childNodes[i*2+1]);
+        }
+      };
+      
+      String.prototype.format = function() {
+        var formatted = this;
+        for( var arg in arguments ) {
+            formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+        }
+        return formatted;
+      };
+      
+      var output = function () {
+        var radios = document.getElementsByName('round');
+        var roundValue = '';
+        for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+            roundValue = radios[i].value;
+          }
+        }
+        var tbodyHtml = document.getElementById('result');
+        var total12 = 0, total34 = 0;
+        for (var i = 1; i <= 5; i++) {
+          if (i > 3) {
+            var checkboxHtml = document.getElementById('check' + i);
+            if (!checkboxHtml.checked) break;
+          }
+          var trHtml = tbodyHtml.childNodes[i*2-1];
+          var type = 0;
+          if (trHtml.childNodes[3].innerHTML == '男单') type = 1;
+          if (trHtml.childNodes[3].innerHTML == '女单') type = 2;
+          if (trHtml.childNodes[3].innerHTML == '男双') type = 3;
+          if (trHtml.childNodes[3].innerHTML == '女双') type = 4;
+          if (trHtml.childNodes[3].innerHTML == '混双') type = 5;
+          var score12 = document.getElementById('L' + type).value;
+          var score34 = document.getElementById('R' + type).value;
+          if (score12 > score34) total12++;
+          if (score12 < score34) total34++;
+        }
+        var dep12 = document.getElementById('dep12').value;
+        var dep34 = document.getElementById('dep34').value;
+        var ids = roundValue.split(',');
+        
+        var div1 = document.getElementById('out1');
+        div1.innerHTML = "{ type: {0}, teamId: {1}, leftP: {2}, rightP: {3}, dep12: {4}, dep34: {5}, total12: {6}, total34: {7} },".format(
+                          ids[0], ids[1], ids[2], ids[3], dep12, dep34, total12, total34);
+        
+        var out2 = '';
+        for (var i = 1; i <= 5; i++) {
+          if (i > 3) {
+            var checkboxHtml = document.getElementById('check' + i);
+            if (!checkboxHtml.checked) break;
+          }
+          var trHtml = tbodyHtml.childNodes[i*2-1];
+          var type = 0;
+          if (trHtml.childNodes[3].innerHTML == '男单') type = 1;
+          if (trHtml.childNodes[3].innerHTML == '女单') type = 2;
+          if (trHtml.childNodes[3].innerHTML == '男双') type = 3;
+          if (trHtml.childNodes[3].innerHTML == '女双') type = 4;
+          if (trHtml.childNodes[3].innerHTML == '混双') type = 5;
+          var id1 = 0, id2 = 0, id3 = 0, id4 = 0;
+          var id1Html = document.getElementById('L' + type + '1');
+          if (id1Html.firstChild) {
+            id1 = dep12 + id1Html.firstChild.id.slice(-2);
+          }
+          if (type >= 3) {
+            var id2Html = document.getElementById('L' + type + '2');
+            if (id2Html.firstChild) {
+              id2 = dep12 + id2Html.firstChild.id.slice(-2);
+            }
+          }
+          var id3Html = document.getElementById('R' + type + '1');
+          if (id3Html.firstChild) {
+            id3 = dep34 + id3Html.firstChild.id.slice(-2);
+          }
+          if (type >= 3) {
+            var id4Html = document.getElementById('R' + type + '2');
+            if (id4Html.firstChild) {
+              id4 = dep34 + id4Html.firstChild.id.slice(-2);
+            }
+          }
+          var score12 = document.getElementById('L' + type).value;
+          var score34 = document.getElementById('R' + type).value;
+          var detail = document.getElementById('X' + type).value;
+          
+          out2 += '(' + year + ',' + roundValue + ',' + dep12 + ',' + dep34 + ',' + total12 + ',' + total34 +
+                  ',' + i + ',' + type + ',' + id1 + ',' + id2 + ',' + id3 + ',' + id4 +
+                  ',' + score12 + ',' + score34 + ',"' + detail + '"),' + '<br />';
+        }
+        var div2 = document.getElementById('out2');
+        div2.innerHTML = out2;
+        return;
+      }
+      
+      var getPosition = function (total, leftP, rightP) {
+        var dis = rightP - leftP + 1;
+        if (leftP > rightP) {
+          dis = leftP - rightP + 1;
+        }
+        var col = 0;
+        while (dis > 1) {
+          dis = parseInt(dis / 2);
+          col += 1;
+        }
+        var row = leftP;
+        if (leftP > rightP) {
+          row = parseInt((leftP + rightP) / 2 + 1);
+        }
+        return {'row':row, 'col':col};
+      };
+      
+      var getTables = function(outline, results, type) {
+        if (type <= 2) {
+          var teamNum = 0;
+          for (var i = 0; i < outline.length; i++) {
+            if (outline[i].type != type) continue;
+            if (outline[i].teamId > teamNum) {
+              teamNum = outline[i].teamId;
+            }
+          }
+          var tables = new Array(teamNum);
+          var depName = {};
+          for (var i = 0; i < outline.length; i++) {
+            if (outline[i].type != type) continue;
+            var id = outline[i].teamId - 1;
+            if (tables[id] == null) {
+              tables[id] = new Array(outline[i].total + 1);
+              for (var j = 0; j < tables[id].length; j++) {
+                tables[id][j] = new Array(outline[i].total + 2);
+              }
+              tables[id][0][0] = '比分';
+              tables[id][0][outline[i].total + 1] = '排名';
+              for (var j = 1; j <= outline[i].total; j++) {
+                tables[id][j][j] = '-';
+              }
+            }
+            tables[id][outline[i].num][outline[i].total + 1] = outline[i].rank;
+            tables[id][outline[i].num][0] = outline[i].name;
+            tables[id][0][outline[i].num] = outline[i].name;
+            depName[outline[i].dep] = outline[i].name;
+          }
+          for (var i = 0; i < results.length; i++) {
+            if (results[i].type != type) continue;
+            var id = results[i].teamId - 1;
+            if (tables[id][results[i].leftP][0] != depName[results[i].dep12]) {
+              return [['data error!']];
+            }
+            if (tables[id][results[i].rightP][0] != depName[results[i].dep34]) {
+              return [['data error!']];
+            }
+            tables[id][results[i].leftP][results[i].rightP] = results[i].total12 + ':' + results[i].total34;
+            tables[id][results[i].rightP][results[i].leftP] = results[i].total34 + ':' + results[i].total12;
+          }
+          return tables;
+        } else {
+          for (var i = 0; i < outline.length; i++) {
+            if (outline[i].type != type) continue;
+            var total = outline[i].total;
+          }
+          var pos = getPosition(total, 1, total);
+          var table = new Array(total + 1);
+          for (var i = 0; i < table.length; i++) {
+            table[i] = new Array(pos.col + 1);
+            for (var j = 0; j < table[i].length; j++) {
+              table[i][j] = {height:0, content:''};
+            }
+          }
+          table[0][0] = {height:1, content:'比分'};
+          for (var i = 1; i < table[0].length; i++) {
+            table[0][i].height = 1;
+            if (i == table[0].length - 1) {
+              if (table[0].length == 2) {
+                table[0][i].content = '决赛';
+              } else {
+                table[0][i].content = '决赛/三四名';
+              }
+            } else if (i == table[0].length - 2) {
+              table[0][i].content = '半决赛';
+            } else {
+              table[0][i].content = '第' + i + '轮';
+            }
+          }
+          var depName = {};
+          for (var i = 0; i < outline.length; i++) {
+            if (outline[i].type != type) continue;
+            table[outline[i].num][0].height = 1;
+            table[outline[i].num][0].content = outline[i].name;
+            depName[outline[i].dep] = outline[i].name;
+          }
+          var height = 1;
+          for (var c = 1; c < table[0].length; c++) {
+            if (c != table[0].length - 1 || table[0].length == 2) {
+              height = height * 2;
+            }
+            for (var i = 1; i < table.length; i += height) {
+              table[i][c].height = height;
+            }
+          }
+          for (var i = 0; i < results.length; i++) {
+            if (results[i].type != type) continue;
+            var pos = getPosition(total, results[i].leftP, results[i].rightP);
+            var str = depName[results[i].dep12] + ' ' +
+                                results[i].total12 + ':' +
+                                results[i].total34 + ' ' +
+                                depName[results[i].dep34];
+            table[pos.row][pos.col].content = str;
+          }
+          return [table];
+        }
+      };
+      
+      window.onload = function() {        
+        for (var type = 1; type <= 5; type++) {
+          var tables = getTables(outline, results, type);
+          var divHtml = document.getElementById('table' + type);
+          for (var k = 0; k < tables.length; k++) {
+            var tableHtml = document.createElement('table');
+            divHtml.appendChild(tableHtml);
+            tableHtml.border = '1px';
+            
+            var theadHtml = document.createElement('thead');
+            tableHtml.appendChild(theadHtml);
+            var trHtml = document.createElement('tr');
+            theadHtml.appendChild(trHtml);
+            var table = tables[k];
+            for (var i = 0; i < table[0].length; i++) {
+              var thHtml = document.createElement('th');
+              trHtml.appendChild(thHtml);
+              if (type <= 2) {
+                thHtml.innerHTML = table[0][i];
+              } else {
+                thHtml.innerHTML = table[0][i].content;
+              }
+            }
+            
+            var tbodyHtml = document.createElement('tbody');
+            tableHtml.appendChild(tbodyHtml);
+            for (var i = 1; i < table.length; i++) {
+              var trHtml = document.createElement('tr');
+              tbodyHtml.appendChild(trHtml);
+              for (var j = 0; j < table[i].length; j++) {
+                if (type <= 2) {
+                  var tdHtml = document.createElement('td');
+                  trHtml.appendChild(tdHtml);
+                  if (i < j && j < table.length) {
+                    var inputHtml = document.createElement('input');
+                    tdHtml.appendChild(inputHtml);
+                    inputHtml.type = 'radio';
+                    inputHtml.name = 'round';
+                    inputHtml.value = type + ',' + (k + 1) + ',' + i + ',' + j;
+                  }
+                  if (table[i][j]) {
+                    var txtHtml = document.createTextNode(table[i][j]);
+                    tdHtml.appendChild(txtHtml);
+                  }
+                } else if (table[i][j].height > 0) {
+                  var tdHtml = document.createElement('td');
+                  trHtml.appendChild(tdHtml);
+                  tdHtml.rowSpan = table[i][j].height;
+                  if (j > 0) {
+                    var inputHtml = document.createElement('input');
+                    tdHtml.appendChild(inputHtml);
+                    inputHtml.type = 'radio';
+                    inputHtml.name = 'round';
+                    inputHtml.value = type + ',' + (table.length - 1) + ',';
+                    if (j < table[i].length - 1) {
+                      inputHtml.value += i + ',' + (i + table[i][j].height - 1);
+                    } else if (i == 1) {
+                      inputHtml.value += '1,' + (table.length - 1);
+                    } else {
+                      inputHtml.value += (table.length - 1) + ',1';
+                    }
+                  }
+                  var txtHtml = document.createTextNode(table[i][j].content);
+                  tdHtml.appendChild(txtHtml);
+                }
+              }
+            }
+            
+            var brHtml = document.createElement('br');
+            divHtml.appendChild(brHtml);
+          }
+        }
+        return;
+      };
+    </script>
+  </body>
+</html>
