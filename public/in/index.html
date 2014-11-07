@@ -1,13 +1,18 @@
-﻿<!DOCTYPE HTML>
+﻿<!DOCTYPE html>
 <html>
   <head>
+    <title>团体赛成绩录入</title>
+    <meta charset="UTF-8" />
     <style type="text/css">
       .user1 {border:2px solid #0000aa;padding:5px;}
       .user2 {border:2px solid #aa0000;padding:5px;}
       p {margin:2px;}
+      table, th, td {border:1px solid black;}
     </style>
   </head>
   <body>
+    <p>请选择比赛场次</p>
+    <hr />
     <div id='table1'></div>
     <hr />
     <div id='table2'></div>
@@ -18,7 +23,7 @@
     <hr />
     <div id='table5'></div>
     <hr />
-    
+    <p>注：如果是小组赛，先选择行的队伍，再选择列的队伍；如果是淘汰赛，先选择上方的队伍，再选择下方的队伍。</p>
     <select id="dep12" name="dep12" onchange="depChange(1)">
       <option value="">-- 请选择院系 --</option>
       <option value="1">电子工程系</option>
@@ -58,6 +63,7 @@
       <option value="35">社科学院</option>
       <option value="36">工业工程</option>
     </select>
+    <span>=================</span>
     <select id="dep34" name="dep34" onchange="depChange(2)">
       <option value="">-- 请选择院系 --</option>
       <option value="1">电子工程系</option>
@@ -99,12 +105,12 @@
     </select>
     <hr />
     
-    <table border='1px'>
+    <table>
       <thead>
         <tr>
           <th>男</th>
           <th>女</th>
-          <th width='100'></th>
+          <th>分割线</th>
           <th>男</th>
           <th>女</th>
         </tr>
@@ -127,14 +133,14 @@
         <tr>
           <td><div id="Le13" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left13" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
           <td><div id="Le23" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left23" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
-          <td></td>
+          <td>=======================</td>
           <td><div id="Ri13" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right13" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
           <td><div id="Ri23" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right23" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
         </tr>
         <tr>
           <td><div id="Le14" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left14" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
           <td><div id="Le24" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Left24" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
-          <td></td>
+          <td>=======================</td>
           <td><div id="Ri14" class='user1' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right14" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
           <td><div id="Ri24" class='user2' ondrop="drop(event)" ondragover="allowDrop(event)"><p id="Right24" draggable="true" ondragstart="drag(event)">（空）</p></div></td>
         </tr>
@@ -157,7 +163,7 @@
     
     
     <hr />
-    <table border='1px'>
+    <table>
       <thead>
         <tr>
           <th>场次</th>
@@ -271,6 +277,7 @@
         </tr>
       </tbody>
     </table>
+    <p>注：如果选手没有出现在名单里，请留空，不要将"（空）"拖入结果中。详细中的"-"和","请用半角。</p>
     <hr />
     
     <button onclick="output()">输出</button>
@@ -593,7 +600,6 @@
           for (var k = 0; k < tables.length; k++) {
             var tableHtml = document.createElement('table');
             divHtml.appendChild(tableHtml);
-            tableHtml.border = '1px';
             
             var theadHtml = document.createElement('thead');
             tableHtml.appendChild(theadHtml);
