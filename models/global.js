@@ -111,7 +111,7 @@ exports.getTimeForIndApply = function (year) {
 //===========================================================================//
 
 var team2014BeginTime = new Date(2014, 11-1, 17, 13, 0, 0);
-var team2014EndTime = new Date(2014, 11-1, 23, 16, 0, 0);
+var team2014EndTime = new Date(2014, 11-1, 30, 22, 0, 0);
 
 exports.checkTimeForTeamApply = function (year) {
   var now = new Date();
