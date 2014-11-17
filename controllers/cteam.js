@@ -3,6 +3,7 @@ var TeamAuth = require('../models/teamAuth');
 var TeamApply = require('../models/teamApply');
 var TeamUser = require('../models/teamUser');
 var TeamMatch = require('../models/teamMatch');
+var Authority = require('../models/authority');
 
 exports.applyGet = function (req, res) {
   var year = parseInt(req.params.year);
@@ -223,6 +224,47 @@ exports.resultsGetDetails = function (req, res) {
       year: year,
       type: type,
       results: results,
+    });
+  });
+};
+
+exports.adminListGet = function (req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2014) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  Authority.getAuthority(req.session.user, 3, function(err, authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    TeamUser.getAll(year, 1, function(err, list1) {
+      if (err) {
+        req.flash('warning', err.toString());
+        return res.redirect('/');
+      }
+      TeamUser.getAll(year, 2, function(err, list2) {
+        if (err) {
+          req.flash('warning', err.toString());
+          return res.redirect('/');
+        }
+        TeamUser.getAll(year, 3, function(err, list3) {
+          if (err) {
+            req.flash('warning', err.toString());
+            return res.redirect('/');
+          }
+          res.render('list.jade', {
+            name: 'team',
+            user: req.session.user,
+            flash: req.flash(),
+            type: 'teamUser',
+            list1: list1,
+            list2: list2,
+            list3: list3,
+          });
+        });
+      });
     });
   });
 };

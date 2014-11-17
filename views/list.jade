@@ -39,28 +39,46 @@ block content
         - for (var i=0;i<=(table.length-1)/50;i++)
           tr
             td= '[' + (i*50+1) + ',' + ((i+1)*50<table.length?(i+1)*50:table.length) + ']'
-            - str = table[i*50].email
-            - for (var j=i*50+1;j<(i+1)*50 && j<table.length;j++)
-              - str = str + '; ' + table[j].email
+            - str = ''
+            - for (var j=i*50;j<(i+1)*50 && j<table.length;j++)
+              if table[j].email != null
+                if str != ''
+                  - str = str + '; '
+                - str = str + table[j].email
             td= str
   
   div(class='container')
-    hr
-    h3 仅注册
-    +showTable(list0)
-    +showEmail(list0)
-    hr
-    h3 群众体育
-    +showTable(list1)
-    +showEmail(list1)
-    hr
-    h3 正式会员
-    +showTable(list2)
-    +showEmail(list2)
-    hr
-    h3 内阁
-    +showTable(list3)
-    +showEmail(list3)
-    hr
+    if type == 'teamUser'
+      hr
+      h3 队长
+      +showTable(list1)
+      +showEmail(list1)
+      hr
+      h3 裁判
+      +showTable(list2)
+      +showEmail(list2)
+      hr
+      h3 参赛选手
+      +showTable(list3)
+      +showEmail(list3)
+      hr
+    else
+      hr
+      h3 仅注册
+      +showTable(list0)
+      +showEmail(list0)
+      hr
+      h3 群众体育
+      +showTable(list1)
+      +showEmail(list1)
+      hr
+      h3 正式会员
+      +showTable(list2)
+      +showEmail(list2)
+      hr
+      h3 内阁
+      +showTable(list3)
+      +showEmail(list3)
+      hr
   
   include includes/footer

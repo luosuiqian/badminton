@@ -46,3 +46,36 @@ exports.get = function (year, callback) {
   });
 };
 
+exports.getAll = function (year, type, callback) {
+  var query;
+  if (type == 1) {
+    query = "select teamAuth.stu as studentid, teamAuth.name, \
+            CASE WHEN sex = 'm' THEN '男' WHEN sex = 'f' THEN '女' ELSE '未知' END AS sex,\
+            department.name as department, user.email, user.phone \
+            from teamAuth \
+            left join department on teamAuth.dep = department.id \
+            left join user on teamAuth.stu = user.studentid \
+            where teamAuth.year = ? and teamAuth.type = 0 \
+            order by teamAuth.dep";
+  } else if (type == 2) {
+    query = "select stu as studentid, nam as name, '未知' AS sex,\
+            department.name as department, ema as email, pho as phone \
+            from teamApply, department where teamApply.year = ? \
+            and teamApply.id = 31 and teamApply.dep = department.id \
+            order by teamApply.dep";
+  } else if (type == 3) {
+    query = "select stu as studentid, nam as name, \
+            CASE WHEN teamApply.id <= 20 THEN '男' ELSE '女' END AS sex,\
+            department.name as department, ema as email, pho as phone \
+            from teamApply, department where teamApply.year = ? \
+            and teamApply.id <= 30 and teamApply.dep = department.id \
+            order by teamApply.dep, teamApply.id";
+  }
+  conn().query(query, [year], function(err, results) {
+    if (err) {
+      return callback(err, null);
+    }
+    return callback(err, results);
+  });
+};
+
