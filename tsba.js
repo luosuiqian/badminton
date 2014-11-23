@@ -69,7 +69,7 @@ var crowd3 = cActivity.crowd3();
 app.get('/crowd3', crowd3.get);
 app.post('/crowd3', cUser.checkLogin);
 app.post('/crowd3', crowd3.post);
-/*
+//*
 var official = cActivity.official();
 app.get('/official', official.get);
 app.post('/official', cUser.checkLogin);

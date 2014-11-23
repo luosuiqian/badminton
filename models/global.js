@@ -74,11 +74,11 @@ exports.getCrowd3 = function () {
 };
 
 exports.getOfficial = function () {
-  return Activity.Activity(14, 8, 6, 2, 4,
+  return Activity.Activity(14, 2, 6, 1, 4,
     new Date(2014,10-1,23,13,0,0),
     new Date(2014,10-1,25,10,0,0),
     new Date(2014,10-1,25,12,0,0),
-    '清华综体', [3,4,5,6,7,8,9,10]
+    '清华综体', [5,10]
   );
 };
 
