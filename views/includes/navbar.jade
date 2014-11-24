@@ -36,34 +36,33 @@ div(class='navbar navbar-default', role='navigation')
               span(class="glyphicon glyphicon-circle-arrow-down")
               |  羽协活动预约
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
+            li
+              a(href='/activity')
+                h4
+                  span(class="glyphicon glyphicon-off")
+                  |  羽协活动通知
             //-
               li
-                a(href='/activity')
-                  h4
-                    span(class="glyphicon glyphicon-off")
-                    |  羽协活动公告
-              li(class="divider")
-            li
-              a(href="/crowd1")
-                h4
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周四11:30~13:00）
-            li
-              a(href="/crowd2")
-                h4
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周四13:00~14:00）
-            li
-              a(href="/crowd3")
-                h4
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周四14:00~15:00）
-            li(class="divider")
-              li
-                a(href="/official")
+                a(href="/crowd1")
                   h4
                     span(class="glyphicon glyphicon-thumbs-up")
-                    |  群众体育（周六10:00~12:00）
+                    |  群众体育（周四11:30~13:00）
+              li
+                a(href="/crowd2")
+                  h4
+                    span(class="glyphicon glyphicon-thumbs-up")
+                    |  群众体育（周四13:00~14:00）
+              li
+                a(href="/crowd3")
+                  h4
+                    span(class="glyphicon glyphicon-thumbs-up")
+                    |  群众体育（周四14:00~15:00）
+            li(class="divider")
+            li
+              a(href="/official")
+                h4
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  群众体育（周六10:00~12:00）
         li(class=(name=='team')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
