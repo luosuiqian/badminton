@@ -10,14 +10,20 @@ create table if not exists teamUser
 ) character set utf8;
 */
 
-var Global = require('./global');
 var conn = require('./db').getConnection;
 
 exports.get = function (year, callback) {
   conn().query('select teamUser.id, teamUser.name, superId, department.name as dep \
                 from teamUser, department where year = ? and dep = department.id',
                 [year], function(err, results) {
-    var table = new Array(Global.maxDepartmentid * 2);
+    var maxDepartmentid = 0;
+    for (var i = 0; i < results.length; i++) {
+      var id = parseInt(results[i].id / 100);
+      if (id > maxDepartmentid) {
+        maxDepartmentid = id;
+      }
+    }
+    var table = new Array(maxDepartmentid * 2);
     for (var i = 0; i < table.length; i += 2) {
       table[i] = new Array(9);
       table[i + 1] = new Array(9);
