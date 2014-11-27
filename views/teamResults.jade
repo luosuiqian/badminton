@@ -1,5 +1,9 @@
 extends layout
 
+block headlink
+  meta(http-equiv="X-UA-Compatible", content="IE=edge")
+  meta(name="viewport", content="width=device-width, initial-scale=1")
+
 block content
   include includes/navbar
   
@@ -49,7 +53,10 @@ block content
                       if table[i][j].content == ''
                         | &nbsp;
                       else
-                        a(href=link, target='_blank')= table[i][j].content
+                        a(href=link, target='_blank')
+                          h5= table[i][j].content[0]
+                          h5= table[i][j].content[1]
+                          h5= table[i][j].content[2]
                   else
                     td(rowspan=table[i][j].height)= table[i][j].content
     hr

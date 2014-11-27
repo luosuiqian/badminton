@@ -54,7 +54,7 @@ app.post('/confirm', cUser.checkLogin);
 app.post('/confirm', cUser.confirmPost);
 //*/
 //===========================================================================//
-/*
+//*
 var crowd1 = cActivity.crowd1();
 app.get('/crowd1', crowd1.get);
 app.post('/crowd1', cUser.checkLogin);
@@ -74,7 +74,7 @@ var official = cActivity.official();
 app.get('/official', official.get);
 app.post('/official', cUser.checkLogin);
 app.post('/official', official.post);
-//*
+/*
 app.get('/activity', cActivity.activityGet);
 //*/
 //===========================================================================//

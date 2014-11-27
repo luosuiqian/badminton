@@ -154,7 +154,7 @@ exports.get = function (year, type, callback) {
                               results[i].total12,
                               results[i].total34,
                               depName[results[i].dep34]);
-          table[pos.row][pos.col].content = str;
+          table[pos.row][pos.col].content = str.split(' ');
         }
         return callback(err, [table]);
       }
@@ -188,6 +188,9 @@ exports.getDetails = function (year, type, teamId, left, right, callback) {
     }
     if (results.length == 0) {
       return callback('URL错误', null);
+    }
+    for (var i = 0; i < results.length; i++) {
+      results[i].detail = results[i].detail.split(',');
     }
     callback(null, results);
   });
