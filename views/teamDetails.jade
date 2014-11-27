@@ -1,9 +1,5 @@
 extends layout
 
-block headlink
-  meta(http-equiv="X-UA-Compatible", content="IE=edge")
-  meta(name="viewport", content="width=device-width, initial-scale=1")
-
 block content
   include includes/navbar
   
@@ -80,9 +76,7 @@ block content
               if results[i].matchType > 2
                 | /
                 +getName(results[i].id4, results[i].superId4)
-            td
-              - for (var j=0;j<results[i].detail.length;j++)
-                h5= results[i].detail[j]
+            td= results[i].detail
     hr
   
   include includes/footer

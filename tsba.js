@@ -17,7 +17,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
-app.set('port', 80);
+app.set('port', 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/img/favicon.png'));
@@ -43,17 +43,17 @@ app.all('/*', cUser.log);
 
 app.get('/', cUser.indexGet);
 
+//===========================================================================//
+
 app.get('/application', cApplication.applicationGet);
 app.post('/application', cUser.checkLogin);
 app.post('/application', cApplication.applicationPost);
-
 /*
 app.get('/confirm', cUser.checkLogin);
 app.get('/confirm', cUser.confirmGet);
 app.post('/confirm', cUser.checkLogin);
 app.post('/confirm', cUser.confirmPost);
 //*/
-//===========================================================================//
 //*
 var crowd1 = cActivity.crowd1();
 app.get('/crowd1', crowd1.get);
@@ -112,23 +112,9 @@ app.get('/individual/:year/Results/:type', cIndividual.individualResults);
 
 //===========================================================================//
 
-app.get('/sign', cSign.signGet);
-
-app.get('/sign/:id/:psw', cSign.signStuGet);
-app.post('/sign/:id/:psw', cSign.signStuPost);
-
-app.get('/sign/:id/:psw/signin', cSign.signStuSigninGet);
-
-app.get('/qrcode', cUser.checkLogin);
-app.get('/qrcode', cSign.qucodeGet);
-
-//===========================================================================//
-
 app.get('/statistics/:superId', cStatistics.get);
 
 //===========================================================================//
-
-app.get('/map', cUser.mapGet);
 
 app.get('/register', cUser.checkNotLogin);
 app.get('/register', cUser.registerGet);
@@ -146,6 +132,16 @@ app.post('/login', cUser.checkNotLogin);
 app.post('/login', cUser.loginPost);
 
 app.get('/logout', cUser.logoutGet);
+
+app.get('/qrcode', cUser.checkLogin);
+app.get('/qrcode', cSign.qucodeGet);
+
+app.get('/map', cUser.mapGet);
+
+app.get('/sign', cSign.signGet);
+app.get('/sign/:id/:psw', cSign.signStuGet);
+app.post('/sign/:id/:psw', cSign.signStuPost);
+app.get('/sign/:id/:psw/signin', cSign.signStuSigninGet);
 
 app.get('/list', cUser.listGet);
 
