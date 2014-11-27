@@ -13,11 +13,11 @@ div(class='navbar navbar-default', role='navigation')
             h4
               span(class="glyphicon glyphicon-home")
               |  首页
-        li(class=(name=='application')?'active':'')
+        li(class=(name=='application'||name=='activity')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
-              span(class="glyphicon glyphicon-thumbs-up")
-              |  羽协招新
+              span(class="glyphicon glyphicon-circle-arrow-down")
+              |  羽协活动
           ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
             //-
               li
@@ -30,12 +30,7 @@ div(class='navbar navbar-default', role='navigation')
                 h4
                   span(class="glyphicon glyphicon-pencil")
                   |  招新报名
-        li(class=(name=='activity')?'active':'')
-          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
-            h4
-              span(class="glyphicon glyphicon-circle-arrow-down")
-              |  羽协活动预约
-          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
+            li(class="divider")
             //-
               li
                 a(href='/activity')
@@ -149,28 +144,7 @@ div(class='navbar navbar-default', role='navigation')
                   span(class="glyphicon glyphicon-pencil")
                   |  2015单项赛报名
       ul(class='nav navbar-nav navbar-right')
-        li(class=(name=='sign')?'active':'')
-          a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
-            h4
-              span(class="glyphicon glyphicon-qrcode")
-              |  二维码
-          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel")
-            li
-              a(href='/qrcode')
-                h4
-                  span(class="glyphicon glyphicon-qrcode")
-                  |  二维码下载
-            li
-              a(href='/sign')
-                h4
-                  span(class="glyphicon glyphicon-user")
-                  |  管理员
-        li(class=(name=='map')?'active':'')
-          a(href='/map')
-            h4
-              span(class="glyphicon glyphicon-map-marker")
-              |  地图
-        li(class=(name=='register'||name=='login'||name=='edit'||name=='list')?'active':'')
+        li(class=(name=='register'||name=='login'||name=='edit'||name=='map'||name=='list'||name=='sign')?'active':'')
           a(id="dLabel",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-list")
@@ -200,8 +174,23 @@ div(class='navbar navbar-default', role='navigation')
                   h4
                     span(class="glyphicon glyphicon-edit")
                     |  修改资料
+            li
+              a(href='/qrcode')
+                h4
+                  span(class="glyphicon glyphicon-qrcode")
+                  |  二维码下载
+            li(class=(name=='map')?'active':'')
+              a(href='/map')
+                h4
+                  span(class="glyphicon glyphicon-map-marker")
+                  |  地图
+            li
+              a(href='/sign')
+                h4
+                  span(class="glyphicon glyphicon-user")
+                  |  签到管理
             li(class=(name=='list')?'active':'')
               a(href='/list')
                 h4
                   span(class="glyphicon glyphicon-user")
-                  |  管理员
+                  |  资料管理
