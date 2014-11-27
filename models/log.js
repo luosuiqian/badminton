@@ -14,6 +14,9 @@ create table if not exists log
 var conn = require('./db').getConnection;
 
 exports.log = function (ip, url, method, user) {
+  if (url.length > 190) {
+    return;
+  }
   conn().query('insert into log values (null, ?, "?", "?", "?", ?)',
                [new Date(), ip, url, method, user], function(err) {
     if (err) {
