@@ -67,12 +67,9 @@ block content
               th 类型
               th 场次
               th 项目
-              th 院系
               th 选手
               th 比分
               th 选手
-              th 院系
-              th 详细
           tbody
             - for (var i=0;i<team.length;i++)
               tr
@@ -83,21 +80,24 @@ block content
                   | 第#{team[i].matchId}场
                 td
                   +showType(team[i].matchType)
-                td= team[i].dep12
                 td
-                  +getName(team[i].id1, team[i].superId1)
-                  if team[i].matchType > 2
-                    | /
-                    +getName(team[i].id2, team[i].superId2)
+                  div
+                    +getName(team[i].id1, team[i].superId1)
+                    if team[i].matchType > 2
+                      | /
+                      +getName(team[i].id2, team[i].superId2)
+                  div (#{team[i].dep12})
                 td
-                  +getName(' ' + team[i].score12 + ':' + team[i].score34 + ' ', null)
+                  div
+                    +getName(' ' + team[i].score12 + ':' + team[i].score34 + ' ', null)
+                  div= team[i].detail
                 td
-                  +getName(team[i].id3, team[i].superId3)
-                  if team[i].matchType > 2
-                    | /
-                    +getName(team[i].id4, team[i].superId4)
-                td= team[i].dep34
-                td= team[i].detail
+                  div
+                    +getName(team[i].id3, team[i].superId3)
+                    if team[i].matchType > 2
+                      | /
+                      +getName(team[i].id4, team[i].superId4)
+                  div (#{team[i].dep34})
       hr
     if ind.length > 0
       div(class='text-center')
@@ -108,12 +108,9 @@ block content
             tr
               th 年份
               th 项目
-              th 院系
               th 选手
               th 比分
               th 选手
-              th 院系
-              th 详细
           tbody
             - for (var i=0;i<ind.length;i++)
               tr
@@ -122,26 +119,31 @@ block content
                   +showType(ind[i].type)
                   | #{ind[i].round}
                 td
-                  | #{ind[i].dep1}
-                  if ind[i].type > 2
-                    | /#{ind[i].dep2}
+                  div
+                    +getName(ind[i].id1, ind[i].superId1)
+                    if ind[i].type > 2
+                      | /
+                      +getName(ind[i].id2, ind[i].superId2)
+                  div
+                    | (#{ind[i].dep1}
+                    if ind[i].type > 2
+                      | /#{ind[i].dep2}
+                    | )
                 td
-                  +getName(ind[i].id1, ind[i].superId1)
-                  if ind[i].type > 2
-                    | /
-                    +getName(ind[i].id2, ind[i].superId2)
+                  div
+                    +getName(' ' + ind[i].score12 + ':' + ind[i].score34 + ' ', null)
+                  div= ind[i].detail
                 td
-                  +getName(' ' + ind[i].score12 + ':' + ind[i].score34 + ' ', null)
-                td
-                  +getName(ind[i].id3, ind[i].superId3)
-                  if ind[i].type > 2
-                    | /
-                    +getName(ind[i].id4, ind[i].superId4)
-                td
-                  | #{ind[i].dep3}
-                  if ind[i].type > 2
-                    | /#{ind[i].dep4}
-                td= ind[i].detail
+                  div
+                    +getName(ind[i].id3, ind[i].superId3)
+                    if ind[i].type > 2
+                      | /
+                      +getName(ind[i].id4, ind[i].superId4)
+                  div
+                    | (#{ind[i].dep3}
+                    if ind[i].type > 2
+                      | /#{ind[i].dep4}
+                    |)
       hr
   
   include includes/footer

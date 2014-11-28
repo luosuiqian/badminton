@@ -10,6 +10,18 @@ block content
     include includes/flash-messages
     mixin flash-messages(flash)
   
+  mixin getType(type)
+    if type == 1
+      | 甲组小组赛
+    if type == 2
+      | 乙组小组赛
+    if type == 3
+      | 甲组淘汰赛
+    if type == 4
+      | 乙组淘汰赛
+    if type == 5
+      | 甲乙组总决赛
+  
   mixin showTable(title, teamId, table)
     h3= title
     div(class='table-responsive')
@@ -65,16 +77,7 @@ block content
         h3 #{year}年清华大学羽毛球团体赛比赛结果
       div(class='panel-body')
         h5
-          if type == 1
-            | 甲组小组赛
-          if type == 2
-            | 乙组小组赛
-          if type == 3
-            | 甲组淘汰赛
-          if type == 4
-            | 乙组淘汰赛
-          if type == 5
-            | 甲乙组总决赛
+          +getType(type)
     hr
     - for (var i=0;i<tables.length;i++)
       - title = '比赛结果'
@@ -83,5 +86,14 @@ block content
         - title = '第' + (i+1) + '组'
         - teamId = i + 1
       +showTable(title, teamId, tables[i])
+    div(class='text-center')
+      h3 相关链接
+      - for (var i=1;i<=5;i++)
+        p
+          a(href='/team/'+year+'/Results/'+i, class=i==type?"btn btn-default active":"btn btn-default", role="button")
+            | #{year}年
+            +getType(i)
+            | 比赛结果
+    hr
   
   include includes/footer
