@@ -1,5 +1,8 @@
 extends layout
 
+block headlink
+  title 活动预约 -- 清华羽协
+
 block content
   include includes/navbar
   
@@ -49,36 +52,37 @@ block content
     p （如果会员信息有误，请发邮件到 tsinghuabadminton@gmail.com 简单说明一下情况，我们将人工处理。）
     hr
     form(class='form-horizontal',method='post',role='form')
-      table(class='table table-striped table-bordered table-hover')
-        thead
-          tr
-            th 时间\场地
-            - for (var i=0;i<table[0].length;i++)
-              th 场地#{time.spaceNum[i]}
-        tbody
-          - for (var i=0;i<table.length;i++)
+      div(class='table-responsive')
+        table(class='table table-striped table-bordered table-hover')
+          thead
             tr
-              td
-                | #{time.time}
-              - for (var j=0;j<table[i].length;j++)
+              th 时间\场地
+              - for (var i=0;i<table[0].length;i++)
+                th 场地#{time.spaceNum[i]}
+          tbody
+            - for (var i=0;i<table.length;i++)
+              tr
                 td
-                  if open == false || authority == false
-                    +showName(table[i][j])
-                  else if result == null
-                    if table[i][j] == null
-                      label
-                        input(type='radio',name='timespace',value=i*100+j)
-                        | (空)
-                    else
+                  | #{time.time}
+                - for (var j=0;j<table[i].length;j++)
+                  td
+                    if open == false || authority == false
                       +showName(table[i][j])
-                  else
-                    if result.time == i && result.space == j
-                      div(class='text-success')
-                        b
-                          u
-                            +showName(table[i][j])
+                    else if result == null
+                      if table[i][j] == null
+                        label
+                          input(type='radio',name='timespace',value=i*100+j)
+                          | (空)
+                      else
+                        +showName(table[i][j])
                     else
-                      +showName(table[i][j])
+                      if result.time == i && result.space == j
+                        div(class='text-success')
+                          b
+                            u
+                              +showName(table[i][j])
+                      else
+                        +showName(table[i][j])
       if open == true && authority == true
         div(class='text-center')
           if result == null

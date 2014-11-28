@@ -1,5 +1,8 @@
 extends layout
 
+block headlink
+  title 单项赛报名 -- 清华羽协
+
 block content
   include includes/navbar
   
@@ -29,13 +32,13 @@ block content
           - for (var i=0;i<table.length;i++)
             tr
               td #{i+1}
+              td
+                div(style=(table[i].studentid == user?'background-color:#dddd44':''))
+                  = table[i].nam1
+              if num == 2
                 td
                   div(style=(table[i].studentid == user?'background-color:#dddd44':''))
-                    = table[i].nam1
-                if num == 2
-                  td
-                    div(style=(table[i].studentid == user?'background-color:#dddd44':''))
-                      = table[i].nam2
+                    = table[i].nam2
               if table[i].studentid == user
                 - flag = true
       div(class='text-center')

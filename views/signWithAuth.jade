@@ -1,5 +1,8 @@
 extends layout
 
+block headlink
+  title 签到 -- 清华羽协
+
 block content
   include includes/navbar
   
@@ -11,26 +14,25 @@ block content
     hr
     form(class='form-horizontal',method='post',role='form')
       div(class='text-center')
-        h1= result.studentid
-        h1= result.name
+        h3= result.studentid
+        h3= result.name
         if result.rank == null
-          h1 不是会员
+          h3 不是会员
         else
           if result.rank == 1
-            h1 群众体育会员
+            h3 群众体育会员
           if result.rank == 2
-            h1 正式会员
+            h3 正式会员
           if result.rank >= 3
-            h1 内阁会员
+            h3 内阁会员
           h1 已交费#{result.money}元
           if bsign == true
-            h1 今天已签到
+            h3 今天已签到
           if bsign == false
-            h1 未签到
+            h3 未签到
             - address = '/sign/' + result.studentid + '/' + result.prikey + '/signin'
             a(role="button", href=address, class="btn btn-primary")
-              h1 签到
-          hr
+              h3 签到
           hr
           input(type='text',class='form-control',name='money',value=result.rank==1?70:150)
           hr

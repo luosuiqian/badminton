@@ -1,5 +1,8 @@
 extends layout
 
+block headlink
+  title #{year}年清华大学羽毛球团体赛比赛结果 -- 清华羽协
+
 block content
   include includes/navbar
   
@@ -9,49 +12,50 @@ block content
   
   mixin showTable(title, teamId, table)
     h3= title
-    table(class='table table-bordered')
-      thead
-        tr
-          - for (var i=0;i<table[0].length;i++)
-            if type <= 2
-              th= table[0][i]
-            else
-              th= table[0][i].content
-      tbody
-        - for (var i=1;i<table.length;i++)
+    div(class='table-responsive')
+      table(class='table table-bordered')
+        thead
           tr
-            - for (var j=0;j<table[i].length;j++)
+            - for (var i=0;i<table[0].length;i++)
               if type <= 2
-                td
-                  if j > 0 && j < table.length && i != j
-                    if i < j
-                      - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
-                    else
-                      - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
-                    if table[i][j] == null
-                      | &nbsp;
-                    else
-                      a(href=link, target='_blank')
-                        h4= table[i][j]
-                  else
-                    = table[i][j]
+                th= table[0][i]
               else
-                if table[i][j].height > 0
-                  if j > 0
-                    td(rowspan=table[i][j].height)
-                      - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/'
-                      if j < table[i].length - 1
-                        - link += i + '/' + (i + table[i][j].height - 1)
-                      else if i == 1
-                        - link += '1/' + (table.length - 1)
+                th= table[0][i].content
+        tbody
+          - for (var i=1;i<table.length;i++)
+            tr
+              - for (var j=0;j<table[i].length;j++)
+                if type <= 2
+                  td
+                    if j > 0 && j < table.length && i != j
+                      if i < j
+                        - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
                       else
-                        - link += (table.length - 1) + '/1'
-                      if table[i][j].content == ''
+                        - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
+                      if table[i][j] == null
                         | &nbsp;
                       else
-                        a(href=link, target='_blank')= table[i][j].content
-                  else
-                    td(rowspan=table[i][j].height)= table[i][j].content
+                        a(href=link, target='_blank')
+                          h4= table[i][j]
+                    else
+                      = table[i][j]
+                else
+                  if table[i][j].height > 0
+                    if j > 0
+                      td(rowspan=table[i][j].height)
+                        - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/'
+                        if j < table[i].length - 1
+                          - link += i + '/' + (i + table[i][j].height - 1)
+                        else if i == 1
+                          - link += '1/' + (table.length - 1)
+                        else
+                          - link += (table.length - 1) + '/1'
+                        if table[i][j].content == ''
+                          | &nbsp;
+                        else
+                          a(href=link, target='_blank')= table[i][j].content
+                    else
+                      td(rowspan=table[i][j].height)= table[i][j].content
     hr
   
   div(class='container')

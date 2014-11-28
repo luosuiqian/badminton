@@ -1,5 +1,8 @@
 extends layout
 
+block headlink
+  title 二维码下载 -- 清华羽协
+
 block content
   include includes/navbar
   
@@ -11,7 +14,7 @@ block content
     hr
     div(class='panel panel-info')
       div(class='panel-heading')
-        h2 清华羽协
+        h2 二维码下载
       div(class='panel-body')
         div(class="col-md-4 col-sm-4 col-xs-12 text-center")
           h3= result.name
@@ -23,7 +26,7 @@ block content
           h4 收费和签到的时候，都可以通过扫描二维码进行确认。
           h4 （如果无法显示，请尝试刷新）
           - address = 'http://tsba.tk/sign/' + result.studentid + '/' + result.prikey
-          img(src='http://qr.liantu.com/api.php?logo=http://luosuiqian.github.io/badminton/public/img/logo.png&w=400&text='+address)
+          img(id='qrcode', class='img-responsive', src='http://qr.liantu.com/api.php?logo=http://luosuiqian.github.io/badminton/public/img/logo.png&w=400&text='+address, alt='qrcode', max-width='400px')
     hr
   
   include includes/footer

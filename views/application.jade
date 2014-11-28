@@ -1,5 +1,8 @@
 extends layout
 
+block headlink
+  title 招新报名 -- 清华羽协
+
 block content
   include includes/navbar
   
@@ -55,39 +58,40 @@ block content
       h4 考试结果如下：背景为黄色表示成为正式会员，其余为群众体育会员
       h4 （注：在临时报名的同学中，<span style="background-color:#dddd44">余翱，林生勇，梁言，春名林，Aisyah</span>等5位同学为正式会员）
     form(class='form-horizontal',method='post',role='form')
-      table(class='table table-striped table-bordered table-hover')
-        thead
-          tr
-            th 时间\场地
-            - for (var i=1;i<=table[0].length;i++)
-              th 场地#{i}
-        tbody
-          - var size = 6
-          - for (var i=0;i<table.length;i++)
+      div(class='table-responsive')
+        table(class='table table-striped table-bordered table-hover')
+          thead
             tr
-              if i % 10 == 0
-                td(rowspan=size)
-                  = table[i].time
-              if i % 10 < size
-                - for (var j=0;j<table[i].length;j++)
-                  td
-                    if open == false || sex == null
-                      +showName(table[i][j])
-                    else if result == null
-                      if table[i][j] == null && ((sex == 'm' && (j<=3 || j>=6)) || (sex == 'f' && 4<=j && j<=5))
-                        label
-                          input(type='radio',name='timespace',value=i*100+j)
-                          | (空)
-                      else
+              th 时间\场地
+              - for (var i=1;i<=table[0].length;i++)
+                th 场地#{i}
+          tbody
+            - var size = 6
+            - for (var i=0;i<table.length;i++)
+              tr
+                if i % 10 == 0
+                  td(rowspan=size)
+                    = table[i].time
+                if i % 10 < size
+                  - for (var j=0;j<table[i].length;j++)
+                    td
+                      if open == false || sex == null
                         +showName(table[i][j])
-                    else
-                      if result.time == i && result.space == j
-                        div(class='text-success')
-                          b
-                            u
-                              +showName(table[i][j])
+                      else if result == null
+                        if table[i][j] == null && ((sex == 'm' && (j<=3 || j>=6)) || (sex == 'f' && 4<=j && j<=5))
+                          label
+                            input(type='radio',name='timespace',value=i*100+j)
+                            | (空)
+                        else
+                          +showName(table[i][j])
                       else
-                        +showName(table[i][j])
+                        if result.time == i && result.space == j
+                          div(class='text-success')
+                            b
+                              u
+                                +showName(table[i][j])
+                        else
+                          +showName(table[i][j])
       if open == true && sex != null
         div(class='text-center')
           if result == null

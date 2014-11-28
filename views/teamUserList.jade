@@ -1,8 +1,7 @@
 extends layout
 
 block headlink
-  meta(http-equiv="X-UA-Compatible", content="IE=edge")
-  meta(name="viewport", content="width=device-width, initial-scale=1")
+  title #{year}年清华大学羽毛球团体赛报名选手公示 -- 清华羽协
 
 block content
   include includes/navbar
@@ -20,24 +19,25 @@ block content
         h5
           | 报名选手
     hr
-    table(class='table table-striped table-bordered table-hover')
-      thead
-        tr
-          th 序号
-          th 院系
-          th 性别
-          th(colspan=6) 参赛选手
-      tbody
-        - for (var i=0;i<table.length;i++)
+    div(class='table-responsive')
+      table(class='table table-striped table-bordered table-hover')
+        thead
           tr
-            - for (var j=0;j<table[i].length;j++)
-              if table[i][j].height > 0
-                td(rowspan=table[i][j].height)
-                  if table[i][j].superId == null
-                    div= table[i][j].content
-                  else
-                    div
-                      a(href='/statistics/' + table[i][j].superId, target='_blank')= table[i][j].content
+            th 序号
+            th 院系
+            th 性别
+            th(colspan=6) 参赛选手
+        tbody
+          - for (var i=0;i<table.length;i++)
+            tr
+              - for (var j=0;j<table[i].length;j++)
+                if table[i][j].height > 0
+                  td(rowspan=table[i][j].height)
+                    if table[i][j].superId == null
+                      div= table[i][j].content
+                    else
+                      div
+                        a(href='/statistics/' + table[i][j].superId, target='_blank')= table[i][j].content
     hr
   
   include includes/footer
