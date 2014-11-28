@@ -8,14 +8,12 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
         span(class="icon-bar")
         span(class="icon-bar")
         span(class="icon-bar")
-      h4(class='navbar-brand') 清华羽协
+      a(class='navbar-brand', href='/')
+        h4
+          span(class="glyphicon glyphicon-home")
+          |  清华羽协
     div(class='navbar-collapse collapse')
       ul(class='nav navbar-nav')
-        li(class=(name=='index')?'active':'')
-          a(href='/')
-            h4
-              span(class="glyphicon glyphicon-home")
-              |  首页
         li(class=(name=='application'||name=='activity')?'active':'')
           a(id="dLabel1",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
