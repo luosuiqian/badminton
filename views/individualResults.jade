@@ -57,20 +57,18 @@ block content
                     if table[i][j].score == null
                       | （空）
                     else
-                      br
-                      p
+                      div
                         +getName(table[i][j].id1, table[i][j].superId1)
                         if type >= 3
                           | /
                           +getName(table[i][j].id2, table[i][j].superId2)
-                      p= table[i][j].score
-                      p
+                      div= table[i][j].score
+                      div
                         +getName(table[i][j].id3, table[i][j].superId3)
                         if type >= 3
                           | /
                           +getName(table[i][j].id4, table[i][j].superId4)
-                      br
-                      p= table[i][j].detail
+                      div= table[i][j].detail
     hr
   
   include includes/footer
