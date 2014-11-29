@@ -51,8 +51,12 @@ block content
         h3 清华大学羽毛球比赛数据统计
       div(class='panel-body')
         if info.name != ''
-          h4 姓名：#{info.name}
-          h4 院系：
+          h4 姓名： #{info.name}
+          if superId % 1000 >= 500
+            h4 性别： 女
+          else
+            h4 性别： 男
+          h4 院系：&nbsp
             - for (var i=0;i<info.dep.length;i++)
               if i > 0
                 | ，

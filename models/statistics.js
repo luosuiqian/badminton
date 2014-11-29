@@ -18,11 +18,46 @@ var getRound = function (total, left, right) {
   }
 };
 
+var swap = function (mat, s1, s2) {
+  var tmp = mat[s1];
+  mat[s1] = mat[s2];
+  mat[s2] = tmp;
+  return;
+}
+
+var handle = function (match, superId) {
+  for (var i = 0; i < match.length; i++) {
+    match[i].round = getRound(match[i].totalP, match[i].leftP, match[i].rightP);
+  }
+  for (var i = 0; i < match.length; i++) {
+    if (superId == match[i].superId3 || superId == match[i].superId4) {
+      swap(match[i], 'id1', 'id3');
+      swap(match[i], 'id2', 'id4');
+      swap(match[i], 'superId1', 'superId3');
+      swap(match[i], 'superId2', 'superId4');
+      swap(match[i], 'dep12', 'dep34');
+      swap(match[i], 'dep1', 'dep3');
+      swap(match[i], 'dep2', 'dep4');
+      swap(match[i], 'score12', 'score34');
+      var games = match[i].detail.split(',');
+      for (var j = 0; j < games.length; j++) {
+        games[j] = games[j].split('-').reverse().join('-');
+      }
+      match[i].detail = games.join(',');
+    }
+    if (superId == match[i].superId2) {
+      swap(match[i], 'id1', 'id2');
+      swap(match[i], 'superId1', 'superId2');
+      swap(match[i], 'dep1', 'dep2');
+    }
+  }
+  return;
+};
+
 exports.getTeam = function (superId, callback) {
-  conn().query('select teamMatch.year, type, teamId, leftP, rightP,\
+  conn().query('select teamMatch.year, type, teamId, teamId as totalP, leftP, rightP,\
+                matchId, matchType,\
                 teamUser.name as name, dep0.name as dep,\
-                dep1.name as dep12, dep2.name as dep34,\
-                total12, total34, matchId, matchType,\
                 team1.name as id1,\
                 team2.name as id2,\
                 team3.name as id3,\
@@ -31,6 +66,8 @@ exports.getTeam = function (superId, callback) {
                 team2.superId as superId2,\
                 team3.superId as superId3,\
                 team4.superId as superId4,\
+                dep1.name as dep12,\
+                dep2.name as dep34,\
                 score12, score34, detail from teamMatch join teamUser \
                 left join teamUser as team1 on id1 = team1.id and teamMatch.year = team1.year \
                 left join teamUser as team2 on id2 = team2.id and teamMatch.year = team2.year \
@@ -44,14 +81,12 @@ exports.getTeam = function (superId, callback) {
                 or teamMatch.year = teamUser.year and id2 = teamUser.id \
                 or teamMatch.year = teamUser.year and id3 = teamUser.id \
                 or teamMatch.year = teamUser.year and id4 = teamUser.id) \
-                order by year desc, type desc, abs(rightP - leftP) desc',
+                order by year desc, type desc, abs(rightP - leftP) desc, leftP asc, rightP asc',
                 [superId], function(err, teamMatch) {
     if (err) {
       return callback(err, null);
     }
-    for (var i = 0; i < teamMatch.length; i++) {
-      teamMatch[i].round = getRound(teamMatch[i].teamId, teamMatch[i].leftP, teamMatch[i].rightP);
-    }
+    handle(teamMatch, superId);
     return callback(null, teamMatch);
   });
 };
@@ -91,9 +126,7 @@ exports.getInd = function (superId, callback) {
     if (err) {
       return callback(err, null);
     }
-    for (var i = 0; i < indMatch.length; i++) {
-      indMatch[i].round = getRound(indMatch[i].totalP, indMatch[i].leftP, indMatch[i].rightP);
-    }
+    handle(indMatch, superId);
     return callback(null, indMatch);
   });
 };
