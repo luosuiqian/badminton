@@ -1,9 +1,15 @@
 mixin flash-messages(flash)
   if flash.info != null
-    div(class='alert alert-success')
-      p(class='text-center')
-        = flash.info
+    div(class='container')
+      div(class='alert alert-success alert-dismissible', role='alert')
+        button(type="button",class="close",data-dismiss="alert")
+          span(aria-hidden="true") &times;
+        p(class='text-center')
+          = flash.info
   if flash.warning != null
-    div(class='alert alert-danger')
-      p(class='text-center')
-        = flash.warning
+    div(class='container')
+      div(class='alert alert-danger alert-dismissible', role='alert')
+        button(type="button",class="close",data-dismiss="alert")
+          span(aria-hidden="true") &times;
+        p(class='text-center')
+          = flash.warning

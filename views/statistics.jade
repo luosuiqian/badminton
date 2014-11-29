@@ -71,7 +71,7 @@ block content
       div(class='text-center')
         h3 团体赛
       div(class='table-responsive')
-        table(class='table table-striped table-bordered table-hover')
+        table(class='table table-bordered table-hover')
           thead
             tr
               th 年份
@@ -83,7 +83,7 @@ block content
               th 选手
           tbody
             - for (var i=0;i<team.length;i++)
-              tr
+              tr(class=team[i].score12>team[i].score34?'success':'danger')
                 td= team[i].year
                 td
                   +getType(team[i].type, team[i].teamId, team[i].round)
@@ -114,7 +114,7 @@ block content
       div(class='text-center')
         h3 单项赛
       div(class='table-responsive')
-        table(class='table table-striped table-bordered table-hover')
+        table(class='table table-bordered table-hover')
           thead
             tr
               th 年份
@@ -124,7 +124,7 @@ block content
               th 选手
           tbody
             - for (var i=0;i<ind.length;i++)
-              tr
+              tr(class=ind[i].score12>ind[i].score34?'success':'danger')
                 td= ind[i].year
                 td
                   +showType(ind[i].type)

@@ -86,14 +86,15 @@ block content
         - title = '第' + (i+1) + '组'
         - teamId = i + 1
       +showTable(title, teamId, tables[i])
-    div(class='text-center')
-      h3 相关链接
-      - for (var i=1;i<=5;i++)
-        p
-          a(href='/team/'+year+'/Results/'+i, class=i==type?"btn btn-default active":"btn btn-default", role="button")
-            | #{year}年
-            +getType(i)
-            | 比赛结果
+    div(class='row')
+      div(class='col-md-4 col-md-offset-4')
+        div(class='list-group text-center')
+          h3 相关链接
+          - for (var i=1;i<=5;i++)
+            a(href='/team/'+year+'/Results/'+i, class=(i==type)?"list-group-item active":"list-group-item")
+              | #{year}年
+              +getType(i)
+              | 比赛结果
     hr
   
   include includes/footer
