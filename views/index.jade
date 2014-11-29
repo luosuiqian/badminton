@@ -10,112 +10,89 @@ block content
     include includes/flash-messages
     mixin flash-messages(flash)
   
-  hr
-  div(id="myCarousel",class="carousel slide",data-ride="carousel")
-    ol(class="carousel-indicators")
-      li(data-target="#myCarousel",data-slide-to="0",class="active")
-      li(data-target="#myCarousel",data-slide-to="1",class="")
-      li(data-target="#myCarousel",data-slide-to="2",class="")
-      li(data-target="#myCarousel",data-slide-to="3",class="")
-      li(data-target="#myCarousel",data-slide-to="4",class="")
-      li(data-target="#myCarousel",data-slide-to="5",class="")
-      li(data-target="#myCarousel",data-slide-to="6",class="")
-      li(data-target="#myCarousel",data-slide-to="7",class="")
-      li(data-target="#myCarousel",data-slide-to="8",class="")
-      li(data-target="#myCarousel",data-slide-to="9",class="")
-      li(data-target="#myCarousel",data-slide-to="10",class="")
-      li(data-target="#myCarousel",data-slide-to="11",class="")
-    
-    div(class="carousel-inner")
-      div(class="item active")
-        p.text-center
+  div(class='container')
+    hr
+    div(id="myCarousel",class="carousel slide",data-ride="carousel")
+      ol(class="carousel-indicators")
+        li(data-target="#myCarousel",data-slide-to="0",class="active")
+        li(data-target="#myCarousel",data-slide-to="1",class="")
+        li(data-target="#myCarousel",data-slide-to="2",class="")
+        li(data-target="#myCarousel",data-slide-to="3",class="")
+        li(data-target="#myCarousel",data-slide-to="4",class="")
+        li(data-target="#myCarousel",data-slide-to="5",class="")
+        li(data-target="#myCarousel",data-slide-to="6",class="")
+        li(data-target="#myCarousel",data-slide-to="7",class="")
+        li(data-target="#myCarousel",data-slide-to="8",class="")
+        li(data-target="#myCarousel",data-slide-to="9",class="")
+        li(data-target="#myCarousel",data-slide-to="10",class="")
+        li(data-target="#myCarousel",data-slide-to="11",class="")
+      
+      div(class="carousel-inner")
+        div(class="item active")
           img(src="/img/11.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2014年10月 海淀区高校羽毛球联赛
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/12.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2014年10月 农大羽毛球邀请赛合影
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/1.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2013年11月 马杯团体赛合影
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/2.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2013年11月 马杯工作人员合影
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/3.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2011年10月 苏州全国赛
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/4.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2011年10月 苏州全国赛
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/5.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2013年4月 北京高校赛合影
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/6.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2013年6月 羽协执委会锡林郭勒草原合影
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/7.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 2011年10月 羽协执委会体验冰壶
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/8.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 羽协欢迎你！
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/9.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 羽协欢迎你！
-      div(class="item")
-        p.text-center
+        div(class="item")
           img(src="/img/10.jpg", alt='photo')
-        div(class="container")
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
               | 羽协欢迎你！
-    
-    a(class="left carousel-control",href="#myCarousel",data-slide="prev")
-      span(class="glyphicon glyphicon-chevron-left")
-    a(class="right carousel-control",href="#myCarousel",data-slide="next")
-      span(class="glyphicon glyphicon-chevron-right")
-  hr
+      
+      a(class="left carousel-control",href="#myCarousel",data-slide="prev")
+        span(class="glyphicon glyphicon-chevron-left")
+      a(class="right carousel-control",href="#myCarousel",data-slide="next")
+        span(class="glyphicon glyphicon-chevron-right")
+    hr
   
   include includes/footer
