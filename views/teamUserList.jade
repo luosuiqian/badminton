@@ -19,35 +19,29 @@ block content
         h5
           | 报名选手
     hr
-    div(class='')
+    div(class='table-responsive')
       table(class='table table-bordered')
         thead
           tr
             th 序号
-            th 院系
-            th 男队员
-            th 女队员
+            th(colspan=6) 院系
         tbody
           - for (var i=0;i<table.length;i+=2)
-            if i > 0
-              td(colspan=4) &nbsp;
-            - for (var j=3;j<table[i].length;j++)
+            tr
+              td(colspan=7) &nbsp;
+            tr
+              td= table[i][0].content
+              td(colspan=6)= table[i][1].content
+            - for (var k=0;k<=1;k++)
               tr
-                if j==3
-                  td(rowspan=6)= table[i][0].content
-                  td(rowspan=6)= table[i][1].content
-                td
-                  if table[i][j].superId == null
-                    div= table[i][j].content
-                  else
-                    div
-                      a(href='/statistics/' + table[i][j].superId, target='_blank')= table[i][j].content
-                td
-                  if table[i+1][j].superId == null
-                    div= table[i+1][j].content
-                  else
-                    div
-                      a(href='/statistics/' + table[i+1][j].superId, target='_blank')= table[i+1][j].content
+                td= table[i+k][2].content
+                - for (var j=3;j<table[i+k].length;j++)
+                  td
+                    if table[i+k][j].superId == null
+                      div= table[i+k][j].content
+                    else
+                      div
+                        a(href='/statistics/' + table[i+k][j].superId, target='_blank')= table[i+k][j].content
     hr
   
   include includes/footer
