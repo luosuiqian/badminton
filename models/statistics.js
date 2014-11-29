@@ -1,6 +1,6 @@
 var conn = require('./db').getConnection;
 
-var getRound = function(total, left, right) {
+var getRound = function (total, left, right) {
   if (left == total && right == 1) {
     return '三四名';
   } else if (left == 1 && right == total) {
@@ -20,6 +20,7 @@ var getRound = function(total, left, right) {
 
 exports.getTeam = function (superId, callback) {
   conn().query('select teamMatch.year, type, teamId, leftP, rightP,\
+                teamUser.name as name, dep0.name as dep,\
                 dep1.name as dep12, dep2.name as dep34,\
                 total12, total34, matchId, matchType,\
                 team1.name as id1,\
@@ -37,6 +38,7 @@ exports.getTeam = function (superId, callback) {
                 left join teamUser as team4 on id4 = team4.id and teamMatch.year = team4.year \
                 left join department as dep1 on dep12 = dep1.id \
                 left join department as dep2 on dep34 = dep2.id \
+                left join department as dep0 on teamUser.dep = dep0.id \
                 where teamUser.superId = ? and \
                 (teamMatch.year = teamUser.year and id1 = teamUser.id \
                 or teamMatch.year = teamUser.year and id2 = teamUser.id \
@@ -56,6 +58,7 @@ exports.getTeam = function (superId, callback) {
 
 exports.getInd = function (superId, callback) {
   conn().query('SELECT indMatch.year, indMatch.type, totalP, leftP, rightP,\
+                indUser.name as name, dep0.name as dep,\
                 ind1.name as id1,\
                 ind2.name as id2,\
                 ind3.name as id3,\
@@ -77,6 +80,7 @@ exports.getInd = function (superId, callback) {
                 left join department as dep2 on ind2.dep = dep2.id \
                 left join department as dep3 on ind3.dep = dep3.id \
                 left join department as dep4 on ind4.dep = dep4.id \
+                left join department as dep0 on indUser.dep = dep0.id \
                 WHERE indUser.superId = ? and \
                 (indMatch.year = indUser.year and indMatch.type = indUser.type and id1 = indUser.id \
                 or indMatch.year = indUser.year and indMatch.type = indUser.type and id2 = indUser.id \

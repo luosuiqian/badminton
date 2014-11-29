@@ -1,7 +1,7 @@
 extends layout
 
 block headlink
-  title 清华大学羽毛球比赛数据统计 -- 清华羽协
+  title 清华大学羽毛球比赛数据统计(#{info.name}) -- 清华羽协
 
 block content
   include includes/navbar
@@ -50,9 +50,16 @@ block content
       div(class='panel-heading')
         h3 清华大学羽毛球比赛数据统计
       div(class='panel-body')
+        if info.name != ''
+          h4 姓名：#{info.name}
+          h4 院系：
+            - for (var i=0;i<info.dep.length;i++)
+              if i > 0
+                | ，
+              = info.dep[i]
         h5 （如果信息有误，请发邮件到 tsinghuabadminton@gmail.com 简单说明一下情况，我们将人工修正。）
     hr
-    if team.length == 0 && ind.length == 0
+    if info.name == ''
       div(class='text-center')
         h3 无数据
       hr

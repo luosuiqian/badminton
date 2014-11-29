@@ -20,7 +20,7 @@ block content
           | 报名选手
     hr
     div(class='')
-      table(class='table table-striped table-bordered table-hover')
+      table(class='table table-bordered')
         thead
           tr
             th 序号
@@ -29,6 +29,8 @@ block content
             th 女队员
         tbody
           - for (var i=0;i<table.length;i+=2)
+            if i > 0
+              td(colspan=4) &nbsp;
             - for (var j=3;j<table[i].length;j++)
               tr
                 if j==3
