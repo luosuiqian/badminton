@@ -194,6 +194,7 @@ exports.resultsGet = function (req, res) {
       year: year,
       type: type,
       tables: tables,
+      team: 'ABCDEFGH',
     });
   });
 };

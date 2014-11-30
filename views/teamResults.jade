@@ -76,14 +76,20 @@ block content
       div(class='panel-heading')
         h3 #{year}年清华大学羽毛球团体赛比赛结果
       div(class='panel-body')
-        h5
+        h4
           +getType(type)
+        if year == 2014 && type == 1
+          div(class="col-md-8 col-md-offset-2")
+            img(src='/img/team2014jia.png', alt='jia', class="img-responsive")
+        if year == 2014 && type == 2
+          div(class="col-md-8 col-md-offset-2")
+            img(src='/img/team2014yi.png', alt='yi', class="img-responsive")
     hr
     - for (var i=0;i<tables.length;i++)
       - title = '比赛结果'
       - teamId = tables[i].length - 1
       if tables.length > 1
-        - title = '第' + (i+1) + '组'
+        - title = '第' + (i+1) + '组' + ' (' + team[i] + ')'
         - teamId = i + 1
       +showTable(title, teamId, tables[i])
     div(class='row')
