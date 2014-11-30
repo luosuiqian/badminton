@@ -56,8 +56,9 @@ var getPosition = function (total, leftP, rightP) {
 };
 
 exports.get = function (year, type, callback) {
-  conn().query('select teamId, total, num, dep, name, rank \
-                from teamOutline, department where year = ? and type = ? and dep = id',
+  conn().query('select teamId, total, num, dep, CASE WHEN dep = 0 THEN "未知" ELSE name END as name, rank \
+                from teamOutline left join department on dep = id \
+                where year = ? and type = ?',
                 [year, type], function(err, outline) {
     if (err) {
       return callback(err, null);
