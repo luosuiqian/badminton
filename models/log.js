@@ -15,7 +15,7 @@ var conn = require('./db').getConnection;
 
 exports.log = function (ip, url, method, user) {
   if (url.length > 190) {
-    return;
+    url = url.substring(0, 190);
   }
   conn().query('insert into log values (null, ?, "?", "?", "?", ?)',
                [new Date(), ip, url, method, user], function(err) {
