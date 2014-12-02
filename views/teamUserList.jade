@@ -16,8 +16,17 @@ block content
       div(class='panel-heading')
         h3 #{year}年清华大学羽毛球团体赛
       div(class='panel-body')
-        h5
-          | 报名选手
+        if year == 2014
+          h4
+            | 比赛时间：2014年12月6日、7日
+          h4
+            | 比赛地点：清华气膜馆
+          h4
+            | 具体的场次安排：
+            a(href='/files/teamTime2014.xlsx', target='_blank')
+              |  《2014年清华大学羽毛球团体赛日程表》
+        h4
+          | 报名选手如下：
     hr
     div(class='table-responsive')
       table(class='table table-bordered')
