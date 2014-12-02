@@ -15,17 +15,16 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
     div(class='navbar-collapse collapse')
       ul(class='nav navbar-nav')
         li(class=(name=='application'||name=='activity')?'active':'')
-          a(id="dLabel1",role="button",data-toggle="dropdown",data-target="#",href="/")
+          a(id="dactivity",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-circle-arrow-down")
               |  羽协活动
-          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel1")
-            //-
-              li
-                a(href='/confirm')
-                  h5
-                    span(class="glyphicon glyphicon-heart")
-                    |  老会员确认
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dactivity")
+            //- li
+              a(href='/confirm')
+                h5
+                  span(class="glyphicon glyphicon-heart")
+                  |  老会员确认
             li
               a(href='/application')
                 h5
@@ -60,89 +59,102 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  群众体育（周六10:00~12:00）
         li(class=(name=='team')?'active':'')
-          a(id="dLabel2",role="button",data-toggle="dropdown",data-target="#",href="/")
+          a(id="dteam",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-flag")
               |  团体赛
-          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel2")
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dteam")
             li
-              a(href="/team/2014/list")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014团体赛参赛选手名单
+              a(class='trigger right-caret')
+                h4
+                  span(class="glyphicon glyphicon-flag")
+                  |  2014团体赛&nbsp;&nbsp;&nbsp;
+                  span(class="glyphicon glyphicon-chevron-right")
+              ul(class="dropdown-menu sub-menu")
+                li
+                  a(href="/team/2014/list")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014团体赛参赛选手名单
+                li
+                  a(href="/team/2014/Results/1")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014团体赛甲组小组赛
+                li
+                  a(href="/team/2014/Results/2")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014团体赛乙组小组赛
+                li
+                  a(href="/team/2014/Results/3")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014团体赛甲组淘汰赛
+                li
+                  a(href="/team/2014/Results/4")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014团体赛乙组淘汰赛
+                li
+                  a(href="/team/2014/Results/5")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014团体赛甲乙组总决赛
+                li
+                  a(href="/team/2014/Apply")
+                    h5
+                      span(class="glyphicon glyphicon-pencil")
+                      |  2014团体赛报名
+                li(class="divider")
+                li
+                  a(href='/team/2014/admin')
+                    h5
+                      span(class="glyphicon glyphicon-user")
+                      |  管理员
             li
-              a(href="/team/2014/Results/1")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014团体赛甲组小组赛
-            li
-              a(href="/team/2014/Results/2")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014团体赛乙组小组赛
-            li
-              a(href="/team/2014/Results/3")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014团体赛甲组淘汰赛
-            li
-              a(href="/team/2014/Results/4")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014团体赛乙组淘汰赛
-            li
-              a(href="/team/2014/Results/5")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014团体赛甲乙组总决赛
-            li
-              a(href="/team/2014/Apply")
-                h5
-                  span(class="glyphicon glyphicon-pencil")
-                  |  2014团体赛报名
-            li(class="divider")
-            li
-              a(href="/team/2013/list")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2013团体赛参赛选手名单
-            li
-              a(href="/team/2013/Results/1")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2013团体赛甲组小组赛
-            li
-              a(href="/team/2013/Results/2")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2013团体赛乙组小组赛
-            li
-              a(href="/team/2013/Results/3")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2013团体赛甲组淘汰赛
-            li
-              a(href="/team/2013/Results/4")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2013团体赛乙组淘汰赛
-            li
-              a(href="/team/2013/Results/5")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2013团体赛甲乙组总决赛
-            li(class="divider")
-            li
-              a(href='/team/2014/admin')
-                h5
-                  span(class="glyphicon glyphicon-user")
-                  |  管理员
+              a(class='trigger right-caret')
+                h4
+                  span(class="glyphicon glyphicon-flag")
+                  |  2013团体赛&nbsp;&nbsp;&nbsp;
+                  span(class="glyphicon glyphicon-chevron-right")
+              ul(class="dropdown-menu sub-menu")
+                li
+                  a(href="/team/2013/list")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2013团体赛参赛选手名单
+                li
+                  a(href="/team/2013/Results/1")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2013团体赛甲组小组赛
+                li
+                  a(href="/team/2013/Results/2")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2013团体赛乙组小组赛
+                li
+                  a(href="/team/2013/Results/3")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2013团体赛甲组淘汰赛
+                li
+                  a(href="/team/2013/Results/4")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2013团体赛乙组淘汰赛
+                li
+                  a(href="/team/2013/Results/5")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2013团体赛甲乙组总决赛
         li(class=(name=='individual')?'active':'')
-          a(id="dLabel3",role="button",data-toggle="dropdown",data-target="#",href="/")
+          a(id="dindividual",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-star")
               |  单项赛
-          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel3")
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dindividual")
             li
               a(href="/individual/2015")
                 h5
@@ -176,11 +188,11 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                   |  2014单项赛报名
       ul(class='nav navbar-nav navbar-right')
         li(class=(name=='register'||name=='login'||name=='edit'||name=='map'||name=='list'||name=='sign')?'active':'')
-          a(id="dLabel4",role="button",data-toggle="dropdown",data-target="#",href="/")
+          a(id="duser",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-list")
               |  帐号
-          ul(class="dropdown-menu",role="menu",aria-labelledby="dLabel4")
+          ul(class="dropdown-menu",role="menu",aria-labelledby="duser")
             if user == null
               li(class=(name=='login')?'active':'')
                 a(href='/login')
