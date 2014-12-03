@@ -521,7 +521,7 @@
               }
             }
             tables[id][outline[i].num][outline[i].total + 1] = outline[i].rank;
-            tables[id][outline[i].num][0] = outline[i].name;
+            tables[id][outline[i].num][0] = {name: outline[i].name, id: outline[i].dep};
             tables[id][0][outline[i].num] = outline[i].name;
             depName[outline[i].dep] = outline[i].name;
           }
@@ -595,7 +595,7 @@
         }
       };
       
-      window.onload = function() {        
+      window.onload = function() {
         for (var type = 1; type <= 5; type++) {
           var tables = getTables(outline, results, type);
           var divHtml = document.getElementById('table' + type);
@@ -633,9 +633,17 @@
                     inputHtml.type = 'radio';
                     inputHtml.name = 'round';
                     inputHtml.value = type + ',' + (k + 1) + ',' + i + ',' + j;
+                    inputHtml.onclick = (function (a, b) {
+                      return function () {
+                        document.getElementById("dep12").selectedIndex = a;
+                        document.getElementById("dep34").selectedIndex = b;
+                        depChange(1);
+                        depChange(2);
+                      }
+                    })(table[i][0].id, table[j][0].id);
                   }
                   if (table[i][j]) {
-                    var txtHtml = document.createTextNode(table[i][j]);
+                    var txtHtml = document.createTextNode(j == 0 ? table[i][j].name : table[i][j]);
                     tdHtml.appendChild(txtHtml);
                   }
                 } else if (table[i][j].height > 0) {
