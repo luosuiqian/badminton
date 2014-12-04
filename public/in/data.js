@@ -448,7 +448,7 @@ var users = [
   { id: 3313, name: '王世玮', dep: 33 },
   { id: 3314, name: '陈进', dep: 33 },
   { id: 3315, name: '殷昊', dep: 33 },
-  { id: 3316, name: '宋怀石', dep: 33 },
+  { id: 3316, name: '李刚', dep: 33 },
   { id: 3321, name: '苏晓', dep: 33 },
   { id: 3322, name: '马冬晗', dep: 33 },
   { id: 3323, name: '吴英楠', dep: 33 },
