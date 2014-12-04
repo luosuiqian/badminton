@@ -83,6 +83,9 @@ block content
               th 选手
           tbody
             - for (var i=0;i<team.length;i++)
+              if i > 0 && team[i].year != team[i-1].year
+                tr
+                  td(colspan=7) &nbsp;
               tr(class=team[i].score12>team[i].score34?'success':'danger')
                 td= team[i].year
                 td
