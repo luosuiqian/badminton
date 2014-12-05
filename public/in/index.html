@@ -528,10 +528,10 @@
           for (var i = 0; i < results.length; i++) {
             if (results[i].type != type) continue;
             var id = results[i].teamId - 1;
-            if (tables[id][results[i].leftP][0] != depName[results[i].dep12]) {
+            if (tables[id][results[i].leftP][0].name != depName[results[i].dep12]) {
               return [['data error!']];
             }
-            if (tables[id][results[i].rightP][0] != depName[results[i].dep34]) {
+            if (tables[id][results[i].rightP][0].name != depName[results[i].dep34]) {
               return [['data error!']];
             }
             tables[id][results[i].leftP][results[i].rightP] = results[i].total12 + ':' + results[i].total34;
