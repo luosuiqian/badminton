@@ -364,6 +364,7 @@ var users = [
   { id: 2513, name: '方立城', dep: 25 },
   { id: 2514, name: '李博权', dep: 25 },
   { id: 2515, name: '陈俊杰', dep: 25 },
+  { id: 2516, name: '邱天', dep: 25 },
   { id: 2521, name: '周逸凡', dep: 25 },
   { id: 2522, name: '孙梦真', dep: 25 },
   { id: 2523, name: '郑清芸', dep: 25 },
