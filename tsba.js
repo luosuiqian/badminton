@@ -54,7 +54,7 @@ app.get('/confirm', cUser.confirmGet);
 app.post('/confirm', cUser.checkLogin);
 app.post('/confirm', cUser.confirmPost);
 //*/
-//*
+/*
 var crowd1 = cActivity.crowd1();
 app.get('/crowd1', crowd1.get);
 app.post('/crowd1', cUser.checkLogin);
@@ -69,12 +69,12 @@ var crowd3 = cActivity.crowd3();
 app.get('/crowd3', crowd3.get);
 app.post('/crowd3', cUser.checkLogin);
 app.post('/crowd3', crowd3.post);
-//*/
+//*
 var official = cActivity.official();
 app.get('/official', official.get);
 app.post('/official', cUser.checkLogin);
 app.post('/official', official.post);
-//*
+//*/
 app.get('/activity', cActivity.activityGet);
 //*/
 //===========================================================================//
