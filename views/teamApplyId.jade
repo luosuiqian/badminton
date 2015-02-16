@@ -1,7 +1,10 @@
-extends layout
+extends includes/layout
 
 block headlink
   title 团体赛报名 -- 清华羽协
+  link(rel='stylesheet', href='/stylesheets/formValidation.min.css')
+  script(src='/js/formValidation.min.js')
+  script(src='/js/framework/bootstrap.min.js')
 
 block content
   include includes/navbar
@@ -15,27 +18,27 @@ block content
       h4 请填写选手信息
     hr
     form(id="defaultForm",class='form-horizontal',method='post',role='form',
-          data-bv-message="This value is not valid",
-          data-bv-feedbackicons-valid="glyphicon glyphicon-ok",
-          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove",
-          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh")
+          data-fv-message="This value is not valid",
+          data-fv-icon-valid="glyphicon glyphicon-ok",
+          data-fv-icon-invalid="glyphicon glyphicon-remove",
+          data-fv-icon-validating="glyphicon glyphicon-refresh")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 学号/教工号
         div(class='col-sm-8')
           input(type='text',class='form-control',name='stu',placeholder='ID',value=results[id]?results[id].stu:'',
-                data-bv-message="The ID is not valid",
-                required,data-bv-notempty-message="The ID is required and cannot be empty",
-                pattern="^[0-9]+$",data-bv-regexp-message="The ID can only consist of digits",
-                data-bv-stringlength="true",data-bv-stringlength-min="10",data-bv-stringlength-max="10",
-                data-bv-stringlength-message="The ID must be 10 characters long")
+                data-fv-message="The ID is not valid",
+                required,data-fv-notempty-message="The ID is required and cannot be empty",
+                pattern="^[0-9]+$",data-fv-regexp-message="The ID can only consist of digits",
+                data-fv-stringlength="true",data-fv-stringlength-min="10",data-fv-stringlength-max="10",
+                data-fv-stringlength-message="The ID must be 10 characters long")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 姓名
         div(class='col-sm-8')
           input(type='text',class='form-control',name='nam',placeholder='Name',value=results[id]?results[id].nam:'',
-                data-bv-message="The username is not valid",
-                required,data-bv-notempty-message="The username is required and cannot be empty")
+                data-fv-message="The username is not valid",
+                required,data-fv-notempty-message="The username is required and cannot be empty")
           p(class='help-block')
             | 请填写真实姓名
       div(class='form-group')
@@ -43,17 +46,17 @@ block content
           | 邮箱
         div(class='col-sm-8')
           input(type='email',class='form-control',name='ema',placeholder='Email Address',value=results[id]?results[id].ema:'',
-                data-bv-emailaddress-message="The input is not a valid email address",
-                required,data-bv-notempty-message="The email is required and cannot be empty")
+                data-fv-emailaddress-message="The input is not a valid email address",
+                required,data-fv-notempty-message="The email is required and cannot be empty")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 电话
         div(class='col-sm-8')
           input(type='text',class='form-control',name='pho',placeholder='Phone Number',value=results[id]?results[id].pho:'',
-                pattern="^[0-9]+$",data-bv-regexp-message="The phone number can only consist of digits",
-                required,data-bv-notempty-message="The phone number is required and cannot be empty",
-                data-bv-stringlength="true",data-bv-stringlength-min="11",data-bv-stringlength-max="11",
-                data-bv-stringlength-message="The phone number must be 11 characters long")
+                pattern="^[0-9]+$",data-fv-regexp-message="The phone number can only consist of digits",
+                required,data-fv-notempty-message="The phone number is required and cannot be empty",
+                data-fv-stringlength="true",data-fv-stringlength-min="11",data-fv-stringlength-max="11",
+                data-fv-stringlength-message="The phone number must be 11 characters long")
           p(class='help-block')
             | 必填，发通知用，邮箱和电话不会公开在本网站上
       div(class='form-group')
@@ -70,5 +73,5 @@ block content
 
   script(type='text/javascript').
     $(document).ready(function() {
-      $('#defaultForm').bootstrapValidator();
+      $('#defaultForm').formValidation();
     });

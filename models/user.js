@@ -41,7 +41,7 @@ var User = function (body, create) {
   this.departmentid = parseInt(body.departmentid);
   this.email = body.email;
   this.phone = body.phone;
-  this.renrenid = body.renrenid;
+  this.renrenid = null;
   if (create) {
     this.prikey = getKey();
   }
@@ -76,9 +76,6 @@ var check = function (user) {
   }
   if (/^.{0,15}$/.test(user.phone) == false) {
     return ("手机号码太长");
-  }
-  if (/^\d{0,15}$/.test(user.renrenid) == false) {
-    return ("人人id错误");
   }
   return null;
 }

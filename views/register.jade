@@ -1,7 +1,10 @@
-extends layout
+extends includes/layout
 
 block headlink
   title 注册 -- 清华羽协
+  link(rel='stylesheet', href='/stylesheets/formValidation.min.css')
+  script(src='/js/formValidation.min.js')
+  script(src='/js/framework/bootstrap.min.js')
 
 block content
   include includes/navbar
@@ -13,43 +16,36 @@ block content
   div(class='container')
     hr
     form(id="defaultForm",class='form-horizontal',method='post',role='form',
-          data-bv-message="This value is not valid",
-          data-bv-feedbackicons-valid="glyphicon glyphicon-ok",
-          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove",
-          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh")
+          data-fv-message="This value is not valid",
+          data-fv-icon-valid="glyphicon glyphicon-ok",
+          data-fv-icon-invalid="glyphicon glyphicon-remove",
+          data-fv-icon-validating="glyphicon glyphicon-refresh")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 学号
         div(class='col-sm-8')
-          input(type='text',class='form-control',name='studentid',placeholder='Student ID',
-                data-bv-message="The studentid is not valid",
-                required,data-bv-notempty-message="The studentid is required and cannot be empty",
-                pattern="^[0-9]+$",data-bv-regexp-message="The studentid can only consist of digits",
-                data-bv-stringlength="true",data-bv-stringlength-min="10",data-bv-stringlength-max="10",
-                data-bv-stringlength-message="The studentid must be 10 characters long")
+          input(type='text',class='form-control',name='studentid',placeholder='Student ID')
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 新密码
         div(class='col-sm-8')
           input(type='password',class='form-control',name='password',placeholder='Password',
-                required,data-bv-notempty-message="The password is required and cannot be empty",
-                data-bv-identical="true" data-bv-identical-field="repeatpassword",
-                data-bv-identical-message="The password and its confirm are not the same")
+                required,data-fv-notempty-message="The password is required and cannot be empty")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 重复新密码
         div(class='col-sm-8')
           input(type='password',class='form-control',name='repeatpassword',placeholder='Confirm Password',
-                required,data-bv-notempty-message="The confirm password is required and cannot be empty"
-                data-bv-identical="true" data-bv-identical-field="password",
-                data-bv-identical-message="The password and its confirm are not the same")
+                required,data-fv-notempty-message="The confirm password is required and cannot be empty"
+                data-fv-identical="true" data-fv-identical-field="password",
+                data-fv-identical-message="The password and its confirm are not the same")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 姓名
         div(class='col-sm-8')
           input(type='text',class='form-control',name='name',placeholder='Name',
-                data-bv-message="The username is not valid",
-                required,data-bv-notempty-message="The username is required and cannot be empty")
+                data-fv-message="The username is not valid",
+                required,data-fv-notempty-message="The username is required and cannot be empty")
           p(class='help-block')
             | 请填写真实姓名
       div(class='form-group')
@@ -58,7 +54,7 @@ block content
         div(class='col-sm-8')
           div(class='radio-inline')
             label
-              input(type='radio',name='sex',value='m',required,data-bv-notempty-message="The gender is required")
+              input(type='radio',name='sex',value='m',required,data-fv-notempty-message="The gender is required")
               | 男
           div(class='radio-inline')
             label
@@ -69,7 +65,7 @@ block content
           | 院系
         div(class='col-sm-8')
           select(class='form-control',name='departmentid',
-                data-bv-notempty="",data-bv-notempty-message="The department is required")
+                data-fv-notempty="",data-fv-notempty-message="The department is required")
             option(value='')
               | -- 请选择院系 --
             each department in departments
@@ -80,29 +76,19 @@ block content
           | 邮箱
         div(class='col-sm-8')
           input(type='email',class='form-control',name='email',placeholder='Email Address',
-                data-bv-emailaddress-message="The input is not a valid email address",
-                required,data-bv-notempty-message="The email is required and cannot be empty")
+                data-fv-emailaddress-message="The input is not a valid email address",
+                required,data-fv-notempty-message="The email is required and cannot be empty")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 电话
         div(class='col-sm-8')
           input(type='text',class='form-control',name='phone',placeholder='Phone Number',
-                pattern="^[0-9]+$",data-bv-regexp-message="The phone number can only consist of digits",
-                required,data-bv-notempty-message="The phone number is required and cannot be empty",
-                data-bv-stringlength="true",data-bv-stringlength-min="11",data-bv-stringlength-max="11",
-                data-bv-stringlength-message="The phone number must be 11 characters long")
+                pattern="^[0-9]+$",data-fv-regexp-message="The phone number can only consist of digits",
+                required,data-fv-notempty-message="The phone number is required and cannot be empty",
+                data-fv-stringlength="true",data-fv-stringlength-min="11",data-fv-stringlength-max="11",
+                data-fv-stringlength-message="The phone number must be 11 characters long")
           p(class='help-block')
             | 必填，发通知用，邮箱和电话不会公开在本网站上
-      div(class='form-group')
-        label(class='col-sm-2 control-label')
-          | 人人ID
-        div(class='col-sm-8')
-          input(type='text',class='form-control',name='renrenid',placeholder='RenRen ID, Such as 123456789',
-                pattern="^[0-9]+$",data-bv-regexp-message="The renrenid can only consist of digits",
-                data-bv-stringlength="true",data-bv-stringlength-min="1",data-bv-stringlength-max="15",
-                data-bv-stringlength-message="The renrenid must be no more than 15 characters long")
-          p(class='help-block')
-            | 选填，www.renren.com/<b><u>123456789</u></b>，如果填写，你的人人链接将出现在你的名字上；如不需要，请留空
       div(class='form-group')
         div(class='col-sm-offset-2 col-sm-8')
           button(type='submit',class='btn btn-primary')
@@ -113,5 +99,32 @@ block content
   
   script(type='text/javascript').
     $(document).ready(function() {
-      $('#defaultForm').bootstrapValidator();
+      $('#defaultForm').formValidation({
+        framework: 'bootstrap',
+        fields: {
+          studentid: {
+            verbose: false,
+            validators: {
+              notEmpty: {
+                  message: 'The studentid is required and cannot be empty'
+              },
+              stringLength: {
+                  min: 10,
+                  max: 10,
+                  message: 'The studentid must be 10 characters long'
+              },
+              regexp: {
+                  regexp: /^[0-9]+$/,
+                  message: 'The studentid can only consist of digits'
+              },
+              remote: {
+                  url: '/register/check',
+                  type: 'GET',
+                  delay: 500,
+                  message: '该学号已注册'
+              }
+            }
+          }
+        }
+      });
     });

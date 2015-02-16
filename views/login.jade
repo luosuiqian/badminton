@@ -1,7 +1,10 @@
-extends layout
+extends includes/layout
 
 block headlink
   title 登录 -- 清华羽协
+  link(rel='stylesheet', href='/stylesheets/formValidation.min.css')
+  script(src='/js/formValidation.min.js')
+  script(src='/js/framework/bootstrap.min.js')
 
 block content
   include includes/navbar
@@ -13,26 +16,26 @@ block content
   div(class='container')
     hr
     form(id="defaultForm",class='form-horizontal',method='post',role='form',
-          data-bv-message="This value is not valid",
-          data-bv-feedbackicons-valid="glyphicon glyphicon-ok",
-          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove",
-          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh")
+          data-fv-message="This value is not valid",
+          data-fv-icon-valid="glyphicon glyphicon-ok",
+          data-fv-icon-invalid="glyphicon glyphicon-remove",
+          data-fv-icon-validating="glyphicon glyphicon-refresh")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 学号
         div(class='col-sm-8')
           input(type='text',class='form-control',name='studentid',placeholder='Student ID',
-                data-bv-message="The studentid is not valid",
-                required,data-bv-notempty-message="The studentid is required and cannot be empty",
-                pattern="^[0-9]+$",data-bv-regexp-message="The studentid can only consist of digits",
-                data-bv-stringlength="true",data-bv-stringlength-min="10",data-bv-stringlength-max="10",
-                data-bv-stringlength-message="The studentid must be 10 characters long")
+                data-fv-message="The studentid is not valid",
+                required,data-fv-notempty-message="The studentid is required and cannot be empty",
+                pattern="^[0-9]+$",data-fv-regexp-message="The studentid can only consist of digits",
+                data-fv-stringlength="true",data-fv-stringlength-min="10",data-fv-stringlength-max="10",
+                data-fv-stringlength-message="The studentid must be 10 characters long")
       div(class='form-group')
         label(class='col-sm-2 control-label')
           | 密码
         div(class='col-sm-8')
           input(type='password',class='form-control',name='password',placeholder='Password',
-                required,data-bv-notempty-message="The password is required and cannot be empty")
+                required,data-fv-notempty-message="The password is required and cannot be empty")
       div(class='form-group')
         div(class='col-sm-offset-2 col-sm-8')
           button(type='submit',class='btn btn-primary')
@@ -43,5 +46,5 @@ block content
   
   script(type='text/javascript').
     $(document).ready(function() {
-      $('#defaultForm').bootstrapValidator();
+      $('#defaultForm').formValidation();
     });

@@ -51,12 +51,12 @@ exports.registerGet = function(req, res) {
 
 exports.registerPost = function(req, res) {
   if (req.body.password != req.body.repeatpassword) {
-    req.flash('warning', '密码两次输入不一致，您可以用浏览器的后退功能重新填写表单');
+    req.flash('warning', '密码两次输入不一致');
     return res.redirect('/register');
   }
   User.save(req.body, function(err) {
     if (err) {
-      req.flash('warning', err.toString() + '，您可以用浏览器的后退功能重新填写表单');
+      req.flash('warning', err.toString());
       return res.redirect('/register');
     } else {
       req.flash('info', '注册成功');
@@ -215,5 +215,17 @@ exports.confirmPost = function(req, res) {
     req.flash('warning', '操作失败');
     return res.redirect('/confirm');
   }
+};
+
+exports.registerCheckGet = function(req, res) {
+  var studentid = parseInt(req.query.studentid);
+  User.get(studentid, function(err, userinfo) {
+    if (userinfo == null) {
+      res.send({'valid': true});
+    }
+    else {
+      res.send({'valid': false});
+    }
+  });
 };
 
