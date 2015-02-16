@@ -10,38 +10,13 @@ exports.individualGet = function (req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  User.get(req.session.user, function(err, userinfo) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    IndApply.get(year, 1, function(err, mens_singles) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
-      IndApply.get(year, 3, function(err, mens_doubles) {
-        if (err) {
-          req.flash('warning', err.toString());
-          return res.redirect('/');
-        }
-        IndApply.get(year, 4, function(err, womens_doubles) {
-          if (err) {
-            req.flash('warning', err.toString());
-            return res.redirect('/');
-          }
-          IndApply.get(year, 5, function(err, mixed_doubles) {
-            if (err) {
-              req.flash('warning', err.toString());
-              return res.redirect('/');
-            }
-            IndApply.get(year, 9, function(err, referee) {
-              if (err) {
-                req.flash('warning', err.toString());
-                return res.redirect('/');
-              }
+  User.get(req.session.user, function(userinfo) {
+    IndApply.get(year, 1, function(mens_singles) {
+      IndApply.get(year, 3, function(mens_doubles) {
+        IndApply.get(year, 4, function(womens_doubles) {
+          IndApply.get(year, 5, function(mixed_doubles) {
+            IndApply.get(year, 9, function(referee) {
               res.render('individual' + year + '.jade', {
-                name: 'individual',
                 user: req.session.user,
                 flash: req.flash(),
                 mens_singles: mens_singles,
@@ -92,23 +67,14 @@ exports.individualApply = function (req, res) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
   }
-  User.get(req.session.user, function(err, userinfo) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    Department.getAll(function(err, departments) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
+  User.get(req.session.user, function(userinfo) {
+    Department.getAll(function(departments) {
       var p12 = IndApply.getP1andP2(type, userinfo);
       if (p12 == null) {
         req.flash('warning', '报名类型错误');
         return res.redirect('/');
       }
       res.render('individualApply.jade', {
-        name: 'individual',
         user: req.session.user,
         flash: req.flash(),
         departments: departments,
@@ -153,11 +119,7 @@ exports.individualCancel = function (req, res) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/individual/' + year);
   }
-  IndApply.del(year, req.session.user, type, function(err) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
+  IndApply.del(year, req.session.user, type, function() {
     req.flash('info', '取消报名成功');
     return res.redirect('/individual/' + year);
   });
@@ -170,13 +132,8 @@ exports.individualResults = function (req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  IndMatch.get(year, type, function(err, table) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
+  IndMatch.get(year, type, function(table) {
     res.render('individualResults.jade', {
-      name: 'individual',
       user: req.session.user,
       flash: req.flash(),
       year: year,

@@ -52,14 +52,10 @@ exports.get = function (year, type, callback) {
                 score12, score34, detail FROM indMatch \
                 WHERE year = ? and type = ?',
                [year, type], function(err, indMatch) {
-    if (err) {
-      return callback(err, null);
-    }
+    if (err) throw err;
     conn().query('SELECT total, id, name, superId FROM indUser WHERE year = ? and type = ?',
                [year, type], function(err, indUser) {
-      if (err) {
-        return callback(err, null);
-      }
+      if (err) throw err;
       var total = indUser[0].total;
       var name = new Array(total * 2 + 1);
       var superId = new Array(total * 2 + 1);
@@ -118,7 +114,7 @@ exports.get = function (year, type, callback) {
         tmp.score = indMatch[i].score12 + '-' + indMatch[i].score34;
         tmp.detail = indMatch[i].detail;
       }
-      return callback(null, table);
+      return callback(table);
     });
   });
 };

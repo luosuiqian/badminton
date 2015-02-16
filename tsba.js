@@ -118,9 +118,9 @@ app.get('/statistics/:superId', cStatistics.get);
 
 app.get('/register', cUser.checkNotLogin);
 app.get('/register', cUser.registerGet);
+app.get('/register/check', cUser.registerCheckGet);
 app.post('/register', cUser.checkNotLogin);
 app.post('/register', cUser.registerPost);
-app.get('/register/check', cUser.registerCheckGet);
 
 app.get('/edit', cUser.checkLogin);
 app.get('/edit', cUser.editGet);

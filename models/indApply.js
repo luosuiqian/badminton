@@ -48,11 +48,8 @@ exports.get = function (year, type, callback) {
   conn().query('SELECT studentid, nam1, nam2 FROM indApply \
                 WHERE year = ? and type = ?',
                [year, type], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else {
-      return callback(null, results);
-    }
+    if (err) throw err;
+    return callback(results);
   });
 };
 
@@ -132,11 +129,8 @@ exports.save = function (year, body, user, callback) {
     return callback(str);
   }
   conn().query('INSERT INTO indApply SET ?', newApply, function(err) {
-    if (err) {
-      return callback(err);
-    } else {
-      return callback(null);
-    }
+    if (err) throw err;
+    return callback(null);
   });
 };
 
@@ -145,11 +139,8 @@ exports.del = function (year, studentid, type, callback) {
                 WHERE year = ? and studentid = ? and type = ?',
              [year, studentid, type],
              function(err) {
-    if (err) {
-      return callback(err);
-    } else {
-      return callback(null);
-    }
+    if (err) throw err;
+    return callback();
   });
 }
 

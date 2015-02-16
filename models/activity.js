@@ -81,12 +81,11 @@ exports.Activity = function (table, space, time,
     conn().query('SELECT studentid FROM activity \
                   WHERE num = ? and id = ? and time = ? and space = ?',
               [tableNum, id, time, space], function(err, results) {
-      if (err) {
-        return callback(err, null);
-      } else if (results.length == 0) {
-        return callback(null, null);
+      if (err) throw err;
+      if (results.length == 0) {
+        return callback(null);
       } else {
-        return callback(null, results[0]);
+        return callback(results[0]);
       }
     });
   };
@@ -98,13 +97,11 @@ exports.Activity = function (table, space, time,
     conn().query('SELECT time, space FROM activity \
                   WHERE num = ? and id = ? and studentid = ?',
               [tableNum, id, studentid], function(err, results) {
-      if (err) {
-        return callback(err, null);
+      if (err) throw err;
+      if (results.length == 0) {
+        return callback(null);
       } else {
-        if (results.length == 0) {
-          return callback(null, null);
-        }
-        return callback(null, results[0]);
+        return callback(results[0]);
       }
     });
   };
@@ -113,9 +110,7 @@ exports.Activity = function (table, space, time,
     conn().query('SELECT time,space,name,renrenid FROM activity, user\
               WHERE num = ? and id = ? and activity.studentid = user.studentid',
               [tableNum, id], function(err, results) {
-      if (err) {
-        return callback(err, null);
-      }
+      if (err) throw err;
       var table = new Array(maxTime);
       for (var i = 0; i < maxTime; i++) {
         table[i] = new Array(maxSpace);
@@ -127,7 +122,7 @@ exports.Activity = function (table, space, time,
         var result = results[i];
         table[result.time][result.space] = result;
       }
-      return callback(null, table);
+      return callback(table);
     });
   };
   
@@ -139,27 +134,18 @@ exports.Activity = function (table, space, time,
       || (!(0 <= activity.space && activity.space < maxSpace))) {
       return callback("时间\场地错误，请重新选择");
     }
-    ret.getStudentid(activity.studentid, function(err, results) {
-      if (err) {
-        return callback(err);
-      }
+    ret.getStudentid(activity.studentid, function(results) {
       if (results != null) {
         return callback("您已经成功报名，请不要多次提交");
       }
-      ret.get(activity.time, activity.space, function(err, results) {
-        if (err) {
-          return callback(err);
-        }
+      ret.get(activity.time, activity.space, function(results) {
         if (results != null) {
           return callback("该场次已被预定，请重新选择");
         }
         conn().query('INSERT INTO activity SET ?',
                      [activity], function(err) {
-          if (err) {
-            return callback(err);
-          } else {
-            return callback(null);
-          }
+          if (err) throw err;
+          return callback(null);
         });
       });
     });
@@ -169,29 +155,23 @@ exports.Activity = function (table, space, time,
     conn().query('DELETE FROM activity \
                   WHERE num = ? and id = ? and studentid = ?',
                  [tableNum, id, studentid], function(err) {
-      if (err) {
-        return callback(err);
-      } else {
-        return callback(null);
-      }
+      if (err) throw err;
+      return callback();
     });
   };
   
   ret.getAuthority = function (studentid, callback) {
     if (studentid == null) {
-      return callback(null, false);
+      return callback(false);
     }
-    Authority.get(studentid, function(err, authority) {
-      if (err) {
-        return callback(err, false);
-      }
+    Authority.get(studentid, function(authority) {
       if (authority == null) {
-        return callback(null, false);
+        return callback(false);
       }
       if (autLeft <= authority.rank && authority.rank <= autRight) {
-        return callback(null, true);
+        return callback(true);
       } else {
-        return callback(null, false);
+        return callback(false);
       }
     });
   };

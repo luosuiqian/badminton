@@ -33,7 +33,7 @@ exports.beginMinute = 15;
 exports.period = 15;
 
 var applicationBeginTime = new Date(2014, 9-1, 19, 13, 0, 0);
-var applicationEndTime = new Date(2014, 10-1, 17, 16, 0, 0);
+var applicationEndTime = new Date(2015, 10-1, 17, 16, 0, 0);
   
 exports.checkTimeForApplication = function () {
   var now = new Date();
@@ -48,7 +48,7 @@ exports.getTimeForApplication = function () {
 
 exports.getCrowd1 = function () {
   return Activity.Activity(11, 4, 6, 1, 4,
-    new Date(2014,10-1,21,13,0,0),
+    new Date(2014,10-1,20,13,0,0),
     new Date(2014,10-1,23,11,30,0),
     new Date(2014,10-1,23,13,0,0),
     '清华综体', [7,8,9,10]

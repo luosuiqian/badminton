@@ -28,20 +28,14 @@ exports.checkNotLogin = function (req, res, next) {
 
 exports.indexGet = function(req, res) {
   res.render('index.jade', {
-    name: 'index',
     user: req.session.user,
     flash: req.flash(),
   });
 };
 
 exports.registerGet = function(req, res) {
-  Department.getAll(function(err, departments) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
+  Department.getAll(function(departments) {
     res.render('register.jade', {
-      name: 'register',
       user: req.session.user,
       flash: req.flash(),
       departments: departments,
@@ -66,18 +60,9 @@ exports.registerPost = function(req, res) {
 };
 
 exports.editGet = function(req, res) {
-  User.get(req.session.user, function(err, userinfo) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    Department.getAll(function(err, departments) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
+  User.get(req.session.user, function(userinfo) {
+    Department.getAll(function(departments) {
       res.render('edit.jade', {
-        name: 'edit',
         user: req.session.user,
         flash: req.flash(),
         departments: departments,
@@ -88,7 +73,7 @@ exports.editGet = function(req, res) {
 };
 
 exports.editPost = function(req, res) {
-  User.get(req.session.user, function(err, userinfo) {
+  User.get(req.session.user, function(userinfo) {
     if (userinfo.password != req.body.password) {
       req.flash('warning', '密码错误');
       return res.redirect('/edit');
@@ -115,14 +100,13 @@ exports.editPost = function(req, res) {
 
 exports.loginGet = function(req, res) {
   res.render('login.jade', {
-    name: 'login',
     user: req.session.user,
     flash: req.flash(),
   });
 };
 
 exports.loginPost = function(req, res) {
-  User.get(req.body.studentid, function(err, userinfo) {
+  User.get(req.body.studentid, function(userinfo) {
     if (userinfo == null || userinfo.password != req.body.password) {
       req.flash('warning', '学号或密码错误');
       return res.redirect('/login');
@@ -145,28 +129,11 @@ exports.listGet = function(req, res) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    List.getAllNoAuthority(function(err, list0) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
-      List.getAll(1, 1, function(err, list1) {
-        if (err) {
-          req.flash('warning', err.toString());
-          return res.redirect('/');
-        }
-        List.getAll(2, 2, function(err, list2) {
-          if (err) {
-            req.flash('warning', err.toString());
-            return res.redirect('/');
-          }
-          List.getAll(3, 4, function(err, list3) {
-            if (err) {
-              req.flash('warning', err.toString());
-              return res.redirect('/');
-            }
+    List.getAllNoAuthority(function(list0) {
+      List.getAll(1, 1, function(list1) {
+        List.getAll(2, 2, function(list2) {
+          List.getAll(3, 4, function(list3) {
             res.render('list.jade', {
-              name: 'list',
               user: req.session.user,
               flash: req.flash(),
               list0: list0,
@@ -183,16 +150,14 @@ exports.listGet = function(req, res) {
 
 exports.mapGet = function(req, res) {
   res.render('map.jade', {
-    name: 'map',
     user: req.session.user,
     flash: req.flash(),
   });
 };
 
 exports.confirmGet = function(req, res) {
-  Authority.get(req.session.user, function(err, result){
+  Authority.get(req.session.user, function(result){
     res.render('confirm.jade', {
-      name: 'application',
       user: req.session.user,
       flash: req.flash(),
       rank: result == null ? -1 : result.rank,
@@ -202,12 +167,12 @@ exports.confirmGet = function(req, res) {
 
 exports.confirmPost = function(req, res) {
   if (req.body.choice == 'y') {
-    Authority.set(req.session.user, 2, function(err) {
+    Authority.set(req.session.user, 2, function() {
       req.flash('info', '操作成功');
       return res.redirect('/confirm');
     });
   } else if (req.body.choice == 'n') {
-    Authority.set(req.session.user, 0, function(err) {
+    Authority.set(req.session.user, 0, function() {
       req.flash('info', '操作成功');
       return res.redirect('/confirm');
     });
@@ -219,7 +184,7 @@ exports.confirmPost = function(req, res) {
 
 exports.registerCheckGet = function(req, res) {
   var studentid = parseInt(req.query.studentid);
-  User.get(studentid, function(err, userinfo) {
+  User.get(studentid, function(userinfo) {
     if (userinfo == null) {
       res.send({'valid': true});
     }

@@ -13,16 +13,15 @@ var conn = require('./db').getConnection;
 
 exports.get = function (studentid, callback) {
   if (studentid == null) {
-    return callback(null, null);
+    return callback(null);
   }
   conn().query('SELECT studentid, rank FROM authority WHERE studentid = ?',
                [studentid], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else if (results.length == 0) {
-      return callback(null, null);
+    if (err) throw err;
+    if (results.length == 0) {
+      return callback(null);
     } else {
-      return callback(null, results[0]);
+      return callback(results[0]);
     }
   });
 };
@@ -30,14 +29,16 @@ exports.get = function (studentid, callback) {
 exports.set = function (studentid, rank, callback) {
   conn().query('UPDATE authority SET rank = ? WHERE studentid = ?',
                [rank, studentid], function(err) {
-    return callback(err);
+    if (err) throw err;
+    return callback();
   });
 };
 
 exports.setMoney = function (studentid, money, admin, callback) {
   conn().query('UPDATE authority SET money = ?, admin = ? WHERE studentid = ?',
                [money, admin, studentid], function(err) {
-    return callback(err);
+    if (err) throw err;
+    return callback();
   });
 };
 
@@ -46,32 +47,27 @@ exports.getInfo = function (studentid, prikey, callback) {
                 LEFT JOIN authority on user.studentid = authority.studentid \
                 where user.studentid = ? and prikey = ?',
                [studentid, prikey], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    }
+    if (err) throw err;
     if (results.length == 0) {
-      callback('二维码出错！', null);
+      callback(null);
     } else {
-      callback(null, results[0]);
+      callback(results[0]);
     }
   });
 };
 
 exports.getAuthority = function (studentid, num, callback) {
   if (studentid == null) {
-    return callback(null, false);
+    return callback(false);
   }
-  exports.get(studentid, function(err, authority) {
-    if (err) {
-      return callback(err, false);
-    }
+  exports.get(studentid, function(authority) {
     if (authority == null) {
-      return callback(null, false);
+      return callback(false);
     }
     if (authority.rank >= num) {
-      return callback(null, true);
+      return callback(true);
     } else {
-      return callback(null, false);
+      return callback(false);
     }
   });
 };

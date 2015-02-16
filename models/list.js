@@ -10,11 +10,11 @@ exports.getAll = function (numberL, numberR, callback) {
                 LEFT JOIN sign on user.studentid = sign.studentid and sign.dayid = ? \
                 where user.departmentid = department.id\
                 and user.studentid = authority.studentid\
-                and user.studentid > 1000000010\
                 and ? <= authority.rank and authority.rank <= ?\
                 order by sex desc, user.studentid",
               [dayid, numberL, numberR], function(err, results) {
-    return callback(err, results);
+    if (err) throw err;
+    return callback(results);
   });
 };
 
@@ -24,11 +24,11 @@ exports.getAllNoAuthority = function (callback) {
                 department.name as department,email,phone\
                 from user,department\
                 where user.departmentid = department.id\
-                and user.studentid > 1000000010\
                 and user.studentid NOT IN (SELECT studentid FROM authority)\
                 order by user.sex desc, user.studentid",
               function(err, results) {
-    return callback(err, results);
+    if (err) throw err;
+    return callback(results);
   });
 };
 

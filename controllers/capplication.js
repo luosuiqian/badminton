@@ -3,21 +3,9 @@ var User = require('../models/user');
 var Application = require('../models/application');
 
 exports.applicationGet = function(req, res) {
-  User.get(req.session.user, function(err, userinfo) {
-    if (err) {
-      req.flash('warning', err.toString());
-      return res.redirect('/');
-    }
-    Application.getAll(function(err, table) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/');
-      }
-      Application.getStudentid(req.session.user, function(err, result) {
-        if (err) {
-          req.flash('warning', err.toString());
-          return res.redirect('/');
-        }
+  User.get(req.session.user, function(userinfo) {
+    Application.getAll(function(table) {
+      Application.getStudentid(req.session.user, function(result) {
         res.render('application.jade', {
           name: 'application',
           user: req.session.user,
@@ -39,11 +27,7 @@ exports.applicationPost = function(req, res) {
     return res.redirect('/application');
   }
   if (req.body.type == 'delete') {
-    Application.del(req.session.user, function(err) {
-      if (err) {
-        req.flash('warning', err.toString());
-        return res.redirect('/application');
-      }
+    Application.del(req.session.user, function() {
       req.flash('info', '取消报名成功');
       return res.redirect('/application');
     });

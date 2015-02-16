@@ -87,12 +87,11 @@ exports.get = function (studentid, callback) {
   conn().query('SELECT studentid, password, name, sex, departmentid, \
                 email, phone, renrenid, prikey FROM user WHERE studentid = ?',
                [studentid], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else if (results.length == 0) {
-      return callback(null, null);
+    if (err) throw err;
+    if (results.length == 0) {
+      return callback(null);
     } else {
-      return callback(null, results[0]);
+      return callback(results[0]);
     }
   });
 };
@@ -103,19 +102,13 @@ exports.save = function (body, callback) {
   if (str != null) {
     return callback(str);
   }
-  exports.get(user.studentid, function(err, results) {
-    if (err) {
-      return callback(err);
-    }
+  exports.get(user.studentid, function(results) {
     if (results != null) {
       return callback("该学号已注册");
     }
     conn().query('INSERT INTO user SET ?', user, function(err) {
-      if (err) {
-        return callback(err);
-      } else {
-        return callback(null);
-      }
+      if (err) throw err;
+      return callback(null);
     });
   });
 };
@@ -128,11 +121,8 @@ exports.update = function (body, callback) {
   }
   conn().query('UPDATE user SET ? WHERE studentid = ?',
                [user, user.studentid], function(err) {
-    if (err) {
-      return callback(err);
-    } else {
-      return callback(null);
-    }
+    if (err) throw err;
+    return callback(null);
   });
 };
 

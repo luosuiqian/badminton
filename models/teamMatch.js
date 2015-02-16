@@ -60,15 +60,11 @@ exports.get = function (year, type, callback) {
                 from teamOutline left join department on dep = id \
                 where year = ? and type = ?',
                 [year, type], function(err, outline) {
-    if (err) {
-      return callback(err, null);
-    }
+    if (err) throw err;
     conn().query('select distinct teamId, leftP, rightP, dep12, dep34, total12, total34 \
                   from teamMatch where year = ? and type = ?',
                   [year, type], function(err, results) {
-      if (err) {
-        return callback(err, null);
-      }
+      if (err) throw err;
       if (type <= 2) {
         var teamNum = 0;
         for (var i = 0; i < outline.length; i++) {
@@ -98,16 +94,10 @@ exports.get = function (year, type, callback) {
         }
         for (var i = 0; i < results.length; i++) {
           var id = results[i].teamId - 1;
-          if (tables[id][results[i].leftP][0] != depName[results[i].dep12]) {
-            callback('DB content error!', null);
-          }
-          if (tables[id][results[i].rightP][0] != depName[results[i].dep34]) {
-            callback('DB content error!', null);
-          }
           tables[id][results[i].leftP][results[i].rightP] = results[i].total12 + ':' + results[i].total34;
           tables[id][results[i].rightP][results[i].leftP] = results[i].total34 + ':' + results[i].total12;
         }
-        return callback(err, tables);
+        return callback(tables);
       } else {
         var total = outline[0].total;
         var pos = getPosition(total, 1, total);
@@ -157,7 +147,7 @@ exports.get = function (year, type, callback) {
                               depName[results[i].dep34]);
           table[pos.row][pos.col].content = str;
         }
-        return callback(err, [table]);
+        return callback([table]);
       }
     });
   });
@@ -184,13 +174,8 @@ exports.getDetails = function (year, type, teamId, left, right, callback) {
                 where teamMatch.year = ? and type = ? and teamId = ? and leftP = ? and rightP = ? \
                 order by matchId',
                 [year, year, year, year, year, type, teamId, left, right], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    }
-    if (results.length == 0) {
-      return callback('URL错误', null);
-    }
-    callback(null, results);
+    if (err) throw err;
+    return callback(results);
   });
 };
 

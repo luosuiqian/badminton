@@ -16,6 +16,7 @@ exports.get = function (year, callback) {
   conn().query('select teamUser.id, teamUser.name, superId, department.name as dep \
                 from teamUser, department where year = ? and dep = department.id',
                 [year], function(err, results) {
+    if (err) throw err;
     var maxDepartmentid = 0;
     for (var i = 0; i < results.length; i++) {
       var id = parseInt(results[i].id / 100);
@@ -48,7 +49,7 @@ exports.get = function (year, callback) {
       table[row][col].content = results[i].name;
       table[row][col].superId = results[i].superId;
     }
-    return callback(err, table);
+    return callback(table);
   });
 };
 
@@ -78,10 +79,8 @@ exports.getAll = function (year, type, callback) {
             order by teamApply.dep, teamApply.id";
   }
   conn().query(query, [year], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    }
-    return callback(err, results);
+    if (err) throw err;
+    return callback(results);
   });
 };
 

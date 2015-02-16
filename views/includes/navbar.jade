@@ -14,7 +14,7 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
           |  清华羽协
     div(class='navbar-collapse collapse')
       ul(class='nav navbar-nav')
-        li(class=(name=='application'||name=='activity')?'active':'')
+        li
           a(id="dactivity",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-circle-arrow-down")
@@ -58,7 +58,7 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                 h5
                   span(class="glyphicon glyphicon-thumbs-up")
                   |  群众体育（周六10:00~12:00）
-        li(class=(name=='team')?'active':'')
+        li
           a(id="dteam",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-flag")
@@ -149,7 +149,7 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                     h5
                       span(class="glyphicon glyphicon-info-sign")
                       |  2013团体赛甲乙组总决赛
-        li(class=(name=='individual')?'active':'')
+        li
           a(id="dindividual",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-star")
@@ -187,32 +187,32 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                   span(class="glyphicon glyphicon-pencil")
                   |  2014单项赛报名
       ul(class='nav navbar-nav navbar-right')
-        li(class=(name=='register'||name=='login'||name=='edit'||name=='map'||name=='list'||name=='sign')?'active':'')
+        li
           a(id="duser",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
               span(class="glyphicon glyphicon-list")
               |  帐号
           ul(class="dropdown-menu",role="menu",aria-labelledby="duser")
             if user == null
-              li(class=(name=='login')?'active':'')
+              li
                 a(href='/login')
                   h5
                     span(class="glyphicon glyphicon-log-in")
                     |  登录
             if user == null
-              li(class=(name=='register')?'active':'')
+              li
                 a(href='/register')
                   h5
                     span(class="glyphicon glyphicon-registration-mark")
                     |  注册
             if user != null
-              li(class=(name=='logout')?'active':'')
+              li
                 a(href='/logout')
                   h5
                     span(class="glyphicon glyphicon-log-out")
                     |  登出
             if user != null
-              li(class=(name=='edit')?'active':'')
+              li
                 a(href='/edit')
                   h5
                     span(class="glyphicon glyphicon-edit")
@@ -222,7 +222,7 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                 h5
                   span(class="glyphicon glyphicon-qrcode")
                   |  二维码下载
-            li(class=(name=='map')?'active':'')
+            li
               a(href='/map')
                 h5
                   span(class="glyphicon glyphicon-map-marker")
@@ -232,7 +232,7 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                 h5
                   span(class="glyphicon glyphicon-user")
                   |  签到管理
-            li(class=(name=='list')?'active':'')
+            li
               a(href='/list')
                 h5
                   span(class="glyphicon glyphicon-user")

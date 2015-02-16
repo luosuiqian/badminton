@@ -34,28 +34,26 @@ exports.get = function (time, space, callback) {
   conn().query('SELECT studentid, chosen FROM application \
                 WHERE id = ? and time = ? and space = ?',
              [id, time, space], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else if (results.length == 0) {
-      return callback(null, null);
+    if (err) throw err;
+    if (results.length == 0) {
+      return callback(null);
     } else {
-      return callback(null, results[0]);
+      return callback(results[0]);
     }
   });
 };
 
 exports.getStudentid = function (studentid, callback) {
   if (studentid == null) {
-    return callback(null, null);
+    return callback(null);
   }
   conn().query('SELECT time,space FROM application WHERE id = ? and studentid = ?',
              [id, studentid], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    } else if (results.length == 0) {
-      return callback(null, null);
+    if (err) throw err;
+    if (results.length == 0) {
+      return callback(null);
     } else {
-      return callback(null, results[0]);
+      return callback(results[0]);
     }
   });
 };
@@ -64,9 +62,7 @@ exports.getAll = function (callback) {
   conn().query('SELECT time,space,name,chosen,renrenid FROM application,user\
              WHERE id = ? and application.studentid = user.studentid',
              [id], function(err, results) {
-    if (err) {
-      return callback(err, null);
-    }
+    if (err) throw err;
     var table = new Array(maxTime * maxPeople);
     for (var i = 0; i < maxTime * maxPeople; i++) {
       table[i] = new Array(maxSpace);
@@ -86,7 +82,7 @@ exports.getAll = function (callback) {
       var result = results[i];
       table[result.time][result.space] = result;
     }
-    return callback(null, table);
+    return callback(table);
   });
 };
 
@@ -98,26 +94,17 @@ exports.save = function (timespace, user, callback) {
     || (!(0 <= application.space && application.space < maxSpace))) {
     return callback("时间\场地错误，请重新选择");
   }
-  exports.getStudentid(application.studentid, function(err, results) {
-    if (err) {
-      return callback(err);
-    }
+  exports.getStudentid(application.studentid, function(results) {
     if (results != null) {
       return callback("您已经成功报名，请不要多次提交");
     }
-    exports.get(application.time, application.space, function(err, results) {
-      if (err) {
-        return callback(err);
-      }
+    exports.get(application.time, application.space, function(results) {
       if (results != null) {
         return callback("该场次已被预定，请重新选择");
       }
       conn().query('INSERT INTO application SET ?', application, function(err) {
-        if (err) {
-          return callback(err);
-        } else {
-          return callback(null);
-        }
+        if (err) throw err;
+        return callback(null);
       });
     });
   });
@@ -127,11 +114,8 @@ exports.del = function (studentid, callback) {
   conn().query('DELETE FROM application WHERE id = ? and studentid = ?',
              [id, studentid],
              function(err) {
-    if (err) {
-      return callback(err);
-    } else {
-      return callback(null);
-    }
+    if (err) throw err;
+    return callback();
   });
 }
 

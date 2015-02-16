@@ -12,20 +12,19 @@ var conn = require('./db').getConnection;
 exports.set = function (studentid, dayid, callback) {
   conn().query('insert into sign values (?, ?)',
                [studentid, dayid], function(err) {
-    return callback(err);
+    if (err) throw err;
+    return callback();
   });
 };
 
 exports.get = function (studentid, dayid, callback) {
   conn().query('select studentid from sign where studentid = ? and dayid = ?',
                [studentid, dayid], function(err, result) {
-    if (err) {
-      return callback(err, null);
-    }
+    if (err) throw err;
     if (result.length == 0) {
-      return callback(null, false);
+      return callback(false);
     } else {
-      return callback(null, true);
+      return callback(true);
     }
   });
 };

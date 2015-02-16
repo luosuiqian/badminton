@@ -19,9 +19,7 @@ exports.log = function (ip, url, method, user) {
   }
   conn().query('insert into log values (null, ?, "?", "?", "?", ?)',
                [new Date(), ip, url, method, user], function(err) {
-    if (err) {
-      throw err;
-    }
+    if (err) throw err;
     return;
   });
 };
