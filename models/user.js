@@ -107,7 +107,10 @@ exports.save = function (body, callback) {
       return callback("该学号已注册");
     }
     conn().query('INSERT INTO user SET ?', user, function(err) {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        return callback('操作失败，未知错误，请重试');
+      }
       return callback(null);
     });
   });
@@ -121,7 +124,10 @@ exports.update = function (body, callback) {
   }
   conn().query('UPDATE user SET ? WHERE studentid = ?',
                [user, user.studentid], function(err) {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      return callback('操作失败，未知错误，请重试');
+    }
     return callback(null);
   });
 };

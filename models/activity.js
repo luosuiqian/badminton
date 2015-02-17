@@ -144,7 +144,10 @@ exports.Activity = function (table, space, time,
         }
         conn().query('INSERT INTO activity SET ?',
                      [activity], function(err) {
-          if (err) throw err;
+          if (err) {
+            console.log(err);
+            return callback('操作失败，未知错误，请重试');
+          }
           return callback(null);
         });
       });
@@ -164,15 +167,8 @@ exports.Activity = function (table, space, time,
     if (studentid == null) {
       return callback(false);
     }
-    Authority.get(studentid, function(authority) {
-      if (authority == null) {
-        return callback(false);
-      }
-      if (autLeft <= authority.rank && authority.rank <= autRight) {
-        return callback(true);
-      } else {
-        return callback(false);
-      }
+    Authority.getAuthority(studentid, autLeft, autRight, function(authority) {
+      return callback(authority);
     });
   };
   

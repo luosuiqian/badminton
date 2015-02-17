@@ -129,7 +129,10 @@ exports.save = function (year, body, user, callback) {
     return callback(str);
   }
   conn().query('INSERT INTO indApply SET ?', newApply, function(err) {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      return callback('操作失败，未知错误，请重试');
+    }
     return callback(null);
   });
 };

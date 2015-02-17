@@ -139,10 +139,10 @@ app.get('/qrcode', cSign.qucodeGet);
 
 app.get('/map', cUser.mapGet);
 
-app.get('/sign', cSign.signGet);
+app.get('/sign', cSign.signAllGet);
+app.get('/sign/:id/:psw/signin', cSign.signInGet);
 app.get('/sign/:id/:psw', cSign.signStuGet);
 app.post('/sign/:id/:psw', cSign.signStuPost);
-app.get('/sign/:id/:psw/signin', cSign.signStuSigninGet);
 
 app.get('/list', cUser.listGet);
 

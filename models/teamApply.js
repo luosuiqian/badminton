@@ -17,7 +17,7 @@ var conn = require('./db').getConnection;
 exports.get = function (year, dep, callback) {
   conn().query('SELECT id, stu, nam, ema, pho from teamApply \
                 WHERE year = ? and dep = ?',
-               [year, dep], function(results) {
+               [year, dep], function(err, results) {
     if (err) throw err;
     ret = {};
     for (var i = 0; i < results.length; i++) {
@@ -67,7 +67,10 @@ exports.save = function (year, dep, id, body, callback) {
     return callback(str);
   }
   conn().query('REPLACE INTO teamApply SET ?', newApply, function(err) {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      return callback('操作失败，未知错误，请重试');
+    }
     return callback(null);
   });
 };

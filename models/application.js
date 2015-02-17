@@ -103,7 +103,10 @@ exports.save = function (timespace, user, callback) {
         return callback("该场次已被预定，请重新选择");
       }
       conn().query('INSERT INTO application SET ?', application, function(err) {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+          return callback('操作失败，未知错误，请重试');
+        }
         return callback(null);
       });
     });

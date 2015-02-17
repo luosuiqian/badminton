@@ -197,7 +197,7 @@ exports.adminListGet = function (req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Authority.getAuthority(req.session.user, 3, function(authority) {
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');

@@ -1,7 +1,6 @@
 var Global = require('../models/global');
 var User = require('../models/user');
 var Department = require('../models/department');
-var List = require('../models/list');
 var Log = require('../models/log');
 var Authority = require('../models/authority');
 
@@ -124,15 +123,15 @@ exports.logoutGet = function(req, res) {
 };
 
 exports.listGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, function(err, authority) {
+  Authority.getAuthority(req.session.user, 3, 4, function(err, authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    List.getAllNoAuthority(function(list0) {
-      List.getAll(1, 1, function(list1) {
-        List.getAll(2, 2, function(list2) {
-          List.getAll(3, 4, function(list3) {
+    Authority.getAllNoAuthority(function(list0) {
+      Authority.getAll(1, 1, function(list1) {
+        Authority.getAll(2, 2, function(list2) {
+          Authority.getAll(3, 4, function(list3) {
             res.render('list.jade', {
               user: req.session.user,
               flash: req.flash(),
