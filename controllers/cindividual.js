@@ -72,7 +72,7 @@ exports.individualApply = function (req, res) {
       var p12 = IndApply.getP1andP2(type, userinfo);
       if (p12 == null) {
         req.flash('warning', '报名类型错误');
-        return res.redirect('/');
+        return res.redirect('/individual/' + year);
       }
       res.render('individualApply.jade', {
         user: req.session.user,

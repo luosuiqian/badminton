@@ -1,0 +1,41 @@
+extends includes/layout
+
+block headlink
+  title 裁判 -- 清华羽协
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='text-center')
+      h3 未完成的比赛
+      p= match
+      input(type='text', name='query')
+      br
+      button(type='button', class='btn btn-primary', name='send', onclick='send()')
+        | 提交
+    hr
+  
+  include includes/footer
+  
+  script(type='text/javascript').
+    var send = function() {
+      $.ajax({
+        url: "/referee/2015/3/1/4",
+        data: {
+          match: { year: 2015, type: 3, totalP: 16, leftP: 1, rightP: 4, id1: 31, id2: 32, id3: 53, id4: 54, score: '111', game: 2, total: 21, diff: 2, upper: 30, pos: 0, pos12: 0, pos34: 0, serve: 1, status: 0, referee: 2013211588, space: 3 }
+        },
+        type: "POST",
+        dataType: "json",
+        success: function(match) {
+          $('p').text(match.score);
+        },
+      });
+    };
+    $(document).ready(function() {
+    });

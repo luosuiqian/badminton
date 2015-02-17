@@ -10,6 +10,7 @@ var cTeam = require('./controllers/cteam');
 var cSign = require('./controllers/csign');
 var cIndividual = require('./controllers/cindividual');
 var cStatistics = require('./controllers/cstatistics');
+var cReferee = require('./controllers/creferee');
 
 var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
@@ -17,7 +18,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
-app.set('port', 80);
+app.set('port', 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/img/favicon.png'));
@@ -113,6 +114,21 @@ app.get('/individual/:year/Results/:type', cIndividual.individualResults);
 //===========================================================================//
 
 app.get('/statistics/:superId', cStatistics.get);
+
+//===========================================================================//
+
+app.get('/referee', cUser.checkLogin);
+app.get('/referee', cReferee.refereeGet);
+
+app.get('/referee/:year/:type/:leftP/:rightP', cUser.checkLogin);
+app.get('/referee/:year/:type/:leftP/:rightP', cReferee.matchGet);
+app.post('/referee/:year/:type/:leftP/:rightP', cUser.checkLogin);
+app.post('/referee/:year/:type/:leftP/:rightP', cReferee.matchPost);
+
+app.get('/referee/admin', cUser.checkLogin);
+app.get('/referee/admin', cReferee.adminGet);
+app.post('/referee/admin', cUser.checkLogin);
+app.post('/referee/admin', cReferee.adminPost);
 
 //===========================================================================//
 

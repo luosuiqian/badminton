@@ -10,7 +10,6 @@ create table if not exists application
 ) character set utf8;
 */
 
-var util = require('util');
 var conn = require('./db').getConnection;
 var global = require('./global');
 
@@ -22,7 +21,7 @@ const beginHour = global.beginHour;
 const beginMinute = global.beginMinute;
 const period = global.period;
 
-var Application = function (time,space,studentid) {
+var Application = function (time, space, studentid) {
   this.id = id;
   this.time = parseInt(time);
   this.space = parseInt(space);

@@ -186,6 +186,23 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                 h5
                   span(class="glyphicon glyphicon-pencil")
                   |  2014单项赛报名
+        li
+          a(id="dreferee",role="button",data-toggle="dropdown",data-target="#",href="/")
+            h4
+              span(class="glyphicon glyphicon glyphicon-eye-open")
+              |  裁判
+          ul(class="dropdown-menu",role="menu",aria-labelledby="dreferee")
+            li
+              a(href='/referee')
+                h5
+                  span(class="glyphicon glyphicon-play")
+                  |  我是裁判
+            li(class="divider")
+            li
+              a(href='/referee/admin')
+                h5
+                  span(class="glyphicon glyphicon-user")
+                  |  管理员
       ul(class='nav navbar-nav navbar-right')
         li
           a(id="duser",role="button",data-toggle="dropdown",data-target="#",href="/")

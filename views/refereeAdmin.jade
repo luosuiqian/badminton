@@ -1,0 +1,20 @@
+extends includes/layout
+
+block headlink
+  title 裁判 -- 清华羽协
+
+block content
+  include includes/navbar
+  
+  if typeof(flash) != 'undefined'
+    include includes/flash-messages
+    mixin flash-messages(flash)
+  
+  div(class='container')
+    hr
+    div(class='text-center')
+      h3 未完成的比赛
+      p= matches
+    hr
+  
+  include includes/footer
