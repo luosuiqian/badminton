@@ -12,7 +12,7 @@ block content
   
   mixin getName(s, id)
     if s == null
-      | （空）
+      | &nbsp;
     else if id == null
       | #{s}
     else
@@ -48,14 +48,14 @@ block content
               td
                 div
                   +getName(table[i][0].id1, table[i][0].superId1)
-                  if type >= 3
+                  if type >= 3 && table[i][0].id2 != null
                     | /
                     +getName(table[i][0].id2, table[i][0].superId2)
               - for (var j=1;j<table[i].length;j++)
                 if table[i][j].height > 0
                   td(rowspan=table[i][j].height)
                     if table[i][j].score == null
-                      | （空）
+                      | &nbsp;
                     else
                       div
                         +getName(table[i][j].id1, table[i][j].superId1)
