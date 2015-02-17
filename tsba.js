@@ -120,6 +120,11 @@ app.get('/statistics/:superId', cStatistics.get);
 app.get('/referee', cUser.checkLogin);
 app.get('/referee', cReferee.refereeGet);
 
+app.get('/referee/on', cUser.checkLogin);
+app.get('/referee/on', cReferee.refereeOn);
+app.get('/referee/off', cUser.checkLogin);
+app.get('/referee/off', cReferee.refereeOff);
+
 app.get('/referee/:year/:type/:leftP/:rightP', cUser.checkLogin);
 app.get('/referee/:year/:type/:leftP/:rightP', cReferee.matchGet);
 app.post('/referee/:year/:type/:leftP/:rightP', cUser.checkLogin);

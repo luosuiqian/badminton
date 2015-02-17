@@ -1,7 +1,7 @@
 extends includes/layout
 
 block headlink
-  title 裁判 -- 清华羽协
+  title 我是裁判 -- 清华羽协
 
 block content
   include includes/navbar
@@ -13,8 +13,21 @@ block content
   div(class='container')
     hr
     div(class='text-center')
-      h3 未完成的比赛
-      p= matches
+      if referee == null
+        h3 2015年羽毛球单项赛将使用电子设备实时记分，敬请期待！
+        h3 你不是裁判，请到单项赛界面下报名，在比赛开始前，我们将统一开通权限。
+      else
+        if referee.status == 0
+          a(href='/referee/on',class='btn btn-primary') 签到
+          | &nbsp;(我已到比赛现场，可以开始做裁判)
+        else
+          h3 比赛
+          - for (var i=0;i<matches.length;i++)
+            p
+              - link = '/referee/' + matches[i].year + '/' + matches[i].type + '/' + matches[i].leftP + '/' + matches[i].rightP
+              a(href=link,class='btn btn-primary') 比赛#{i+1}
+          a(href='/referee/off',class='btn btn-danger') 签出
+          | &nbsp;(我已完成裁判任务，将离开比赛场地)
     hr
   
   include includes/footer

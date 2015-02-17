@@ -10,7 +10,7 @@ create table if not exists currentIndMatch
     id2 INT,
     id3 INT,
     id4 INT,
-    score CHAR(200),
+    points CHAR(200),
     game INT,
     total INT,
     diff INT,
@@ -25,8 +25,12 @@ create table if not exists currentIndMatch
     primary key(year, type, leftP, rightP)
 ) character set utf8;
 
-insert into currentIndMatch values (2015, 3, 16, 1, 4, 31, 32, 53, 54, '', 2, 21, 2, 30, 0, 0, 0, 0, 0, 2013211588, 3);
-insert into currentIndMatch values (2015, 3, 16, 7, 8, 33, 34, 59, 60, '', 1, 31, 1, 31, 0, 0, 0, 0, 0, 2013211589, 6);
+create table if not exists referee
+(
+    studentid INT,
+    status INT,
+    primary key(studentid)
+) character set utf8;
 
 create table if not exists indUser
 (
@@ -42,7 +46,43 @@ create table if not exists indUser
 
 var conn = require('./db').getConnection;
 
-exports.getAll = function (studentid, callback) {
+exports.refGetAll = function (callback) {
+  conn().query('SELECT studentid, status FROM referee',
+               function(err, results) {
+    if (err) throw err;
+    return callback(results);
+  });
+};
+
+exports.refGet = function (studentid, callback) {
+  conn().query('SELECT studentid, status FROM referee WHERE studentid = ?',
+               [studentid], function(err, results) {
+    if (err) throw err;
+    if (results.length == 0) {
+      return callback(null);
+    } else {
+      return callback(results[0]);
+    }
+  });
+};
+
+exports.refOn = function (studentid, callback) {
+  conn().query('UPDATE referee SET status = 1 WHERE studentid = ?',
+               [studentid], function(err) {
+    if (err) throw err;
+    return callback();
+  });
+};
+
+exports.refOff = function (studentid, callback) {
+  conn().query('UPDATE referee SET status = 0 WHERE studentid = ?',
+               [studentid], function(err) {
+    if (err) throw err;
+    return callback();
+  });
+};
+
+exports.getMatchAll = function (studentid, callback) {
   conn().query('SELECT * FROM currentIndMatch WHERE referee = ?',
                [studentid], function(err, results) {
     if (err) throw err;

@@ -3,11 +3,26 @@ var CurrentIndMatch = require('../models/currentIndMatch');
 var util = require('util');
 
 exports.refereeGet = function(req, res) {
-  CurrentIndMatch.getAll(req.session.user, function(results) {
-    res.render('referee.jade', {
-      user: req.session.user,
-      matches: util.inspect(results),
+  CurrentIndMatch.refGet(req.session.user, function(referee) {
+    CurrentIndMatch.getMatchAll(req.session.user, function(results) {
+      res.render('referee.jade', {
+        user: req.session.user,
+        referee: referee,
+        matches: results,
+      });
     });
+  });
+};
+
+exports.refereeOn = function(req, res) {
+  CurrentIndMatch.refOn(req.session.user, function() {
+    res.redirect('/referee');
+  });
+};
+
+exports.refereeOff = function(req, res) {
+  CurrentIndMatch.refOff(req.session.user, function() {
+    res.redirect('/referee');
   });
 };
 

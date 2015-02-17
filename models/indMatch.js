@@ -13,6 +13,8 @@ create table if not exists indMatch
     score12 INT,
     score34 INT,
     detail VARCHAR(20),
+    referee INT,
+    points CHAR(200),
     primary key(year, type, leftP, rightP)
 ) character set utf8;
 
