@@ -1,14 +1,13 @@
 var Authority = require('../models/authority');
 var CurrentIndMatch = require('../models/currentIndMatch');
-var util = require('util');
 
 exports.refereeGet = function(req, res) {
   CurrentIndMatch.refGet(req.session.user, function(referee) {
-    CurrentIndMatch.getMatchAll(req.session.user, function(results) {
+    CurrentIndMatch.matchGetAll(req.session.user, function(matches) {
       res.render('referee.jade', {
         user: req.session.user,
         referee: referee,
-        matches: results,
+        matches: matches,
       });
     });
   });
@@ -26,57 +25,75 @@ exports.refereeOff = function(req, res) {
   });
 };
 
-exports.matchGet = function(req, res) {
+exports.matchIndex = function(req, res) {
   var year = parseInt(req.params.year);
   var type = parseInt(req.params.type);
   var leftP = parseInt(req.params.leftP);
   var rightP = parseInt(req.params.rightP);
-  CurrentIndMatch.getMatch(req.session.user, year,
-                           type, leftP, rightP, function(result) {
-    res.render('refereeMatch.jade', {
-      user: req.session.user,
-      match: util.inspect(result),
-    });
+  res.render('refereeMatch.jade', {
+    user: req.session.user,
+    year: year,
+    type: type,
+    leftP: leftP,
+    rightP: rightP,
+  });
+};
+
+exports.matchGet = function(req, res) {
+  var match = req.body.match;
+  CurrentIndMatch.matchGet(match.referee, match.year, match.type,
+                            match.leftP, match.rightP, function(results) {
+    res.send(results);
   });
 };
 
 exports.matchPost = function(req, res) {
   var match = req.body.match;
   match.referee = req.session.user;
-  CurrentIndMatch.updateMatch(match, function() {
-    CurrentIndMatch.getMatch(match.referee, match.year, match.type,
-                             match.leftP, match.rightP, function(results) {
-      res.send(results);
-    });
+  CurrentIndMatch.matchUpdate(match, function() {
+    exports.matchGet(req, res);
   });
 };
 
 exports.adminGet = function(req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2015) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
   Authority.getAuthority(req.session.user, 3, 4, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    CurrentIndMatch.adminGet(function(results) {
-      res.render('refereeAdmin.jade', {
-        user: req.session.user,
-        matches: util.inspect(results),
+    CurrentIndMatch.adminGet(function(currentIndMatches) {
+      CurrentIndMatch.refGetAll(function(referees) {
+        // TODO
+        res.render('refereeAdmin.jade', {
+          user: req.session.user,
+          currentIndMatches: currentIndMatches,
+          referees: referees,
+        });
       });
     });
   });
 };
 
 exports.adminPost = function(req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2015) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
   Authority.getAuthority(req.session.user, 3, 4, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    var newMatch = req.query.newMatch;
-    CurrentIndMatch.adminPost(newMatch, function() {
-      CurrentIndMatch.adminGet(function(results) {
-        res.send(results);
-      });
+    var match = req.query.match;
+    var type = req.query.type;
+    CurrentIndMatch.adminPost(match, type, function() {
+      res.redirect('/referee/admin');
     });
   });
 };

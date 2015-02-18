@@ -82,7 +82,7 @@ exports.refOff = function (studentid, callback) {
   });
 };
 
-exports.getMatchAll = function (studentid, callback) {
+exports.matchGetAll = function (studentid, callback) {
   conn().query('SELECT * FROM currentIndMatch WHERE referee = ?',
                [studentid], function(err, results) {
     if (err) throw err;
@@ -90,7 +90,7 @@ exports.getMatchAll = function (studentid, callback) {
   });
 };
 
-exports.getMatch = function (studentid, year, type, leftP, rightP, callback) {
+exports.matchGet = function (studentid, year, type, leftP, rightP, callback) {
   conn().query('SELECT * FROM currentIndMatch WHERE referee = ?\
                 and year = ? and type = ? and leftP = ? and rightP = ?',
                [studentid, year, type, leftP, rightP], function(err, results) {
@@ -103,7 +103,7 @@ exports.getMatch = function (studentid, year, type, leftP, rightP, callback) {
   });
 };
 
-exports.updateMatch = function (match, callback) {
+exports.matchUpdate = function (match, callback) {
   conn().query('UPDATE currentIndMatch SET ? WHERE referee = ?\
                 and year = ? and type = ? and leftP = ? and rightP = ?',
                [match, match.referee, match.year, match.type,
@@ -123,10 +123,37 @@ exports.adminGet = function (callback) {
   });
 };
 
-exports.adminPost = function (newMatch, callback) {
-  conn().query('INSERT INTO currentIndMatch SET ?', newMatch, function(err) {
-    if (err) throw err;
-    return callback();
-  });
+var IndMatch = function (match) {
+  this.year = match.year;
+  // TODO
+};
+
+exports.adminPost = function (match, type, callback) {
+  if (type == 1) {
+    conn().query('INSERT INTO currentIndMatch SET ?', match, function(err) {
+      if (err) throw err;
+      return callback();
+    });
+  } else if (type == 2) {
+    var indMatch = new IndMatch(match);
+    conn().query('INSERT INTO indMatch SET ?', indMatch, function(err) {
+      if (err) throw err;
+      conn().query('UPDATE currentIndMatch SET status = 3 WHERE referee = ?\
+                    and year = ? and type = ? and leftP = ? and rightP = ?',
+                    [match.referee, match.year, match.type,
+                    match.leftP, match.rightP], function(err) {
+        if (err) throw err;
+        return callback();
+      });
+    });
+  } else if (type == 3) {
+    conn().query('delete from currentIndMatch WHERE referee = ?\
+                and year = ? and type = ? and leftP = ? and rightP = ?',
+               [match.referee, match.year, match.type,
+                match.leftP, match.rightP], function(err) {
+      if (err) throw err;
+      return callback();
+    });
+  }
 };
 

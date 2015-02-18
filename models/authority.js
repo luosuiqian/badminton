@@ -62,6 +62,9 @@ exports.getAuthority = function (studentid, autLeft, autRight, callback) {
     return callback(false);
   }
   exports.get(studentid, function(authority) {
+    if (authority == null) {
+      return callback(false);
+    }
     if (autLeft <= authority.rank && authority.rank <= autRight) {
       return callback(true);
     } else {

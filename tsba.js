@@ -126,14 +126,14 @@ app.get('/referee/off', cUser.checkLogin);
 app.get('/referee/off', cReferee.refereeOff);
 
 app.get('/referee/:year/:type/:leftP/:rightP', cUser.checkLogin);
-app.get('/referee/:year/:type/:leftP/:rightP', cReferee.matchGet);
-app.post('/referee/:year/:type/:leftP/:rightP', cUser.checkLogin);
-app.post('/referee/:year/:type/:leftP/:rightP', cReferee.matchPost);
+app.get('/referee/:year/:type/:leftP/:rightP', cReferee.matchIndex);
+app.get('/referee/:year/:type/:leftP/:rightP/match', cUser.checkLogin);
+app.get('/referee/:year/:type/:leftP/:rightP/match', cReferee.matchGet);
+app.post('/referee/:year/:type/:leftP/:rightP/match', cUser.checkLogin);
+app.post('/referee/:year/:type/:leftP/:rightP/match', cReferee.matchPost);
 
-app.get('/referee/admin', cUser.checkLogin);
-app.get('/referee/admin', cReferee.adminGet);
-app.post('/referee/admin', cUser.checkLogin);
-app.post('/referee/admin', cReferee.adminPost);
+app.get('/referee/admin/:year', cReferee.adminGet);
+app.post('/referee/admin/:year', cReferee.adminPost);
 
 //===========================================================================//
 
