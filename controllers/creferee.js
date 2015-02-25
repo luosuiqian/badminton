@@ -30,6 +30,10 @@ exports.matchIndex = function(req, res) {
   var type = parseInt(req.params.type);
   var leftP = parseInt(req.params.leftP);
   var rightP = parseInt(req.params.rightP);
+  if (!year || !type || !leftP || !rightP) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
   res.render('refereeMatch.jade', {
     user: req.session.user,
     year: year,
@@ -40,15 +44,26 @@ exports.matchIndex = function(req, res) {
 };
 
 exports.matchGet = function(req, res) {
-  var match = req.body.match;
-  CurrentIndMatch.matchGet(match.referee, match.year, match.type,
-                            match.leftP, match.rightP, function(results) {
+  var year = parseInt(req.params.year);
+  var type = parseInt(req.params.type);
+  var leftP = parseInt(req.params.leftP);
+  var rightP = parseInt(req.params.rightP);
+  if (!year || !type || !leftP || !rightP) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  CurrentIndMatch.matchGet(req.session.user, year, type,
+                            leftP, rightP, function(results) {
     res.send(results);
   });
 };
 
 exports.matchPost = function(req, res) {
   var match = req.body.match;
+  if (match == null) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
   match.referee = req.session.user;
   CurrentIndMatch.matchUpdate(match, function() {
     exports.matchGet(req, res);

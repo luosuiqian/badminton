@@ -13,12 +13,54 @@ block content
   div(class='container')
     hr
     div(class='text-center')
-      h3 未完成的比赛
-      p= match
-      input(type='text', name='query')
-      br
-      button(type='button', class='btn btn-danger', name='send', onclick='send()')
-        | 提交
+      h6(id='info')
+      h3(id='loading') 正在同步，稍候
+      h3(id='finished', style='display:none') 比赛已经结束！
+      h3(id='gL')
+      h3(id='gR')
+      h3(id='sL')
+      h3(id='sR')
+      h3(id='points')
+      h3(id='upperLeft')
+      h3(id='upperRight')
+      h3(id='lowerLeft')
+      h3(id='lowerRight')
+      h3(id='upperLeftBall')
+      h3(id='upperRightBall')
+      h3(id='lowerLeftBall')
+      h3(id='lowerRightBall')
+      button(type='button', class='btn btn-info', id='pos', style='display:none')
+        | 交换场地
+      | &nbsp;
+      button(type='button', class='btn btn-info', id='pos12', style='display:none')
+        | 选手交换位置
+      | &nbsp;
+      button(type='button', class='btn btn-info', id='pos34', style='display:none')
+        | 选手交换位置
+      | &nbsp;
+      button(type='button', class='btn btn-info', id='serve', style='display:none')
+        | 交换发球
+      | &nbsp;
+      button(type='button', class='btn btn-success', id='point12', style='display:none')
+        | 得分
+      | &nbsp;
+      button(type='button', class='btn btn-success', id='point34', style='display:none')
+        | 得分
+      | &nbsp;
+      button(type='button', class='btn btn-danger', id='gg12', style='display:none')
+        | 弃权
+      | &nbsp;
+      button(type='button', class='btn btn-danger', id='gg34', style='display:none')
+        | 弃权
+      | &nbsp;
+      button(type='button', class='btn btn-success', id='status1', style='display:none')
+        | 比赛开始
+      | &nbsp;
+      button(type='button', class='btn btn-success', id='status2', style='display:none')
+        | 比赛结束，确认提交
+      | &nbsp;
+      button(type='button', class='btn btn-danger', id='repeal', style='display:none')
+        | 撤销
       | &nbsp;
       a(href='/referee', class='btn btn-primary')
         | 返回
@@ -26,19 +68,188 @@ block content
   
   include includes/footer
   
+  - var url = '/referee/' + year + '/' + type + '/' + leftP + '/' + rightP + '/match'
   script(type='text/javascript').
-    var send = function() {
+    var calc = function(match) {
+      var totalGame = parseInt(match.game);
+      var pL = new Array(totalGame * 2);
+      var pR = new Array(totalGame * 2);
+      for (var i = 0; i < totalGame; i++) pL[i] = pR[i] = 0;
+      var gL = 0, gR = 0;
+      var now = 0;
+      var finished = false;
+      var lowerLeft = match.id1;
+      var upperLeft = match.id2;
+      var upperRight = match.id3;
+      var lowerRight = match.id4;
+      
+      for (var i = 0; i < match.points.length; i++) {
+        if (match.points[i] == '8' || match.points[i] == '9') {
+          if (match.points[i] == '8') gL = totalGame;
+          if (match.points[i] == '9') gR = totalGame;
+          finished = true;
+          break;
+        }
+        if (match.points[i] == '0') pL[now]++;
+        if (match.points[i] == '1') pR[now]++;
+        if ((pL[now] >= match.total || pR[now] >= match.total)
+            && (pL[now] - pR[now] >= match.diff || pR[now] - pL[now] >= match.diff)) {
+          if (pL[now] > pR[now]) gL++;
+          if (pL[now] < pR[now]) gR++;
+          if (gL == totalGame || gR == totalGame) finished = true;
+          if (!finished) now++;
+        }
+      }
+      $("#gL").text(gL);
+      $("#gR").text(gR);
+      if (finished == false) {
+        $("#sL").text(pL[now]);
+        $("#sR").text(pR[now]);
+      } else {
+        $("#sL").text('');
+        $("#sR").text('');
+      }
+      var points = '';
+      for (var i = 0; i <= now; i++) {
+        if (i > 0) points += ',';
+        points += pL[i].toString() + "-" + pR[i].toString();
+      }
+      $("#points").text(points);
+      $("#info").text(JSON.stringify(match));
+      return finished;
+    }
+    var match = null;
+    var before = function() {
+      $("#loading").show();
+      $("#point12").prop('disabled', true);
+      $("#point34").prop('disabled', true);
+    }
+    var after = function() {
+      $("#loading").hide();
+      $("#point12").prop('disabled', false);
+      $("#point34").prop('disabled', false);
+    }
+    var update = function() {
+      if (match == null) {
+        alert('错误！请刷新重试！');
+        return;
+      }
+      var finished = calc(match);
+      if (match.status == 2) {
+        $("button").hide();
+        $("#loading").hide();
+        $("#finished").show();
+        return;
+      } else {
+        $("#finished").hide();
+      }
+      if (match.status == 0) {
+        $("#pos").show();
+        $("#pos12").show();
+        $("#pos34").show();
+        $("#serve").show();
+        $("#status1").show();
+      } else {
+        $("#pos").hide();
+        $("#pos12").hide();
+        $("#pos34").hide();
+        $("#serve").hide();
+        $("#status1").hide();
+      }
+      if (match.status == 1 && !finished) {
+        $("#point12").show();
+        $("#point34").show();
+        $("#gg12").show();
+        $("#gg34").show();
+      } else {
+        $("#point12").hide();
+        $("#point34").hide();
+        $("#gg12").hide();
+        $("#gg34").hide();
+      }
+      if (finished) {
+        $("#status2").show();
+      } else {
+        $("#status2").hide();
+      }
+      if (match.status == 0 && match.points == '') {
+        $("#repeal").hide();
+      } else {
+        $("#repeal").show();
+      }
+      setTimeout(after, 500);
+    }
+    var write = function() {
+      before();
       $.ajax({
-        url: "/referee/2015/3/1/4",
-        data: {
-          match: { year: 2015, type: 3, totalP: 16, leftP: 1, rightP: 4, id1: 31, id2: 32, id3: 53, id4: 54, points: '111', game: 2, total: 21, diff: 2, upper: 30, pos: 0, pos12: 0, pos34: 0, serve: 1, status: 0, referee: 2013211588, space: 3 }
-        },
+        url: "#{url}",
+        data: {match: match},
         type: "POST",
         dataType: "json",
-        success: function(match) {
-          $('p').text(match.score);
+        success: function(m) {
+          match = m;
+          update();
         },
       });
     };
+    var read = function() {
+      $.ajax({
+        url: "#{url}",
+        type: "GET",
+        success: function(m) {
+          match = m;
+          update();
+        },
+      });
+    };
+    $("#pos").click(function() {
+      match.pos = 1 - match.pos;
+      write();
+    });
+    $("#pos12").click(function() {
+      match.pos12 = 1 - match.pos12;
+      write();
+    });
+    $("#pos34").click(function() {
+      match.pos34 = 1 - match.pos34;
+      write();
+    });
+    $("#serve").click(function() {
+      match.serve = 1 - match.serve;
+      write();
+    });
+    $("#point12").click(function() {
+      match.points += "0";
+      write();
+    });
+    $("#point34").click(function() {
+      match.points += "1";
+      write();
+    });
+    $("#gg12").click(function() {
+      match.points += "8";
+      write();
+    });
+    $("#gg34").click(function() {
+      match.points += "9";
+      write();
+    });
+    $("#status1").click(function() {
+      match.status = 1;
+      write();
+    });
+    $("#status2").click(function() {
+      match.status = 2;
+      write();
+    });
+    $("#repeal").click(function() {
+      if (match.points != '') {
+        match.points = match.points.substring(0, match.points.length - 1);
+      } else {
+        match.status = 0;
+      }
+      write();
+    });
     $(document).ready(function() {
+      read();
     });
