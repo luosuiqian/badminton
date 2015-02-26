@@ -13,55 +13,32 @@ block content
   div(class='container')
     hr
     div(class='text-center')
-      h6(id='info')
+      h6(id='debug')
+      h6(id='debug2')
       h3(id='loading') 正在同步，稍候
       h3(id='finished', style='display:none') 比赛已经结束！
-      h3(id='gL')
-      h3(id='gR')
-      h3(id='sL')
-      h3(id='sR')
-      h3(id='points')
-      h3(id='upperLeft')
-      h3(id='upperRight')
-      h3(id='lowerLeft')
-      h3(id='lowerRight')
-      h3(id='upperLeftBall')
-      h3(id='upperRightBall')
-      h3(id='lowerLeftBall')
-      h3(id='lowerRightBall')
       button(type='button', class='btn btn-info', id='pos', style='display:none')
         | 交换场地
-      | &nbsp;
-      button(type='button', class='btn btn-info', id='pos12', style='display:none')
-        | 选手交换位置
-      | &nbsp;
-      button(type='button', class='btn btn-info', id='pos34', style='display:none')
-        | 选手交换位置
-      | &nbsp;
       button(type='button', class='btn btn-info', id='serve', style='display:none')
         | 交换发球
-      | &nbsp;
+      button(type='button', class='btn btn-info', id='pos12', style='display:none')
+        | 选手交换位置
+      button(type='button', class='btn btn-info', id='pos34', style='display:none')
+        | 选手交换位置
       button(type='button', class='btn btn-success', id='point12', style='display:none')
         | 得分
-      | &nbsp;
       button(type='button', class='btn btn-success', id='point34', style='display:none')
         | 得分
-      | &nbsp;
       button(type='button', class='btn btn-danger', id='gg12', style='display:none')
         | 弃权
-      | &nbsp;
       button(type='button', class='btn btn-danger', id='gg34', style='display:none')
         | 弃权
-      | &nbsp;
-      button(type='button', class='btn btn-success', id='status1', style='display:none')
-        | 比赛开始
-      | &nbsp;
-      button(type='button', class='btn btn-success', id='status2', style='display:none')
+      button(type='button', class='btn btn-success', id='gameStart', style='display:none')
+        | 选定场地、发球，进入第一局比赛
+      button(type='button', class='btn btn-success', id='gameEnd', style='display:none')
         | 比赛结束，确认提交
-      | &nbsp;
       button(type='button', class='btn btn-danger', id='repeal', style='display:none')
         | 撤销
-      | &nbsp;
       a(href='/referee', class='btn btn-primary')
         | 返回
     hr
@@ -70,55 +47,73 @@ block content
   
   - var url = '/referee/' + year + '/' + type + '/' + leftP + '/' + rightP + '/match'
   script(type='text/javascript').
-    var calc = function(match) {
+    var parse = function(match) {
       var totalGame = parseInt(match.game);
-      var pL = new Array(totalGame * 2);
-      var pR = new Array(totalGame * 2);
-      for (var i = 0; i < totalGame; i++) pL[i] = pR[i] = 0;
-      var gL = 0, gR = 0;
-      var now = 0;
-      var finished = false;
-      var lowerLeft = match.id1;
-      var upperLeft = match.id2;
-      var upperRight = match.id3;
-      var lowerRight = match.id4;
-      
+      var scoreL = new Array(totalGame * 2 - 1);
+      var scoreR = new Array(totalGame * 2 - 1);
+      for (var i = 0; i < totalGame * 2 - 1; i++) scoreL[i] = scoreR[i] = 0;
+      var gameL = 0, gameR = 0, now = 0, swap = false, giveUp = false;
+      var finished = false, newGame = true, finalPos = false;
+      var pos = match.pos, serve = match.serve;
+      var posL = match.pos12 & 1;
+      var posR = match.pos34 & 1;
       for (var i = 0; i < match.points.length; i++) {
+        swap = false;
         if (match.points[i] == '8' || match.points[i] == '9') {
-          if (match.points[i] == '8') gL = totalGame;
-          if (match.points[i] == '9') gR = totalGame;
+          if (match.points[i] == '8') gameL = totalGame;
+          if (match.points[i] == '9') gameR = totalGame;
+          giveUp = true;
           finished = true;
+          newGame = false;
           break;
         }
-        if (match.points[i] == '0') pL[now]++;
-        if (match.points[i] == '1') pR[now]++;
-        if ((pL[now] >= match.total || pR[now] >= match.total)
-            && (pL[now] - pR[now] >= match.diff || pR[now] - pL[now] >= match.diff)) {
-          if (pL[now] > pR[now]) gL++;
-          if (pL[now] < pR[now]) gR++;
-          if (gL == totalGame || gR == totalGame) finished = true;
-          if (!finished) now++;
+        if (match.points[i] == '0') {
+          scoreL[now]++;
+          if (serve == 0) posL = 1 - posL;
+          else serve = 0;
+        }
+        if (match.points[i] == '1') {
+          scoreR[now]++;
+          if (serve == 1) posR = 1 - posR;
+          else serve = 1;
+        }
+        if (now == totalGame && (scoreL[now] == parseInt((match.total + 1) / 2)
+            || scoreR[now] == parseInt((match.total + 1) / 2)) && !finalPos) {
+          finalPos = true;
+          pos = 1 - pos;
+          swap = true;
+        }
+        if (((scoreL[now] >= match.total || scoreR[now] >= match.total)
+            && (scoreL[now] - scoreR[now] >= match.diff
+                || scoreR[now] - scoreL[now] >= match.diff))
+            || scoreL[now] == match.upper || scoreR[now] == match.upper) {
+          if (scoreL[now] > scoreR[now]) gameL++;
+          if (scoreL[now] < scoreR[now]) gameR++;
+          if (gameL == totalGame || gameR == totalGame) {
+            finished = true;
+            newGame = false;
+            break;
+          } else {
+            finished = false;
+            newGame = true;
+            now++;
+            pos = 1 - pos;
+            swap = true;
+            posL = (match.pos12 >> now) & 1;
+            posR = (match.pos34 >> now) & 1;
+          }
+        } else {
+          finished = false;
+          newGame = false;
         }
       }
-      $("#gL").text(gL);
-      $("#gR").text(gR);
-      if (finished == false) {
-        $("#sL").text(pL[now]);
-        $("#sR").text(pR[now]);
-      } else {
-        $("#sL").text('');
-        $("#sR").text('');
-      }
-      var points = '';
-      for (var i = 0; i <= now; i++) {
-        if (i > 0) points += ',';
-        points += pL[i].toString() + "-" + pR[i].toString();
-      }
-      $("#points").text(points);
-      $("#info").text(JSON.stringify(match));
-      return finished;
+      return {gameL: gameL, gameR: gameR, giveUp: giveUp,
+          scoreL: scoreL, scoreR: scoreR, swap: swap,
+          now: now, newGame: newGame, finished: finished,
+          pos: pos, posL: posL, posR: posR, serve: serve};
     }
     var match = null;
+    var detail = null;
     var before = function() {
       $("#loading").show();
       $("#point12").prop('disabled', true);
@@ -134,48 +129,33 @@ block content
         alert('错误！请刷新重试！');
         return;
       }
-      var finished = calc(match);
-      if (match.status == 2) {
-        $("button").hide();
-        $("#loading").hide();
-        $("#finished").show();
-        return;
-      } else {
-        $("#finished").hide();
-      }
+      $("button").hide();
+      detail = parse(match);
+      $("#debug").text(JSON.stringify(match));
+      $("#debug2").text(JSON.stringify(detail));
       if (match.status == 0) {
         $("#pos").show();
+        $("#serve").show();
+        $("#gameStart").show();
+      }
+      if (match.status == 1) {
+        $("#repeal").show();
+      }
+      if (match.status == 1 && detail.newGame) {
         $("#pos12").show();
         $("#pos34").show();
-        $("#serve").show();
-        $("#status1").show();
-      } else {
-        $("#pos").hide();
-        $("#pos12").hide();
-        $("#pos34").hide();
-        $("#serve").hide();
-        $("#status1").hide();
       }
-      if (match.status == 1 && !finished) {
+      if (match.status == 1 && !detail.finished) {
         $("#point12").show();
         $("#point34").show();
         $("#gg12").show();
         $("#gg34").show();
-      } else {
-        $("#point12").hide();
-        $("#point34").hide();
-        $("#gg12").hide();
-        $("#gg34").hide();
       }
-      if (finished) {
-        $("#status2").show();
-      } else {
-        $("#status2").hide();
+      if (match.status == 1 && detail.finished) {
+        $("#gameEnd").show();
       }
-      if (match.status == 0 && match.points == '') {
-        $("#repeal").hide();
-      } else {
-        $("#repeal").show();
+      if (match.status == 2) {
+        $("#finished").show();
       }
       setTimeout(after, 500);
     }
@@ -207,11 +187,11 @@ block content
       write();
     });
     $("#pos12").click(function() {
-      match.pos12 = 1 - match.pos12;
+      match.pos12 = (1 << detail.now) ^ match.pos12;
       write();
     });
     $("#pos34").click(function() {
-      match.pos34 = 1 - match.pos34;
+      match.pos34 = (1 << detail.now) ^ match.pos34;
       write();
     });
     $("#serve").click(function() {
@@ -234,11 +214,11 @@ block content
       match.points += "9";
       write();
     });
-    $("#status1").click(function() {
+    $("#gameStart").click(function() {
       match.status = 1;
       write();
     });
-    $("#status2").click(function() {
+    $("#gameEnd").click(function() {
       match.status = 2;
       write();
     });
