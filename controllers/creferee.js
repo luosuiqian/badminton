@@ -83,15 +83,13 @@ exports.adminGet = function(req, res) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    CurrentIndMatch.adminGet(function(currentIndMatches) {
-      CurrentIndMatch.refGetAll(function(referees) {
-        // TODO
-        res.render('refereeAdmin.jade', {
-          user: req.session.user,
-          flash: req.flash(),
-          currentIndMatches: currentIndMatches,
-          referees: referees,
-        });
+    CurrentIndMatch.adminGet(year, function(ready, current, referees) {
+      res.render('refereeAdmin.jade', {
+        user: req.session.user,
+        flash: req.flash(),
+        ready: ready,
+        current: current,
+        referees: referees,
       });
     });
   });
@@ -108,10 +106,10 @@ exports.adminPost = function(req, res) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    var match = req.query.match;
-    var type = req.query.type;
+    var match = req.body.match;
+    var type = req.body.type;
     CurrentIndMatch.adminPost(match, type, function() {
-      res.redirect('/referee/admin');
+      res.redirect(req.url);
     });
   });
 };
