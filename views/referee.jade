@@ -22,10 +22,36 @@ block content
           | &nbsp;(我已到比赛现场，可以开始做裁判)
         else
           h3 比赛
-          - for (var i=0;i<matches.length;i++)
-            p
-              - link = '/referee/' + matches[i].year + '/' + matches[i].type + '/' + matches[i].leftP + '/' + matches[i].rightP
-              a(href=link,class='btn btn-primary') 比赛#{i+1}
+          div(class='table-responsive')
+            table(class='table table-striped table-bordered table-hover')
+              thead
+                tr
+                  th 场地
+                  th 选手
+                  th 状态
+                  th 操作
+              tbody
+                - for (var i=0;i<matches.length;i++)
+                  tr
+                    td #{matches[i].space}号场
+                    td
+                      | #{matches[i].id1}
+                      if matches[i].id2 != null
+                        | /#{matches[i].id2}
+                      | &nbsp;vs&nbsp;
+                      | #{matches[i].id3}
+                      if matches[i].id4 != null
+                        | /#{matches[i].id4}
+                    td(class=matches[i].status==2?'success':'danger')
+                      if matches[i].status == 0
+                        | 未开始
+                      if matches[i].status == 1
+                        | 进行中
+                      if matches[i].status == 2
+                        | 已结束
+                    td
+                      - link = '/referee/' + matches[i].year + '/' + matches[i].type + '/' + matches[i].leftP + '/' + matches[i].rightP
+                      a(href=link,class='btn btn-primary') 进入
           a(href='/referee/off',class='btn btn-danger') 签出
           | &nbsp;(我已完成裁判任务，将离开比赛场地)
     hr

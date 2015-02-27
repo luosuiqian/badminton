@@ -10,35 +10,87 @@ block content
     include includes/flash-messages
     mixin flash-messages(flash)
   
-  div(class='container')
+  div(class='container text-center')
     hr
-    div(class='text-center')
-      h6(id='debug')
-      h6(id='debug2')
-      h3(id='loading') 正在同步，稍候
-      h3(id='finished', style='display:none') 比赛已经结束！
-      button(type='button', class='btn btn-info', id='pos', style='display:none')
-        | 交换场地
-      button(type='button', class='btn btn-info', id='serve', style='display:none')
-        | 交换发球
-      button(type='button', class='btn btn-info', id='pos12', style='display:none')
-        | 选手交换位置
-      button(type='button', class='btn btn-info', id='pos34', style='display:none')
-        | 选手交换位置
-      button(type='button', class='btn btn-success', id='point12', style='display:none')
-        | 得分
-      button(type='button', class='btn btn-success', id='point34', style='display:none')
-        | 得分
-      button(type='button', class='btn btn-danger', id='gg12', style='display:none')
-        | 弃权
-      button(type='button', class='btn btn-danger', id='gg34', style='display:none')
-        | 弃权
-      button(type='button', class='btn btn-success', id='gameStart', style='display:none')
-        | 选定场地、发球，进入第一局比赛
-      button(type='button', class='btn btn-success', id='gameEnd', style='display:none')
+    div(class='row')
+      h4(id='finished', style='display:none') 比赛已经结束！
+      button(type='button', class='btn btn-success myButton', id='gameEnd', style='display:none')
         | 比赛结束，确认提交
-      button(type='button', class='btn btn-danger', id='repeal', style='display:none')
-        | 撤销
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        button(type='button', class='btn btn-info myButton', id='pos12', style='display:none')
+          | 换位
+      div(class="col-xs-4")
+        h5(id='swap', style='display:none') 提示选手换场
+      div(class="col-xs-4 text-left")
+        button(type='button', class='btn btn-info myButton', id='pos34', style='display:none')
+          | 换位
+    br
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        h3(id='id2')
+      div(class="col-xs-2 text-left")
+        h3(id='id2Ball', style='display:none') (球)
+      div(class="col-xs-2 text-right")
+        h3(id='id3Ball', style='display:none') (球)
+      div(class="col-xs-4 text-left")
+        h3(id='id3')
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        h3(id='id1')
+      div(class="col-xs-2 text-left")
+        h3(id='id1Ball', style='display:none') (球)
+      div(class="col-xs-2 text-right")
+        h3(id='id4Ball', style='display:none') (球)
+      div(class="col-xs-4 text-left")
+        h3(id='id4')
+    br
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        button(type='button', class='btn btn-info myButton', id='pos', style='display:none')
+          | 交换场地
+      div(class="col-xs-4")
+        button(type='button', class='btn btn-success myButton', id='gameStart', style='display:none')
+          | 开始比赛
+      div(class="col-xs-4 text-left")
+        button(type='button', class='btn btn-info myButton', id='serve', style='display:none')
+          | 更改发球
+    br
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        button(type='button', class='btn btn-success btn-lg myButton', id='point12', style='display:none')
+          | 得分
+      div(class="col-xs-4")
+        h5(id='loading') 同步中...
+      div(class="col-xs-4 text-left")
+        button(type='button', class='btn btn-success btn-lg myButton', id='point34', style='display:none')
+          | 得分
+    br
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        h2(id='scoreL')
+      div(class="col-xs-4 col-xs-offset-4 text-left")
+        h2(id='scoreR')
+    hr
+    div(class='row')
+      h4(id='game')
+    div(class='row')
+      h4(id='points')
+    div(class='row')
+      h4(id='info')
+    br
+    div(class='row')
+      div(class="col-xs-4 text-right")
+        button(type='button', class='btn btn-danger myButton', id='gg12', style='display:none')
+          | 弃权
+      div(class="col-xs-4")
+        button(type='button', class='btn btn-danger myButton', id='repeal', style='display:none')
+          | 撤销
+      div(class="col-xs-4 text-left")
+        button(type='button', class='btn btn-danger myButton', id='gg34', style='display:none')
+          | 弃权
+    br
+    div(class='row')
       a(href='/referee', class='btn btn-primary')
         | 返回
     hr
@@ -60,8 +112,8 @@ block content
       for (var i = 0; i < match.points.length; i++) {
         swap = false;
         if (match.points[i] == '8' || match.points[i] == '9') {
-          if (match.points[i] == '8') gameL = totalGame;
-          if (match.points[i] == '9') gameR = totalGame;
+          if (match.points[i] == '8') gameR = totalGame;
+          if (match.points[i] == '9') gameL = totalGame;
           giveUp = true;
           finished = true;
           newGame = false;
@@ -107,32 +159,128 @@ block content
           newGame = false;
         }
       }
+      var points = '';
+      for (var i = 0; i <= now; i++) {
+        if (i > 0) points += ',';
+        if (scoreL[i] > 0 || scoreR[i] > 0) points += scoreL[i] + "-" + scoreR[i];
+      }
+      if (giveUp) {
+        if (points != '') points += ',';
+        points += "弃";
+      }
       return {gameL: gameL, gameR: gameR, giveUp: giveUp,
-          scoreL: scoreL, scoreR: scoreR, swap: swap,
+          scoreL: scoreL, scoreR: scoreR, points: points, swap: swap,
           now: now, newGame: newGame, finished: finished,
           pos: pos, posL: posL, posR: posR, serve: serve};
     }
-    var match = null;
-    var detail = null;
     var before = function() {
       $("#loading").show();
       $("#point12").prop('disabled', true);
       $("#point34").prop('disabled', true);
+      $("#repeal").prop('disabled', true);
     }
     var after = function() {
       $("#loading").hide();
       $("#point12").prop('disabled', false);
       $("#point34").prop('disabled', false);
+      $("#repeal").prop('disabled', false);
     }
+    var match = null;
+    var detail = null;
     var update = function() {
       if (match == null) {
         alert('错误！请刷新重试！');
         return;
       }
-      $("button").hide();
+      $(".myButton").hide();
       detail = parse(match);
-      $("#debug").text(JSON.stringify(match));
-      $("#debug2").text(JSON.stringify(detail));
+      if (detail.swap) $("#swap").show();
+      else $("#swap").hide();
+      $("#id1Ball").hide();
+      $("#id2Ball").hide();
+      $("#id3Ball").hide();
+      $("#id4Ball").hide();
+      if (detail.pos == 0) {
+        if (detail.serve == 0) {
+          if (detail.scoreL[detail.now] % 2 == 0) {
+            $("#id1Ball").show();
+          } else {
+            $("#id2Ball").show();
+          }
+        } else {
+          if (detail.scoreR[detail.now] % 2 == 0) {
+            $("#id3Ball").show();
+          } else {
+            $("#id4Ball").show();
+          }
+        }
+        $("#scoreL").text(detail.scoreL[detail.now]);
+        $("#scoreR").text(detail.scoreR[detail.now]);
+        $("#game").text('局：' + detail.gameL + "-" + detail.gameR);
+        var points = '';
+        for (var i=0;i<=detail.now;i++) {
+          if (i>0) points += ',';
+          points += detail.scoreL[i] + "-" + detail.scoreR[i];
+        }
+        if (detail.giveUp) points += ",弃";
+        $("#points").text('分：' + points);
+      } else {
+        if (detail.serve == 0) {
+          if (detail.scoreL[detail.now] % 2 == 0) {
+            $("#id3Ball").show();
+          } else {
+            $("#id4Ball").show();
+          }
+        } else {
+          if (detail.scoreR[detail.now] % 2 == 0) {
+            $("#id1Ball").show();
+          } else {
+            $("#id2Ball").show();
+          }
+        }
+        $("#scoreL").text(detail.scoreR[detail.now]);
+        $("#scoreR").text(detail.scoreL[detail.now]);
+        $("#game").text('局：' + detail.gameR + "-" + detail.gameL);
+        var points = '';
+        for (var i=0;i<=detail.now;i++) {
+          if (i>0) points += ',';
+          points += detail.scoreR[i] + "-" + detail.scoreL[i];
+        }
+        if (detail.giveUp) points += ",弃";
+        $("#points").text('分：' + points);
+      }
+      var id1 = match.id1, id2 = match.id2, id3 = match.id3, id4 = match.id4;
+      if (match.type <= 2) {
+        if (detail.serve == 0 && detail.scoreL[detail.now] % 2 == 1
+            || detail.serve == 1 && detail.scoreR[detail.now] % 2 == 1) {
+          var tmp = id1; id1 = id2; id2 = tmp;
+          var tmp = id3; id3 = id4; id4 = tmp;
+        }
+      }
+      if (match.type >= 3) {
+        if (detail.posL == 1) {
+          var tmp = id1; id1 = id2; id2 = tmp;
+        }
+        if (detail.posR == 1) {
+          var tmp = id3; id3 = id4; id4 = tmp;
+        }
+      }
+      if (detail.pos == 1) {
+        var tmp = id1; id1 = id3; id3 = tmp;
+        var tmp = id2; id2 = id4; id4 = tmp;
+      }
+      if (id1 == null) id1 = '';
+      if (id2 == null) id2 = '';
+      if (id3 == null) id3 = '';
+      if (id4 == null) id4 = '';
+      $("#id1").text(id1);
+      $("#id2").text(id2);
+      $("#id3").text(id3);
+      $("#id4").text(id4);
+      var info = (match.game * 2 - 1) + "局" + match.game + "胜，每局" + match.total + "分";
+      if (match.diff == 1) info += '（不加分）';
+      else info += '（加分，' + match.upper + '封顶）';
+      $("#info").text(info);
       if (match.status == 0) {
         $("#pos").show();
         $("#serve").show();
@@ -141,7 +289,7 @@ block content
       if (match.status == 1) {
         $("#repeal").show();
       }
-      if (match.status == 1 && detail.newGame) {
+      if (match.status == 1 && detail.newGame && match.type >= 3) {
         $("#pos12").show();
         $("#pos34").show();
       }
@@ -157,7 +305,7 @@ block content
       if (match.status == 2) {
         $("#finished").show();
       }
-      setTimeout(after, 500);
+      setTimeout(after, 200);
     }
     var write = function() {
       before();
@@ -184,14 +332,25 @@ block content
     };
     $("#pos").click(function() {
       match.pos = 1 - match.pos;
+      match.serve = 1 - match.serve;
       write();
     });
     $("#pos12").click(function() {
-      match.pos12 = (1 << detail.now) ^ match.pos12;
+      if (detail.pos == 0) {
+        match.pos12 = (1 << detail.now) ^ match.pos12;
+      }
+      if (detail.pos == 1) {
+        match.pos34 = (1 << detail.now) ^ match.pos34;
+      }
       write();
     });
     $("#pos34").click(function() {
-      match.pos34 = (1 << detail.now) ^ match.pos34;
+      if (detail.pos == 0) {
+        match.pos34 = (1 << detail.now) ^ match.pos34;
+      }
+      if (detail.pos == 1) {
+        match.pos12 = (1 << detail.now) ^ match.pos12;
+      }
       write();
     });
     $("#serve").click(function() {
@@ -199,19 +358,23 @@ block content
       write();
     });
     $("#point12").click(function() {
-      match.points += "0";
+      if (detail.pos == 0) match.points += "0";
+      if (detail.pos == 1) match.points += "1";
       write();
     });
     $("#point34").click(function() {
-      match.points += "1";
+      if (detail.pos == 0) match.points += "1";
+      if (detail.pos == 1) match.points += "0";
       write();
     });
     $("#gg12").click(function() {
-      match.points += "8";
+      if (detail.pos == 0) match.points += "8";
+      if (detail.pos == 1) match.points += "9";
       write();
     });
     $("#gg34").click(function() {
-      match.points += "9";
+      if (detail.pos == 0) match.points += "9";
+      if (detail.pos == 1) match.points += "8";
       write();
     });
     $("#gameStart").click(function() {

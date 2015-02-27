@@ -83,7 +83,17 @@ exports.refOff = function (studentid, callback) {
 };
 
 exports.matchGetAll = function (studentid, callback) {
-  conn().query('SELECT * FROM currentIndMatch WHERE referee = ?',
+  conn().query('SELECT c.year, c.type, c.leftP, c.rightP, c.status, c.space,\
+                ind1.name as id1,\
+                ind2.name as id2,\
+                ind3.name as id3,\
+                ind4.name as id4\
+                FROM currentIndMatch as c\
+                left join indUser as ind1 on c.id1 = ind1.id and c.year = ind1.year and c.type = ind1.type \
+                left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year and c.type = ind2.type \
+                left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year and c.type = ind3.type \
+                left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
+                WHERE referee = ?',
                [studentid], function(err, results) {
     if (err) throw err;
     return callback(results);
@@ -91,8 +101,20 @@ exports.matchGetAll = function (studentid, callback) {
 };
 
 exports.matchGet = function (studentid, year, type, leftP, rightP, callback) {
-  conn().query('SELECT * FROM currentIndMatch WHERE referee = ?\
-                and year = ? and type = ? and leftP = ? and rightP = ?',
+  conn().query('SELECT c.year, c.type, c.leftP, c.rightP, c.points,\
+                ind1.name as id1,\
+                ind2.name as id2,\
+                ind3.name as id3,\
+                ind4.name as id4,\
+                c.game, c.total, c.diff, c.upper, c.pos, c.pos12,\
+                c.pos34, c.serve, c.status, c.referee\
+                FROM currentIndMatch as c\
+                left join indUser as ind1 on c.id1 = ind1.id and c.year = ind1.year and c.type = ind1.type \
+                left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year and c.type = ind2.type \
+                left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year and c.type = ind3.type \
+                left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
+                WHERE c.referee = ?\
+                and c.year = ? and c.type = ? and c.leftP = ? and c.rightP = ?',
                [studentid, year, type, leftP, rightP], function(err, results) {
     if (err) throw err;
     if (results.length == 0) {
@@ -104,10 +126,12 @@ exports.matchGet = function (studentid, year, type, leftP, rightP, callback) {
 };
 
 exports.matchUpdate = function (match, callback) {
-  conn().query('UPDATE currentIndMatch SET ? WHERE referee = ?\
+  conn().query('UPDATE currentIndMatch SET points = ?, pos = ?, pos12 = ?,\
+                pos34 = ?, serve = ?, status = ? WHERE referee = ?\
                 and year = ? and type = ? and leftP = ? and rightP = ?',
-               [match, match.referee, match.year, match.type,
-                match.leftP, match.rightP], function(err) {
+               [match.points, match.pos, match.pos12, match.pos34,
+                match.serve, match.status, match.referee, match.year,
+                match.type, match.leftP, match.rightP], function(err) {
     if (err) {
       console.log(err);
     }
@@ -135,8 +159,8 @@ exports.adminPost = function (match, type, callback) {
       return callback();
     });
   } else if (type == 2) {
-    var indMatch = new IndMatch(match);
-    conn().query('INSERT INTO indMatch SET ?', indMatch, function(err) {
+    var c = new IndMatch(match);
+    conn().query('INSERT INTO c SET ?', c, function(err) {
       if (err) throw err;
       conn().query('UPDATE currentIndMatch SET status = 3 WHERE referee = ?\
                     and year = ? and type = ? and leftP = ? and rightP = ?',
