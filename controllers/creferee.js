@@ -6,6 +6,7 @@ exports.refereeGet = function(req, res) {
     CurrentIndMatch.matchGetAll(req.session.user, function(matches) {
       res.render('referee.jade', {
         user: req.session.user,
+        flash: req.flash(),
         referee: referee,
         matches: matches,
       });
@@ -36,6 +37,7 @@ exports.matchIndex = function(req, res) {
   }
   res.render('refereeMatch.jade', {
     user: req.session.user,
+    flash: req.flash(),
     year: year,
     type: type,
     leftP: leftP,
@@ -86,6 +88,7 @@ exports.adminGet = function(req, res) {
         // TODO
         res.render('refereeAdmin.jade', {
           user: req.session.user,
+          flash: req.flash(),
           currentIndMatches: currentIndMatches,
           referees: referees,
         });

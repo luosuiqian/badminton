@@ -302,7 +302,7 @@ block content
       if (match.status == 1 && detail.finished) {
         $("#gameEnd").show();
       }
-      if (match.status == 2) {
+      if (match.status >= 2) {
         $("#finished").show();
       }
       setTimeout(after, 200);

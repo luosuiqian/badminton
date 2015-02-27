@@ -47,7 +47,7 @@ block content
                         | 未开始
                       if matches[i].status == 1
                         | 进行中
-                      if matches[i].status == 2
+                      if matches[i].status >= 2
                         | 已结束
                     td
                       - link = '/referee/' + matches[i].year + '/' + matches[i].type + '/' + matches[i].leftP + '/' + matches[i].rightP
