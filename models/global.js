@@ -34,7 +34,7 @@ exports.period = 15;
 
 var applicationBeginTime = new Date(2014, 9-1, 19, 13, 0, 0);
 var applicationEndTime = new Date(2014, 10-1, 17, 16, 0, 0);
-  
+
 exports.checkTimeForApplication = function () {
   var now = new Date();
   return (applicationBeginTime <= now && now <= applicationEndTime);

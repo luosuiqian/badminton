@@ -12,7 +12,7 @@ exports.log = function(req, res, next) {
 exports.checkLogin = function (req, res, next) {
   if (req.session.user == null) {
     req.flash('warning', '请先登录');
-    return res.redirect('/login');
+    return res.redirect('/login?redirect=' + req.url);
   }
   next();
 };
@@ -91,7 +91,7 @@ exports.editPost = function(req, res) {
         return res.redirect('/edit');
       } else {
         req.flash('info', '修改资料成功');
-        return res.redirect('/');
+        return res.redirect('/edit');
       }
     });
   });
@@ -112,7 +112,9 @@ exports.loginPost = function(req, res) {
     }
     req.session.user = req.body.studentid;
     req.flash('info', '登录成功');
-    return res.redirect('/');
+    var url = req.query.redirect;
+    if (url == null) url = '/';
+    return res.redirect(url);
   });
 };
 

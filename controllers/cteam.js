@@ -36,7 +36,7 @@ exports.applyDepGet = function (req, res) {
   TeamAuth.get(year, dep, req.session.user, function(auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('back');
+      return res.redirect('/team/' + year + '/Apply');
     }
     TeamApply.get(year, dep, function(results) {
       res.render('teamApplyList.jade', {
@@ -75,7 +75,7 @@ exports.applyDepIdGet = function (req, res) {
   TeamAuth.get(year, dep, req.session.user, function(auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('back');
+      return res.redirect('/team/' + year + '/Apply');
     }
     TeamApply.get(year, dep, function(results) {
       res.render('teamApplyId.jade', {
@@ -114,10 +114,10 @@ exports.applyDepIdPost = function (req, res) {
     TeamApply.save(year, dep, id, req.body, function(err) {
       if (err) {
         req.flash('warning', '修改失败： ' + err.toString());
-        return res.redirect('.');
+        return res.redirect('/team/' + year + '/Apply/' + dep);
       } else {
         req.flash('info', '修改成功');
-        return res.redirect('.');
+        return res.redirect('/team/' + year + '/Apply/' + dep);
       }
     });
   });
