@@ -81,12 +81,11 @@ exports.matchGetAll = function (studentid, callback) {
                 ind3.name as id3,\
                 ind4.name as id4\
                 FROM currentIndMatch as c\
-                left join indUser as ind1 on c.id1 = ind1.id and c.year = ind1.year + 1 and c.type = ind1.type \
-                left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year + 1 and c.type = ind2.type \
-                left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year + 1 and c.type = ind3.type \
-                left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year + 1 and c.type = ind4.type \
-                WHERE referee = ?', // TODO delete + 1
-               [studentid], function(err, results) {
+                left join indUser as ind1 on c.id1 = ind1.id and c.year = ind1.year and c.type = ind1.type \
+                left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year and c.type = ind2.type \
+                left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year and c.type = ind3.type \
+                left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
+                WHERE referee = ?', [studentid], function(err, results) {
     if (err) throw err;
     return callback(results);
   });
@@ -101,12 +100,12 @@ exports.matchGet = function (studentid, year, type, leftP, rightP, callback) {
                 c.game, c.total, c.diff, c.upper, c.pos, c.pos12,\
                 c.pos34, c.serve, c.status, c.referee\
                 FROM currentIndMatch as c\
-                left join indUser as ind1 on c.id1 = ind1.id and c.year = ind1.year + 1 and c.type = ind1.type \
-                left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year + 1 and c.type = ind2.type \
-                left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year + 1 and c.type = ind3.type \
-                left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year + 1 and c.type = ind4.type \
+                left join indUser as ind1 on c.id1 = ind1.id and c.year = ind1.year and c.type = ind1.type \
+                left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year and c.type = ind2.type \
+                left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year and c.type = ind3.type \
+                left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
                 WHERE c.referee = ?\
-                and c.year = ? and c.type = ? and c.leftP = ? and c.rightP = ?', // TODO delete + 1
+                and c.year = ? and c.type = ? and c.leftP = ? and c.rightP = ?',
                [studentid, year, type, leftP, rightP], function(err, results) {
     if (err) throw err;
     if (results.length == 0) {
@@ -288,7 +287,7 @@ exports.adminGet = function (year, callback) {
       if (err) throw err;
       conn().query('SELECT type, total, id, name\
                     FROM indUser WHERE year = ?',
-                   [year - 1], function(err, users) { // TODO delete - 1
+                   [year], function(err, users) {
         if (err) throw err;
         var ready = getReadyMatch(year, users, current);
         return callback(ready, current, referees);
