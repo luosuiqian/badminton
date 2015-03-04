@@ -151,7 +151,7 @@ exports.adminPost = function(req, res) {
     var match = req.body.match;
     var type = req.body.type;
     CurrentIndMatch.adminPost(match, type, function() {
-      res.redirect(req.url);
+      res.send({});
     });
   });
 };

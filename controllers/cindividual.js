@@ -128,7 +128,7 @@ exports.individualCancel = function (req, res) {
 exports.individualResults = function (req, res) {
   var year = parseInt(req.params.year);
   var type = getType(req.params.type);
-  if ((year != 2014) || type == null || type == 9) {
+  if ((year != 2014 && year != 2015) || type == null || type == 9) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }

@@ -143,8 +143,10 @@ exports.adminMatchesGet = function (year, callback) {
   conn().query('SELECT year, type, totalP, leftP, rightP, points, space,\
                 id1, id2, id3, id4,\
                 game, total, diff, upper, pos, pos12,\
-                pos34, serve, status, referee\
-                FROM currentIndMatch WHERE year = ?',
+                pos34, serve, status, referee, name\
+                FROM currentIndMatch\
+                left join user on referee = studentid\
+                WHERE year = ?',
                [year], function(err, matches) {
     if (err) throw err;
     return callback(matches);
@@ -160,6 +162,9 @@ exports.adminRefereesGet = function (callback) {
                 left join user as u on referee.studentid = u.studentid',
                 function(err, referees) {
     if (err) throw err;
+    for (var i = 0; i < referees.length; i++) {
+      if (referees[i].work == null) referees[i].work = 0;
+    }
     return callback(referees);
   });
 };

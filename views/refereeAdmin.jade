@@ -13,8 +13,10 @@ block content
   div(class='container text-center')
     hr
     form(id="myForm",class='form-horizontal',role='form')
-      h4 正在进行的比赛
+      h4 已经开始的比赛
       table(class='table table-striped table-bordered table-hover', id='matches')
+      button(type='button', class='btn btn-danger', id='type2') 提交比赛
+      hr
       h4 可以开始的比赛
       table(class='table table-striped table-bordered table-hover', id='ready')
       h4 裁判
@@ -23,12 +25,11 @@ block content
       input(type='text', id='total', value='21')
       input(type='text', id='diff', value='2')
       input(type='text', id='upper', value='30')
+      | 场地：
       input(type='text', id='space', value='0')
       br
       br
       button(type='button', class='btn btn-danger', id='type1') 新建比赛
-      | &nbsp;
-      button(type='button', class='btn btn-danger', id='type2') 提交比赛
     hr
   
   include includes/footer
@@ -50,6 +51,12 @@ block content
     $("#type1").click(function() {
       var i = parseInt($('input[name=reaCho]:checked', '#myForm').val());
       var j = parseInt($('input[name=refCho]:checked', '#myForm').val());
+      if (isNaN(i) || isNaN(j)) {
+        alert("请选择比赛和裁判！");
+        return;
+      }
+      $("#type1").prop('disabled', true);
+      $("#type2").prop('disabled', true);
       $.ajax({
         url: "#{url}",
         data: {type: 1, match: {
@@ -77,14 +84,20 @@ block content
         }},
         type: "POST",
         dataType: "json",
-        success: function() {
+        success: function(m) {
           location.reload();
         },
       });
     });
     $("#type2").click(function() {
       var i = parseInt($('input[name=matCho]:checked', '#myForm').val());
+      if (isNaN(i)) {
+        alert("请选择比赛！");
+        return;
+      }
       var detail = parseMatch(matches[i]);
+      $("#type1").prop('disabled', true);
+      $("#type2").prop('disabled', true);
       $.ajax({
         url: "#{url}",
         data: {type: 2, match: {
@@ -108,11 +121,27 @@ block content
         }},
         type: "POST",
         dataType: "json",
-        success: function() {
+        success: function(m) {
           location.reload();
         },
       });
     });
+    var showType = function (type) {
+      if (type == 1) return "男单";
+      if (type == 3) return "男双";
+      if (type == 4) return "女双";
+      if (type == 5) return "混双";
+    };
+    var showStatus = function (status) {
+      if (status == 0) return "未开始";
+      if (status == 1) return "进行中";
+      if (status == 2) return "已结束，未提交";
+      if (status == 3) return "已结束，已提交";
+    };
+    var showOn = function (status) {
+      if (status == 0) return "----";
+      if (status == 1) return "到！";
+    }
     $(document).ready(function() {
       read("#{url}" + "users", function(m) {
         users = m;
@@ -126,7 +155,7 @@ block content
             {
               var tr = $("<tr></tr>");
               $("<td>" + matches[i].year + "</td>").appendTo(tr);
-              $("<td>" + matches[i].type + "</td>").appendTo(tr);
+              $("<td>" + showType(matches[i].type) + "</td>").appendTo(tr);
               $("<td>" + matches[i].totalP + "</td>").appendTo(tr);
               $("<td>" + matches[i].leftP + "</td>").appendTo(tr);
               $("<td>" + matches[i].rightP + "</td>").appendTo(tr);
@@ -134,9 +163,11 @@ block content
               $("<td>" + matches[i].nam2 + "</td>").appendTo(tr);
               $("<td>" + matches[i].nam3 + "</td>").appendTo(tr);
               $("<td>" + matches[i].nam4 + "</td>").appendTo(tr);
-              $("<td>" + matches[i].status + "</td>").appendTo(tr);
-              $("<td>" + matches[i].space + "</td>").appendTo(tr);
-              $("<td>" + '<input type="radio" name="matCho" value='+i+'>' + "</td>").appendTo(tr);
+              $("<td>" + showStatus(matches[i].status) + "</td>").appendTo(tr);
+              $("<td>" + matches[i].space + "号场" + "</td>").appendTo(tr);
+              $("<td>" + matches[i].name + "</td>").appendTo(tr);
+              if (matches[i].status == 2) $("<td>" + '<input type="radio" name="matCho" value='+i+'>' + "</td>").appendTo(tr);
+              else $("<td> </td>").appendTo(tr);
               tr.appendTo(table);
             }
             var table = $("#ready");
@@ -144,7 +175,7 @@ block content
             {
               var tr = $("<tr></tr>");
               $("<td>" + ready[i].year + "</td>").appendTo(tr);
-              $("<td>" + ready[i].type + "</td>").appendTo(tr);
+              $("<td>" + showType(ready[i].type) + "</td>").appendTo(tr);
               $("<td>" + ready[i].totalP + "</td>").appendTo(tr);
               $("<td>" + ready[i].leftP + "</td>").appendTo(tr);
               $("<td>" + ready[i].rightP + "</td>").appendTo(tr);
@@ -161,8 +192,8 @@ block content
               var tr = $("<tr></tr>");
               $("<td>" + referees[i].studentid + "</td>").appendTo(tr);
               $("<td>" + referees[i].name + "</td>").appendTo(tr);
-              $("<td>" + referees[i].status + "</td>").appendTo(tr);
-              $("<td>" + referees[i].work + "</td>").appendTo(tr);
+              $("<td>" + showOn(referees[i].status) + "</td>").appendTo(tr);
+              $("<td>" + referees[i].work + "工作进行中" + "</td>").appendTo(tr);
               $("<td>" + '<input type="radio" name="refCho" value='+i+'>' + "</td>").appendTo(tr);
               tr.appendTo(table);
             }
