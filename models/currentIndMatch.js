@@ -85,7 +85,8 @@ exports.matchGetAll = function (studentid, callback) {
                 left join indUser as ind2 on c.id2 = ind2.id and c.year = ind2.year and c.type = ind2.type \
                 left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year and c.type = ind3.type \
                 left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
-                WHERE referee = ?', [studentid], function(err, results) {
+                WHERE referee = ? ORDER BY c.status',
+               [studentid], function(err, results) {
     if (err) throw err;
     return callback(results);
   });
@@ -146,7 +147,7 @@ exports.adminMatchesGet = function (year, callback) {
                 pos34, serve, status, referee, name\
                 FROM currentIndMatch\
                 left join user on referee = studentid\
-                WHERE year = ?',
+                WHERE year = ? ORDER BY status, space',
                [year], function(err, matches) {
     if (err) throw err;
     return callback(matches);
@@ -159,7 +160,8 @@ exports.adminRefereesGet = function (callback) {
                 (select count(*) as work, referee\
                   from currentIndMatch where status <= 1 group by referee)\
                 as c on referee.studentid = c.referee\
-                left join user as u on referee.studentid = u.studentid',
+                left join user as u on referee.studentid = u.studentid\
+                ORDER BY studentid',
                 function(err, referees) {
     if (err) throw err;
     for (var i = 0; i < referees.length; i++) {
@@ -185,6 +187,14 @@ exports.adminPost = function (match, type, callback) {
         if (err) throw err;
         return callback();
       });
+    });
+  } else if (type == 3) {
+    conn().query('DELETE from currentIndMatch WHERE status = 0 and referee = ?\
+                  and year = ? and type = ? and leftP = ? and rightP = ?',
+                  [match.referee, match.year, match.type,
+                  match.leftP, match.rightP], function(err) {
+      if (err) throw err;
+      return callback();
     });
   }
 };
