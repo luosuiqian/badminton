@@ -83,14 +83,56 @@ exports.adminGet = function(req, res) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    CurrentIndMatch.adminGet(year, function(ready, current, referees) {
-      res.render('refereeAdmin.jade', {
-        user: req.session.user,
-        flash: req.flash(),
-        ready: ready,
-        current: current,
-        referees: referees,
-      });
+    res.render('refereeAdmin.jade', {
+      user: req.session.user,
+      flash: req.flash(),
+      year: year,
+    });
+  });
+};
+
+exports.adminUsersGet = function(req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2015) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    CurrentIndMatch.adminUsersGet(year, function(users) {
+      return res.send(users);
+    });
+  });
+};
+
+exports.adminMatchesGet = function(req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2015) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    CurrentIndMatch.adminMatchesGet(year, function(matches) {
+      return res.send(matches);
+    });
+  });
+};
+
+exports.adminRefereesGet = function(req, res) {
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    CurrentIndMatch.adminRefereesGet(function(referees) {
+      return res.send(referees);
     });
   });
 };

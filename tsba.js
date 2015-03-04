@@ -18,7 +18,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
-app.set('port', 80);
+app.set('port', 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/img/favicon.png'));
@@ -133,6 +133,9 @@ app.post('/referee/:year/:type/:leftP/:rightP/match', cUser.checkLogin);
 app.post('/referee/:year/:type/:leftP/:rightP/match', cReferee.matchPost);
 
 app.get('/referee/admin/:year', cReferee.adminGet);
+app.get('/referee/admin/:year/users', cReferee.adminUsersGet);
+app.get('/referee/admin/:year/matches', cReferee.adminMatchesGet);
+app.get('/referee/admin/:year/referees', cReferee.adminRefereesGet);
 app.post('/referee/admin/:year', cReferee.adminPost);
 
 //===========================================================================//

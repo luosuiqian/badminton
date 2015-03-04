@@ -12,70 +12,161 @@ block content
   
   div(class='container text-center')
     hr
-    table(class='table table-striped table-bordered table-hover')
-      thead
-        tr
-          th 年份
-          th 类型
-          th 总数
-          th 左
-          th 右
-          th id1
-          th id2
-          th id3
-          th id4
-      tbody
-        - for (var i=0;i<ready.length;i++)
-          tr
-            td= ready[i].year
-            td= ready[i].type
-            td= ready[i].totalP
-            td= ready[i].leftP
-            td= ready[i].rightP
-            td= ready[i].id1
-            td= ready[i].id2
-            td= ready[i].id3
-            td= ready[i].id4
-    
-    table(class='table table-striped table-bordered table-hover')
-      thead
-        tr
-          th 年份
-          th 类型
-          th 总数
-          th 左
-          th 右
-          th id1
-          th id2
-          th id3
-          th id4
-          th 裁判
-      tbody
-        - for (var i=0;i<current.length;i++)
-          tr
-            td= current[i].year
-            td= current[i].type
-            td= current[i].totalP
-            td= current[i].leftP
-            td= current[i].rightP
-            td= current[i].id1
-            td= current[i].id2
-            td= current[i].id3
-            td= current[i].id4
-            td= current[i].referee
-    
-    table(class='table table-striped table-bordered table-hover')
-      thead
-        tr
-          th 学号
-          th 状态
-          th 工作量
-      tbody
-        - for (var i=0;i<referees.length;i++)
-          tr
-            td= referees[i].studentid
-            td= referees[i].status
-            td= referees[i].work
+    form(id="myForm",class='form-horizontal',role='form')
+      h4 正在进行的比赛
+      table(class='table table-striped table-bordered table-hover', id='matches')
+      h4 可以开始的比赛
+      table(class='table table-striped table-bordered table-hover', id='ready')
+      h4 裁判
+      table(class='table table-striped table-bordered table-hover', id='referees')
+      input(type='text', id='game', value='2')
+      input(type='text', id='total', value='21')
+      input(type='text', id='diff', value='2')
+      input(type='text', id='upper', value='30')
+      input(type='text', id='space', value='0')
+      br
+      br
+      button(type='button', class='btn btn-danger', id='type1') 新建比赛
+      | &nbsp;
+      button(type='button', class='btn btn-danger', id='type2') 提交比赛
     hr
   
   include includes/footer
+  
+  - var url = '/referee/admin/' + year + '/'
+  script(src='/js/parseMatch.js')
+  script(src='/js/getReadyMatch.js')
+  script(type='text/javascript').
+    var read = function(url, callback) {
+      $.ajax({
+        url: url,
+        type: "GET",
+        success: function(m) {
+          callback(m);
+        },
+      });
+    };
+    var users, matches, referees, ready;
+    $("#type1").click(function() {
+      var i = parseInt($('input[name=reaCho]:checked', '#myForm').val());
+      var j = parseInt($('input[name=refCho]:checked', '#myForm').val());
+      $.ajax({
+        url: "#{url}",
+        data: {type: 1, match: {
+          year: ready[i].year,
+          type: ready[i].type,
+          totalP: ready[i].totalP,
+          leftP: ready[i].leftP,
+          rightP: ready[i].rightP,
+          id1: ready[i].id1,
+          id2: ready[i].id2,
+          id3: ready[i].id3,
+          id4: ready[i].id4,
+          points: '',
+          game: parseInt($("#game").val()),
+          total: parseInt($("#total").val()),
+          diff: parseInt($("#diff").val()),
+          upper: parseInt($("#upper").val()),
+          pos: 0,
+          pos12: 0,
+          pos34: 0,
+          serve: 0,
+          status: 0,
+          referee: referees[j].studentid,
+          space: parseInt($("#space").val()),
+        }},
+        type: "POST",
+        dataType: "json",
+        success: function() {
+          location.reload();
+        },
+      });
+    });
+    $("#type2").click(function() {
+      var i = parseInt($('input[name=matCho]:checked', '#myForm').val());
+      var detail = parseMatch(matches[i]);
+      $.ajax({
+        url: "#{url}",
+        data: {type: 2, match: {
+          year: matches[i].year,
+          type: matches[i].type,
+          totalP: matches[i].totalP,
+          leftP: matches[i].leftP,
+          rightP: matches[i].rightP,
+          id1: matches[i].id1,
+          id2: matches[i].id2,
+          id3: matches[i].id3,
+          id4: matches[i].id4,
+          score12: detail.gameL,
+          score34: detail.gameR,
+          detail: detail.points,
+          referee: matches[i].referee,
+          points: matches[i].points,
+          pos12: matches[i].pos12,
+          pos34: matches[i].pos34,
+          serve: matches[i].serve,
+        }},
+        type: "POST",
+        dataType: "json",
+        success: function() {
+          location.reload();
+        },
+      });
+    });
+    $(document).ready(function() {
+      read("#{url}" + "users", function(m) {
+        users = m;
+        read("#{url}" + "matches", function(m) {
+          matches = m;
+          read("#{url}" + "referees", function(m) {
+            referees = m;
+            ready = getReadyMatch(#{year}, users, matches);
+            var table = $("#matches");
+            for(var i = 0; i < matches.length; i++)
+            {
+              var tr = $("<tr></tr>");
+              $("<td>" + matches[i].year + "</td>").appendTo(tr);
+              $("<td>" + matches[i].type + "</td>").appendTo(tr);
+              $("<td>" + matches[i].totalP + "</td>").appendTo(tr);
+              $("<td>" + matches[i].leftP + "</td>").appendTo(tr);
+              $("<td>" + matches[i].rightP + "</td>").appendTo(tr);
+              $("<td>" + matches[i].nam1 + "</td>").appendTo(tr);
+              $("<td>" + matches[i].nam2 + "</td>").appendTo(tr);
+              $("<td>" + matches[i].nam3 + "</td>").appendTo(tr);
+              $("<td>" + matches[i].nam4 + "</td>").appendTo(tr);
+              $("<td>" + matches[i].status + "</td>").appendTo(tr);
+              $("<td>" + matches[i].space + "</td>").appendTo(tr);
+              $("<td>" + '<input type="radio" name="matCho" value='+i+'>' + "</td>").appendTo(tr);
+              tr.appendTo(table);
+            }
+            var table = $("#ready");
+            for(var i = 0; i < ready.length; i++)
+            {
+              var tr = $("<tr></tr>");
+              $("<td>" + ready[i].year + "</td>").appendTo(tr);
+              $("<td>" + ready[i].type + "</td>").appendTo(tr);
+              $("<td>" + ready[i].totalP + "</td>").appendTo(tr);
+              $("<td>" + ready[i].leftP + "</td>").appendTo(tr);
+              $("<td>" + ready[i].rightP + "</td>").appendTo(tr);
+              $("<td>" + ready[i].nam1 + "</td>").appendTo(tr);
+              $("<td>" + ready[i].nam2 + "</td>").appendTo(tr);
+              $("<td>" + ready[i].nam3 + "</td>").appendTo(tr);
+              $("<td>" + ready[i].nam4 + "</td>").appendTo(tr);
+              $("<td>" + '<input type="radio" name="reaCho" value='+i+'>' + "</td>").appendTo(tr);
+              tr.appendTo(table);
+            }
+            var table = $("#referees");
+            for(var i = 0; i < referees.length; i++)
+            {
+              var tr = $("<tr></tr>");
+              $("<td>" + referees[i].studentid + "</td>").appendTo(tr);
+              $("<td>" + referees[i].name + "</td>").appendTo(tr);
+              $("<td>" + referees[i].status + "</td>").appendTo(tr);
+              $("<td>" + referees[i].work + "</td>").appendTo(tr);
+              $("<td>" + '<input type="radio" name="refCho" value='+i+'>' + "</td>").appendTo(tr);
+              tr.appendTo(table);
+            }
+          });
+        });
+      });
+    });
