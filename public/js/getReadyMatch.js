@@ -16,11 +16,20 @@ var getReadyMatch = function (year, users, matches) {
       loser[i] = 0;
     }
     for (var i = 1; i < total[type]; i += 2) {
-      if (type == 1) var idR = i + 1;
-      else var idR = i * 2 + 1;
+      if (type <= 2) {
+        var idL = i;
+        var idR = i + 1;
+      } else {
+        var idL = i * 2 - 1;
+        var idR = i * 2 + 1;
+      }
+      if (userName[type][idL] == null) {
+        loser[i] = idL;
+        winner[i] = idR;
+      }
       if (userName[type][idR] == null) {
-        winner[i] = i;
-        loser[i] = i + 1;
+        winner[i] = idL;
+        loser[i] = idR;
       }
     }
     for (var i = 0; i < matches.length; i++) {
@@ -67,10 +76,10 @@ var getReadyMatch = function (year, users, matches) {
         if (winner[idL] > 0 && winner[idR] > 0) {
           ready.push({year: year, type: type, totalP: total[type],
               leftP: (i & (i - 1)) + 1, rightP: i + (i - (i & (i - 1))),
-              id1: type==1 ? winner[idL] : winner[idL]*2-1,
-              id2: type==1 ?           0 : winner[idL]*2,
-              id3: type==1 ? winner[idR] : winner[idR]*2-1,
-              id4: type==1 ?           0 : winner[idR]*2,
+              id1: winner[idL],
+              id2: type==1 ? 0 : winner[idL] + 1,
+              id3: winner[idR],
+              id4: type==1 ? 0 : winner[idR] + 1,
           });
         }
       }
@@ -81,10 +90,10 @@ var getReadyMatch = function (year, users, matches) {
       if (winner[idL] > 0 && winner[idR] > 0) {
         ready.push({year: year, type: type, totalP: total[type],
             leftP: total[type], rightP: 1,
-            id1: type==1 ? loser[idL] : loser[idL]*2-1,
-            id2: type==1 ?          0 : loser[idL]*2,
-            id3: type==1 ? loser[idR] : loser[idR]*2-1,
-            id4: type==1 ?          0 : loser[idR]*2,
+            id1: loser[idL],
+            id2: type==1 ? 0 : loser[idL] + 1,
+            id3: loser[idR],
+            id4: type==1 ? 0 : loser[idR] + 1,
         });
       }
     }

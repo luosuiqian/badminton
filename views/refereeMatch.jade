@@ -61,7 +61,8 @@ block content
         button(type='button', class='btn btn-success btn-lg myButton', id='point12', style='display:none')
           | 得分
       div(class="col-xs-4")
-        h5(id='loading') 同步中...
+        h5(id='loading', style='display:none') 同步中...
+        h5(id='error', style='display:none') 同步失败，请重试
       div(class="col-xs-4 text-left")
         button(type='button', class='btn btn-success btn-lg myButton', id='point34', style='display:none')
           | 得分
@@ -101,16 +102,19 @@ block content
   script(src='/js/parseMatch.js')
   script(type='text/javascript').
     var before = function() {
+      $(".myButton").prop('disabled', true);
       $("#loading").show();
-      $("#point12").prop('disabled', true);
-      $("#point34").prop('disabled', true);
-      $("#repeal").prop('disabled', true);
+      $("#error").hide();
     }
     var after = function() {
       $("#loading").hide();
-      $("#point12").prop('disabled', false);
-      $("#point34").prop('disabled', false);
-      $("#repeal").prop('disabled', false);
+      $("#error").hide();
+      $(".myButton").prop('disabled', false);
+    }
+    var failed = function() {
+      $("#loading").hide();
+      $("#error").show();
+      $(".myButton").prop('disabled', false);
     }
     var match = null;
     var detail = null;
@@ -232,7 +236,6 @@ block content
       if (match.status >= 2) {
         $("#finished").show();
       }
-      setTimeout(after, 200);
     }
     var write = function() {
       before();
@@ -244,16 +247,25 @@ block content
         success: function(m) {
           match = m;
           update();
+          after();
+        },
+        error: function(xhr, status, errorThrown) {
+          failed();
         },
       });
     };
     var read = function() {
+      before();
       $.ajax({
         url: "#{url}",
         type: "GET",
         success: function(m) {
           match = m;
           update();
+          after();
+        },
+        error: function(xhr, status, errorThrown) {
+          failed();
         },
       });
     };
