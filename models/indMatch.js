@@ -18,6 +18,10 @@ create table if not exists indMatch
     pos12 INT,
     pos34 INT,
     serve INT,
+    game INT,
+    total INT,
+    diff INT,
+    upper INT,
     primary key(year, type, leftP, rightP)
 ) character set utf8;
 

@@ -84,7 +84,7 @@ var getReadyMatch = function (year, users, matches) {
         }
       }
     }
-    if (winner[0] == 0) {
+    if (total[type] >= 4 && winner[0] == 0) {
       var idL = parseInt(total[type] / 4);
       var idR = idL * 3;
       if (winner[idL] > 0 && winner[idR] > 0) {
