@@ -4,22 +4,16 @@ block headlink
   title 招新报名 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   mixin showName(person)
     if person == null
-      div (空)
+      td (空)
     else
-      div(style=(person.chosen==0?'':(person.chosen==1?'background-color:#dddddd':'background-color:#dddd44')))
-        if person.renrenid == ''
-          = person.name
-        else
-          a(href='http://www.renren.com/#{person.renrenid}', target='_blank')
-            = person.name
+      if person.chosen == 0
+        td= person.name
+      if person.chosen == 2
+        td(class='success')= person.name
+      if person.chosen == 8
+        td(class='danger')= person.name
   
   div(class='container')
     hr
@@ -28,7 +22,7 @@ block content
         h3 清华大学学生羽毛球协会招新
       div(class='panel-body')
         h4
-          | 考试时间：2014年10月18日 上午10:00-12:00 （10月11日因补周四的课，考试时间改为18日）
+          | 考试时间：2015年3月15日 中午12:00-14:00
         h4
           | 地点：清华综体
         if open == false
@@ -43,30 +37,31 @@ block content
         h4
           | 羽协活动时间：
         p
-          | 周四 下午13:00-15:00 综体活动 4块场地 （群众体育会员）
+          | 周四 下午13:00-15:00 综体活动 4块场地
         p
-          | 周六 上午10:00-12:00 综体活动 8块场地 （正式会员）
+          | 周日 中午12:00-14:00 综体活动 4块场地
         p
-          | 羽协会费为：正式会员每学期150元；群众体育会员每学期70元。
+          | 羽协会费为：正式会员每学期150元（老会员100元）。
         hr
         h4
           | 清华羽协简介
         p
-          | 清华大学学生羽毛球协会每一周都有固定的活动时间和场地，周六上午10点到12点在综合体育馆我们有多达8块场地！羽毛球这项运动呢技巧性比较强，爱好者那么多，想加入羽毛球协会就需要先通过一个“招新考试”。所谓“考试”其实只是让羽毛球校队同学和新会员一对一打球，测试一下基本技术，所以正常发挥就好！我们的正式会员为70人左右。如果你的基础平常一些，也没有关系，因为我们在每周四下午1点到3点也在综体准备了4块场地举办“群众体育”，大家都可以来打球！无论周四还是周六羽协都有高水平选手现场指导和组织训练。你还有机会和全清华最牛的选手“过过招”！心动的话赶快注册并报名招新考试的预约吧！
-    
-    div(class='page-header')
-      h4 考试结果如下：背景为黄色表示成为正式会员，其余为群众体育会员
-      h4 （注：在临时报名的同学中，<span style="background-color:#dddd44">余翱，林生勇，梁言，春名林，Aisyah</span>等5位同学为正式会员）
+          | 清华大学学生羽毛球协会每周都有两次固定的活动时间和场地。羽毛球这项运动呢技巧性比较强，爱好者那么多，想加入羽毛球协会就需要先通过一个“招新考试”。所谓“考试”其实只是让羽毛球校队同学和新会员一对一打球，测试一下基本技术，所以正常发挥就好！我们的正式会员为70人左右。你还有机会和全清华最牛的选手“过过招”！心动的话赶快注册并报名招新考试的预约吧！
+        hr
+        if sex == null
+          h4 请先登录
+        h4 考试结果如下：背景为绿色表示成为羽协会员
+    hr
     form(class='form-horizontal',method='post',role='form')
       div(class='table-responsive')
         table(class='table table-striped table-bordered table-hover')
           thead
             tr
-              th 时间\场地
+              th 时间
               - for (var i=1;i<=table[0].length;i++)
                 th 场地#{i}
           tbody
-            - var size = 6
+            - var size = 5
             - for (var i=0;i<table.length;i++)
               tr
                 if i % 10 == 0
@@ -74,24 +69,18 @@ block content
                     = table[i].time
                 if i % 10 < size
                   - for (var j=0;j<table[i].length;j++)
-                    td
-                      if open == false || sex == null
-                        +showName(table[i][j])
-                      else if result == null
-                        if table[i][j] == null && ((sex == 'm' && (j<=3 || j>=6)) || (sex == 'f' && 4<=j && j<=5))
+                    if table[i][j] != null
+                      if open == true && result != null && result.time == i && result.space == j
+                        - table[i][j].chosen = 8
+                      +showName(table[i][j])
+                    else
+                      if open == true && result == null && sex != null && ((sex == 'm' && j<=2) || (sex == 'f' && 3<=j))
+                        td
                           label
                             input(type='radio',name='timespace',value=i*100+j)
                             | (空)
-                        else
-                          +showName(table[i][j])
                       else
-                        if result.time == i && result.space == j
-                          div(class='text-success')
-                            b
-                              u
-                                +showName(table[i][j])
-                        else
-                          +showName(table[i][j])
+                        +showName(table[i][j])
       if open == true && sex != null
         div(class='text-center')
           if result == null
@@ -102,5 +91,3 @@ block content
               | 取消报名
       input(type='hidden',name='type',value=(result==null)?'post':'delete')
     hr
-  
-  include includes/footer

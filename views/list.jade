@@ -4,12 +4,6 @@ block headlink
   title 资料管理 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   mixin showTable(table)
     div(class='table-responsive')
       table(class='table table-striped table-bordered table-hover')
@@ -84,5 +78,3 @@ block content
       +showTable(list3)
       +showEmail(list3)
       hr
-  
-  include includes/footer

@@ -4,17 +4,11 @@ block headlink
   title 二维码下载 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     div(class='panel panel-info')
       div(class='panel-heading')
-        h2 二维码下载
+        h3 二维码下载
       div(class='panel-body')
         div(class="col-md-4 col-sm-4 col-xs-12 text-center")
           h3= result.name
@@ -28,5 +22,3 @@ block content
           - address = 'http://tsba.tk/sign/' + result.studentid + '/' + result.prikey
           img(id='qrcode', class='img-responsive', src='http://qr.liantu.com/api.php?logo=http://luosuiqian.github.io/badminton/public/img/logo.png&w=400&text='+address, alt='qrcode')
     hr
-  
-  include includes/footer

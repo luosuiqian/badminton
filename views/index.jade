@@ -4,12 +4,6 @@ block headlink
   title 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     div(id="myCarousel",class="carousel slide",data-ride="carousel")
@@ -67,7 +61,7 @@ block content
           img(src="/img/6.jpg", alt='photo')
           div(class="carousel-caption")
             p(class="btn btn-info",role="button")
-              | 2013年6月 羽协执委会锡林郭勒草原合影
+              | 2013年6月 锡林郭勒草原合影
         div(class="item")
           img(src="/img/7.jpg", alt='photo')
           div(class="carousel-caption")
@@ -94,5 +88,3 @@ block content
       a(class="right carousel-control",href="#myCarousel",data-slide="next")
         span(class="glyphicon glyphicon-chevron-right")
     hr
-  
-  include includes/footer

@@ -49,35 +49,24 @@ app.get('/', cUser.indexGet);
 app.get('/application', cApplication.applicationGet);
 app.post('/application', cUser.checkLogin);
 app.post('/application', cApplication.applicationPost);
-//*
+
 app.get('/confirm', cUser.checkLogin);
 app.get('/confirm', cUser.confirmGet);
 app.post('/confirm', cUser.checkLogin);
 app.post('/confirm', cUser.confirmPost);
-//*/
-/*
-var crowd1 = cActivity.crowd1();
-app.get('/crowd1', crowd1.get);
-app.post('/crowd1', cUser.checkLogin);
-app.post('/crowd1', crowd1.post);
 
-var crowd2 = cActivity.crowd2();
-app.get('/crowd2', crowd2.get);
-app.post('/crowd2', cUser.checkLogin);
-app.post('/crowd2', crowd2.post);
+var official1 = cActivity.official1();
+app.get('/official1', official1.get);
+app.post('/official1', cUser.checkLogin);
+app.post('/official1', official1.post);
 
-var crowd3 = cActivity.crowd3();
-app.get('/crowd3', crowd3.get);
-app.post('/crowd3', cUser.checkLogin);
-app.post('/crowd3', crowd3.post);
-//*
-var official = cActivity.official();
-app.get('/official', official.get);
-app.post('/official', cUser.checkLogin);
-app.post('/official', official.post);
-//*/
+var official2 = cActivity.official2();
+app.get('/official2', official2.get);
+app.post('/official2', cUser.checkLogin);
+app.post('/official2', official2.post);
+
 app.get('/activity', cActivity.activityGet);
-//*/
+
 //===========================================================================//
 
 app.get('/team/:year/Apply', cTeam.applyGet);

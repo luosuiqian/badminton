@@ -4,22 +4,11 @@ block headlink
   title 活动预约 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   mixin showName(person)
     if person == null
       div (空)
     else
-      div
-        if person.renrenid == ''
-          = person.name
-        else
-          a(href='http://www.renren.com/#{person.renrenid}', target='_blank')
-            = person.name
+      div= person.name
   
   div(class='container')
     hr
@@ -39,17 +28,17 @@ block content
             | 预约已经开始，欢迎报名！
         p
           | 报名时间：#{time.appTime}
-    hr
-    if user == null
-      p
-        | 请先登录
-    else if authority == false
-      p
-        | 抱歉，您不是羽协会员，不能预约。欢迎报名加入清华羽协！
-    else
-      p
-        | 您是羽协会员，欢迎预约！
-    p （如果会员信息有误，请发邮件到 tsinghuabadminton@gmail.com 简单说明一下情况，我们将人工处理。）
+        hr
+        if user == null
+          p
+            | 请先登录
+        else if authority == false
+          p
+            | 抱歉，您不是羽协会员，不能预约。欢迎报名加入清华羽协！
+        else
+          p
+            | 您是羽协会员，欢迎预约！
+        p （如果会员信息有误，请发邮件到 tsinghuabadminton@gmail.com 简单说明一下情况，我们将人工处理。）
     hr
     form(class='form-horizontal',method='post',role='form')
       div(class='table-responsive')
@@ -62,8 +51,7 @@ block content
           tbody
             - for (var i=0;i<table.length;i++)
               tr
-                td
-                  | #{time.time}
+                td= time.time
                 - for (var j=0;j<table[i].length;j++)
                   td
                     if open == false || authority == false
@@ -77,10 +65,8 @@ block content
                         +showName(table[i][j])
                     else
                       if result.time == i && result.space == j
-                        div(class='text-success')
-                          b
-                            u
-                              +showName(table[i][j])
+                        div(class='text-danger')
+                          +showName(table[i][j])
                       else
                         +showName(table[i][j])
       if open == true && authority == true
@@ -93,5 +79,3 @@ block content
               | 取消报名
       input(type='hidden',name='type',value=(result==null)?'post':'delete')
     hr
-  
-  include includes/footer

@@ -4,12 +4,6 @@ block headlink
   title #{info.name} -- 清华大学羽毛球比赛数据统计 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   mixin showType(t)
     if t==1
       | 男单
@@ -162,5 +156,3 @@ block content
                       | /#{ind[i].dep4}
                     |)
       hr
-  
-  include includes/footer

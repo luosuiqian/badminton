@@ -4,12 +4,6 @@ block headlink
   title #{year}年清华大学羽毛球团体赛报名 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     div(class='panel panel-info')
@@ -61,5 +55,3 @@ block content
       a(role="button", href='/team/' + year + '/Apply', class="btn btn-primary")
         | 返回
     hr
-  
-  include includes/footer

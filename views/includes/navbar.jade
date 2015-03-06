@@ -32,32 +32,20 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
                   |  招新报名
             li(class="divider")
             li
+              a(href="/official1")
+                h5
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  活动预约（周四13:00~15:00）
+            li
+              a(href="/official2")
+                h5
+                  span(class="glyphicon glyphicon-thumbs-up")
+                  |  活动预约（周日12:00~14:00）
+            li
               a(href='/activity')
                 h5
                   span(class="glyphicon glyphicon-off")
                   |  羽协活动通知
-          //- li(class="divider")
-            li
-              a(href="/crowd1")
-                h5
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周四11:30~13:00）
-            li
-              a(href="/crowd2")
-                h5
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周四13:00~14:00）
-            li
-              a(href="/crowd3")
-                h5
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周四14:00~15:00）
-            li(class="divider")
-            li
-              a(href="/official")
-                h5
-                  span(class="glyphicon glyphicon-thumbs-up")
-                  |  群众体育（周六10:00~12:00）
         li
           a(id="dteam",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4
@@ -156,36 +144,49 @@ nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
               |  单项赛
           ul(class="dropdown-menu",role="menu",aria-labelledby="dindividual")
             li
-              a(href="/individual/2015")
-                h5
-                  span(class="glyphicon glyphicon-pencil")
-                  |  2015单项赛报名
-            li(class="divider")
+              a(class='trigger right-caret')
+                h4
+                  span(class="glyphicon glyphicon-star")
+                  |  2015单项赛&nbsp;&nbsp;&nbsp;
+                  span(class="glyphicon glyphicon-chevron-right")
+              ul(class="dropdown-menu sub-menu")
+                li
+                  a(href="/individual/2015")
+                    h5
+                      span(class="glyphicon glyphicon-pencil")
+                      |  2015单项赛报名
             li
-              a(href="/individual/2014/Results/mens_singles")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014男单比赛结果
-            li
-              a(href="/individual/2014/Results/mens_doubles")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014男双比赛结果
-            li
-              a(href="/individual/2014/Results/womens_doubles")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014女双比赛结果
-            li
-              a(href="/individual/2014/Results/mixed_doubles")
-                h5
-                  span(class="glyphicon glyphicon-info-sign")
-                  |  2014混双比赛结果
-            li
-              a(href="/individual/2014")
-                h5
-                  span(class="glyphicon glyphicon-pencil")
-                  |  2014单项赛报名
+              a(class='trigger right-caret')
+                h4
+                  span(class="glyphicon glyphicon-star")
+                  |  2014单项赛&nbsp;&nbsp;&nbsp;
+                  span(class="glyphicon glyphicon-chevron-right")
+              ul(class="dropdown-menu sub-menu")
+                li
+                  a(href="/individual/2014/Results/mens_singles")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014男单比赛结果
+                li
+                  a(href="/individual/2014/Results/mens_doubles")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014男双比赛结果
+                li
+                  a(href="/individual/2014/Results/womens_doubles")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014女双比赛结果
+                li
+                  a(href="/individual/2014/Results/mixed_doubles")
+                    h5
+                      span(class="glyphicon glyphicon-info-sign")
+                      |  2014混双比赛结果
+                li
+                  a(href="/individual/2014")
+                    h5
+                      span(class="glyphicon glyphicon-pencil")
+                      |  2014单项赛报名
         li
           a(id="dreferee",role="button",data-toggle="dropdown",data-target="#",href="/")
             h4

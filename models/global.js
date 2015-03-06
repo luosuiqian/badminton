@@ -24,16 +24,16 @@ exports.maxDepartmentid = 37;
 
 //===========================================================================//
 
-exports.id = 2;
-exports.maxTime = 6;
+exports.id = 3;
+exports.maxTime = 5;
 exports.maxPeople = 10;
-exports.maxSpace = 8;
-exports.beginHour = 10;
+exports.maxSpace = 4;
+exports.beginHour = 12;
 exports.beginMinute = 15;
 exports.period = 15;
 
-var applicationBeginTime = new Date(2014, 9-1, 19, 13, 0, 0);
-var applicationEndTime = new Date(2014, 10-1, 17, 16, 0, 0);
+var applicationBeginTime = new Date(2015, 3-1, 6, 13, 0, 0);
+var applicationEndTime = new Date(2015, 3-1, 14, 22, 0, 0);
 
 exports.checkTimeForApplication = function () {
   var now = new Date();
@@ -46,39 +46,21 @@ exports.getTimeForApplication = function () {
 
 //===========================================================================//
 
-exports.getCrowd1 = function () {
-  return Activity.Activity(11, 4, 6, 1, 4,
-    new Date(2014,10-1,21,13,0,0),
-    new Date(2014,10-1,23,11,30,0),
-    new Date(2014,10-1,23,13,0,0),
+exports.getOfficial1 = function () {
+  return Activity.Activity(21, 4, 6, 2, 4,
+    new Date(2015,3-1,3,13,0,0),
+    new Date(2015,3-1,5,13,0,0),
+    new Date(2015,3-1,5,15,0,0),
     '清华综体', [7,8,9,10]
   );
 };
 
-exports.getCrowd2 = function () {
-  return Activity.Activity(12, 4, 6, 1, 4,
-    new Date(2014,10-1,21,13,0,0),
-    new Date(2014,10-1,23,13,0,0),
-    new Date(2014,10-1,23,14,0,0),
+exports.getOfficial2 = function () {
+  return Activity.Activity(22, 4, 6, 2, 4,
+    new Date(2015,3-1,6,13,0,0),
+    new Date(2015,3-1,8,12,0,0),
+    new Date(2015,3-1,8,14,0,0),
     '清华综体', [7,8,9,10]
-  );
-};
-
-exports.getCrowd3 = function () {
-  return Activity.Activity(13, 4, 6, 1, 4,
-    new Date(2014,10-1,21,13,0,0),
-    new Date(2014,10-1,23,14,0,0),
-    new Date(2014,10-1,23,15,0,0),
-    '清华综体', [7,8,9,10]
-  );
-};
-
-exports.getOfficial = function () {
-  return Activity.Activity(14, 2, 6, 1, 4,
-    new Date(2014,10-1,23,13,0,0),
-    new Date(2014,10-1,25,10,0,0),
-    new Date(2014,10-1,25,12,0,0),
-    '清华综体', [5,10]
   );
 };
 

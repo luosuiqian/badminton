@@ -4,12 +4,6 @@ block headlink
   title 签到 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     form(class='form-horizontal',method='post',role='form')
@@ -42,5 +36,3 @@ block content
           a(role="button", href='/sign', class="btn btn-primary")
             h3 返回列表
     hr
-  
-  include includes/footer

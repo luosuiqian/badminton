@@ -51,20 +51,12 @@ var request = function (Activity) {
   return ret;
 };
 
-exports.crowd1 = function () {
-  return request(Global.getCrowd1());
+exports.official1 = function () {
+  return request(Global.getOfficial1());
 }
 
-exports.crowd2 = function () {
-  return request(Global.getCrowd2());
-}
-
-exports.crowd3 = function () {
-  return request(Global.getCrowd3());
-}
-
-exports.official = function () {
-  return request(Global.getOfficial());
+exports.official2 = function () {
+  return request(Global.getOfficial2());
 }
 
 exports.activityGet = function(req, res) {

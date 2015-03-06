@@ -4,12 +4,6 @@ block headlink
   title 裁判 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container text-center')
     hr
     div(class='row')
@@ -95,8 +89,6 @@ block content
       a(href='/referee', class='btn btn-primary')
         | 返回
     hr
-  
-  include includes/footer
   
   - var url = '/referee/' + year + '/' + type + '/' + leftP + '/' + rightP + '/match'
   script(src='/js/parseMatch.js')

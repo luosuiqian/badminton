@@ -7,12 +7,6 @@ block headlink
   script(src='/js/framework/bootstrap.min.js')
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     form(id="defaultForm",class='form-horizontal',method='post',role='form',
@@ -94,8 +88,6 @@ block content
           button(type='submit',class='btn btn-primary')
             | 注册
     hr
-  
-  include includes/footer
   
   script(type='text/javascript').
     $(document).ready(function() {

@@ -11,12 +11,6 @@ block headlink
     .leaflet-control-attribution.leaflet-control {display: none;}
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     div(class='panel panel-info')
@@ -24,8 +18,6 @@ block content
         h3 地图
       div(class='panel-body', id='map')
     hr
-  
-  include includes/footer
   
   script(type='text/javascript').
     L.mapbox.accessToken = 'pk.eyJ1IjoicnVvemhpIiwiYSI6ImZZaVZaMmsifQ.nfbMX75qwv3_MqS1vLvGBg';

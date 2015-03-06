@@ -7,12 +7,6 @@ block headlink
   script(src='/js/framework/bootstrap.min.js')
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     div(class='text-center')
       h4 请填写选手信息
@@ -69,8 +63,6 @@ block content
             | 返回
     hr
   
-  include includes/footer
-
   script(type='text/javascript').
     $(document).ready(function() {
       $('#defaultForm').formValidation();

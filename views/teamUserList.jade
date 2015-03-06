@@ -4,12 +4,6 @@ block headlink
   title #{year}年清华大学羽毛球团体赛报名选手公示 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     div(class='panel panel-info')
@@ -52,5 +46,3 @@ block content
                       div
                         a(href='/statistics/' + table[i+k][j].superId, target='_blank')= table[i+k][j].content
     hr
-  
-  include includes/footer

@@ -4,12 +4,6 @@ block headlink
   title #{year}年清华大学羽毛球团体赛比赛结果 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   mixin showType(t)
     if t==1
       | 男单
@@ -82,5 +76,3 @@ block content
                   +getName(results[i].id4, results[i].superId4)
               td= results[i].detail
     hr
-  
-  include includes/footer

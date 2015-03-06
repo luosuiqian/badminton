@@ -4,12 +4,6 @@ block headlink
   title #{year}年清华大学羽毛球团体赛比赛结果 -- 清华羽协
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   mixin getType(type)
     if type == 1
       | 甲组小组赛
@@ -102,5 +96,3 @@ block content
               +getType(i)
               | 比赛结果
     hr
-  
-  include includes/footer

@@ -7,12 +7,6 @@ block headlink
   script(src='/js/framework/bootstrap.min.js')
 
 block content
-  include includes/navbar
-  
-  if typeof(flash) != 'undefined'
-    include includes/flash-messages
-    mixin flash-messages(flash)
-  
   div(class='container')
     hr
     if rank == 1
@@ -42,7 +36,7 @@ block content
     if rank == -1
       div(class='panel panel-info')
         div(class='panel-heading')
-          h2 清华大学学生羽毛球协会
+          h3 清华大学学生羽毛球协会
         div(class='panel-body')
           h4
             | 你不是羽协正式会员
@@ -51,20 +45,18 @@ block content
     if rank == 0
       div(class='panel panel-info')
         div(class='panel-heading')
-          h2 清华大学学生羽毛球协会
+          h3 清华大学学生羽毛球协会
         div(class='panel-body')
           h4
             | 你已选择不再参加羽协活动，感谢你对羽协的支持。
     if rank >= 2
       div(class='panel panel-info')
         div(class='panel-heading')
-          h2 清华大学学生羽毛球协会
+          h3 清华大学学生羽毛球协会
         div(class='panel-body')
           h4
             | 你已选择继续参加羽协活动，我们将会邮件通知这学期具体的活动安排，感谢你对羽协的支持。
     hr
-  
-  include includes/footer
   
   if rank == 1
     script(type='text/javascript').
