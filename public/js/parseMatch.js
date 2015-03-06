@@ -60,8 +60,10 @@ var parseMatch = function(match) {
   }
   var points = '';
   for (var i = 0; i <= now; i++) {
-    if (i > 0) points += ',';
-    if (scoreL[i] > 0 || scoreR[i] > 0) points += scoreL[i] + "-" + scoreR[i];
+    if (scoreL[i] > 0 || scoreR[i] > 0) {
+      if (i > 0) points += ',';
+      points += scoreL[i] + "-" + scoreR[i];
+    }
   }
   if (giveUp) {
     if (points != '') points += ',';

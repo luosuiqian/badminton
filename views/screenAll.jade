@@ -1,0 +1,82 @@
+extends includes/layout
+
+block headlink
+  title 比赛场地直播 -- 清华羽协
+  style.
+    td { font-size: 30px; }
+
+block content
+  div(class='container')
+    hr
+    div(class='table-responsive')
+      table(class='table table-striped table-bordered table-hover', id='matches')
+    hr
+  
+  - var url = '/referee/admin/' + year + '/'
+  script(src='/js/parseMatch.js')
+  script(type='text/javascript').
+    var read = function(url, callback) {
+      $.ajax({
+        url: url,
+        type: "GET",
+        success: function(m) {
+          callback(m);
+        },
+      });
+    };
+    var users, matches;
+    var showType = function (type) {
+      if (type == 1) return "男单";
+      if (type == 3) return "男双";
+      if (type == 4) return "女双";
+      if (type == 5) return "混双";
+    };
+    var showStatus = function (status) {
+      if (status == 0) return "未开始";
+      if (status == 1) return "进行中";
+      if (status == 2) return "已结束，未提交";
+      if (status == 3) return "已结束，已提交";
+    };
+    var update = function () {
+      read("#{url}" + "matches", function(m) {
+        matches = m;
+        var userName = [null, {}, null, {}, {}, {}];
+        for (var i = 0; i < users.length; i++) {
+          userName[users[i].type][users[i].id] = users[i].name;
+        }
+        for (var i = 0; i < matches.length; i++) {
+          matches[i].nam1 = userName[matches[i].type][matches[i].id1];
+          matches[i].nam2 = matches[i].id2 == 0 ? '' : userName[matches[i].type][matches[i].id2];
+          matches[i].nam3 = userName[matches[i].type][matches[i].id3];
+          matches[i].nam4 = matches[i].id4 == 0 ? '' : userName[matches[i].type][matches[i].id4];
+        }
+        $("#matches tr").remove();
+        var table = $("#matches");
+        $("<tr><td>年份</td><td>项目</td><td colspan='4'>参赛选手</td><td>场地</td><td>比分</td><td>裁判</td><td>状态</td></tr>").appendTo(table);
+        for(var i = 0; i < matches.length; i++)
+        {
+          if (matches[i].status >= 2) continue;
+          if (matches[i].status == 0) var tr = $("<tr class='danger'></tr>");
+          if (matches[i].status == 1) var tr = $("<tr class='success'></tr>");
+          $("<td>" + matches[i].year + "</td>").appendTo(tr);
+          $("<td>" + showType(matches[i].type) + "</td>").appendTo(tr);
+          $("<td>" + matches[i].nam1 + "</td>").appendTo(tr);
+          $("<td>" + matches[i].nam2 + "</td>").appendTo(tr);
+          $("<td>" + matches[i].nam3 + "</td>").appendTo(tr);
+          $("<td>" + matches[i].nam4 + "</td>").appendTo(tr);
+          $("<td>" + matches[i].space + "号场" + "</td>").appendTo(tr);
+          var detail = parseMatch(matches[i]);
+          $("<td>" + detail.points + "</td>").appendTo(tr);
+          $("<td>" + matches[i].name + "</td>").appendTo(tr);
+          $("<td>" + showStatus(matches[i].status) + "</td>").appendTo(tr);
+          tr.appendTo(table);
+        }
+        setTimeout(update, 3000);
+      });
+    }
+    $(document).ready(function() {
+      read("#{url}" + "users", function(m) {
+        users = m;
+        update();
+      });
+    });

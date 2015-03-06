@@ -156,3 +156,35 @@ exports.adminPost = function(req, res) {
   });
 };
 
+exports.screenAllGet = function(req, res) {
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    var year = parseInt(req.params.year);
+    res.render('screenAll.jade', {
+      user: req.session.user,
+      flash: req.flash(),
+      year: year,
+    });
+  });
+};
+
+exports.screenOneIdGet = function(req, res) {
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    var year = parseInt(req.params.year);
+    var id = parseInt(req.params.id);
+    res.render('screenOne.jade', {
+      user: req.session.user,
+      flash: req.flash(),
+      year: year,
+      id: id,
+    });
+  });
+};
+

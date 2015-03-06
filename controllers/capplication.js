@@ -7,7 +7,6 @@ exports.applicationGet = function(req, res) {
     Application.getAll(function(table) {
       Application.getStudentid(req.session.user, function(result) {
         res.render('application.jade', {
-          name: 'application',
           user: req.session.user,
           flash: req.flash(),
           open: Global.checkTimeForApplication(),
