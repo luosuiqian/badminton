@@ -28,7 +28,7 @@ var parseMatch = function(match) {
       if (serve == 1) posR = 1 - posR;
       else serve = 1;
     }
-    if (now == totalGame && (scoreL[now] == parseInt((match.total + 1) / 2)
+    if (now == totalGame * 2 - 2 && (scoreL[now] == parseInt((match.total + 1) / 2)
         || scoreR[now] == parseInt((match.total + 1) / 2)) && !finalPos) {
       finalPos = true;
       pos = 1 - pos;
