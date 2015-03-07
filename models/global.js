@@ -25,7 +25,7 @@ exports.maxDepartmentid = 37;
 //===========================================================================//
 
 exports.id = 3;
-exports.maxTime = 5;
+exports.maxTime = 6;
 exports.maxPeople = 10;
 exports.maxSpace = 4;
 exports.beginHour = 12;

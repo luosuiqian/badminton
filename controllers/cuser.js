@@ -133,7 +133,7 @@ exports.listGet = function(req, res) {
     Authority.getAllNoAuthority(function(list0) {
       Authority.getAll(1, 1, function(list1) {
         Authority.getAll(2, 2, function(list2) {
-          Authority.getAll(3, 4, function(list3) {
+          Authority.getAll(3, 5, function(list3) {
             res.render('list.jade', {
               user: req.session.user,
               flash: req.flash(),
