@@ -23,6 +23,9 @@ block content
         success: function(m) {
           callback(m);
         },
+        error: function(xhr, status, errorThrown) {
+          setTimeout(function(){read(url, callback);}, 3000);
+        },
       });
     };
     var users, matches;

@@ -3,14 +3,14 @@ var Sign = require('../models/sign');
 var User = require('../models/user');
 
 exports.signAllGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 3, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
     Authority.getAll(1, 1, function(list1) {
       Authority.getAll(2, 2, function(list2) {
-        Authority.getAll(3, 4, function(list3) {
+        Authority.getAll(3, 5, function(list3) {
           res.render('sign.jade', {
             user: req.session.user,
             flash: req.flash(),
@@ -25,7 +25,7 @@ exports.signAllGet = function(req, res) {
 };
 
 exports.signInGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 3, 5, function(authority) {
     if (authority == false) {
       return res.render('signNoAuth.jade', {
         user: req.session.user,
@@ -47,7 +47,7 @@ exports.signInGet = function(req, res) {
 };
 
 exports.signStuGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 3, 5, function(authority) {
     if (authority == false) {
       return res.render('signNoAuth.jade', {
         user: req.session.user,
@@ -74,7 +74,7 @@ exports.signStuGet = function(req, res) {
 };
 
 exports.signStuPost = function(req, res) {
-  Authority.getAuthority(req.session.user, 4, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 4, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限更改');
       return res.redirect('/sign');

@@ -81,11 +81,11 @@ var check = function (user) {
 }
 
 exports.get = function (studentid, callback) {
-  if (studentid == null) {
+  if (studentid == null || isNaN(studentid)) {
     return callback(null, null);
   }
   conn().query('SELECT studentid, password, name, sex, departmentid, \
-                email, phone, renrenid, prikey FROM user WHERE studentid = ?',
+                email, phone, prikey FROM user WHERE studentid = ?',
                [studentid], function(err, results) {
     if (err) throw err;
     if (results.length == 0) {

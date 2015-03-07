@@ -125,7 +125,7 @@ exports.logoutGet = function(req, res) {
 };
 
 exports.listGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 3, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');

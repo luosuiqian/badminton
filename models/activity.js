@@ -107,7 +107,7 @@ exports.Activity = function (table, space, time,
   };
   
   ret.getAll = function (callback) {
-    conn().query('SELECT time,space,name,renrenid FROM activity, user\
+    conn().query('SELECT time,space,name FROM activity, user\
               WHERE num = ? and id = ? and activity.studentid = user.studentid',
               [tableNum, id], function(err, results) {
       if (err) throw err;

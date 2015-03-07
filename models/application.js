@@ -58,7 +58,7 @@ exports.getStudentid = function (studentid, callback) {
 };
 
 exports.getAll = function (callback) {
-  conn().query('SELECT time,space,name,chosen,renrenid FROM application,user\
+  conn().query('SELECT time,space,name,chosen FROM application,user\
              WHERE id = ? and application.studentid = user.studentid',
              [id], function(err, results) {
     if (err) throw err;

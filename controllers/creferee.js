@@ -78,7 +78,7 @@ exports.adminGet = function(req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -97,7 +97,7 @@ exports.adminUsersGet = function(req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -114,7 +114,7 @@ exports.adminMatchesGet = function(req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -131,7 +131,7 @@ exports.adminMatchesDoingGet = function(req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -143,7 +143,7 @@ exports.adminMatchesDoingGet = function(req, res) {
 };
 
 exports.adminRefereesGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -160,7 +160,7 @@ exports.adminPost = function(req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -174,7 +174,7 @@ exports.adminPost = function(req, res) {
 };
 
 exports.screenAllGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
@@ -189,7 +189,7 @@ exports.screenAllGet = function(req, res) {
 };
 
 exports.screenOneIdGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+  Authority.getAuthority(req.session.user, 5, 5, function(authority) {
     if (authority == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');

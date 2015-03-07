@@ -3,7 +3,7 @@ extends includes/layout
 block headlink
   title 比分直播 -- 清华羽协
   style.
-    td { font-size: 25px; }
+    td { font-size: 24px; }
 
 block content
   div(class='container')
@@ -21,6 +21,9 @@ block content
         type: "GET",
         success: function(m) {
           callback(m);
+        },
+        error: function(xhr, status, errorThrown) {
+          setTimeout(function(){read(url, callback);}, 3000);
         },
       });
     };

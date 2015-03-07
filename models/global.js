@@ -47,7 +47,7 @@ exports.getTimeForApplication = function () {
 //===========================================================================//
 
 exports.getOfficial1 = function () {
-  return Activity.Activity(21, 4, 6, 2, 4,
+  return Activity.Activity(21, 4, 6, 2, 5,
     new Date(2015,3-1,3,13,0,0),
     new Date(2015,3-1,5,13,0,0),
     new Date(2015,3-1,5,15,0,0),
@@ -56,7 +56,7 @@ exports.getOfficial1 = function () {
 };
 
 exports.getOfficial2 = function () {
-  return Activity.Activity(22, 4, 6, 2, 4,
+  return Activity.Activity(22, 4, 6, 2, 5,
     new Date(2015,3-1,6,13,0,0),
     new Date(2015,3-1,8,12,0,0),
     new Date(2015,3-1,8,14,0,0),
