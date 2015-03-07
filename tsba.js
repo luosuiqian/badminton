@@ -126,6 +126,7 @@ app.get('/referee/admin/:year/users', cReferee.adminUsersGet);
 app.get('/referee/admin/:year/matches', cReferee.adminMatchesGet);
 app.get('/referee/admin/:year/referees', cReferee.adminRefereesGet);
 app.post('/referee/admin/:year', cReferee.adminPost);
+app.get('/referee/admin/:year/matchesDoing', cReferee.adminMatchesDoingGet);
 app.get('/referee/admin/:year/screenAll', cReferee.screenAllGet);
 app.get('/referee/admin/:year/screen/one/:id', cReferee.screenOneIdGet);
 

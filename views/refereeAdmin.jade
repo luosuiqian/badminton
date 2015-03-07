@@ -57,6 +57,12 @@ block content
       br
       button(type='button', class='btn btn-danger', id='type1') 新建比赛
     hr
+    h4 大屏幕显示比分
+    a(href='/referee/admin/'+year+'/screenAll', class='btn btn-primary') 全部
+    - for (var i=1;i<=10;i++)
+      | &nbsp;
+      a(href='/referee/admin/'+year+'/screen/one/'+i, class='btn btn-primary') 场地#{i}
+    hr
   
   - var url = '/referee/admin/' + year + '/'
   script(src='/js/parseMatch.js')

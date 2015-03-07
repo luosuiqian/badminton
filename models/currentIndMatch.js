@@ -154,6 +154,20 @@ exports.adminMatchesGet = function (year, callback) {
   });
 };
 
+exports.adminMatchesDoingGet = function (year, callback) {
+  conn().query('SELECT year, type, totalP, leftP, rightP, points, space,\
+                id1, id2, id3, id4,\
+                game, total, diff, upper, pos, pos12,\
+                pos34, serve, status, referee, name\
+                FROM currentIndMatch\
+                left join user on referee = studentid\
+                WHERE year = ? and status <= 2 ORDER BY space',
+               [year], function(err, matches) {
+    if (err) throw err;
+    return callback(matches);
+  });
+};
+
 exports.adminRefereesGet = function (callback) {
   conn().query('SELECT referee.studentid, referee.status, work, u.name\
                 FROM referee left join\

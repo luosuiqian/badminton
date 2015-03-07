@@ -1,9 +1,9 @@
 extends includes/layout
 
 block headlink
-  title 比赛场地直播 -- 清华羽协
+  title 比分直播 -- 清华羽协
   style.
-    td { font-size: 30px; }
+    td { font-size: 25px; }
 
 block content
   div(class='container')
@@ -25,6 +25,7 @@ block content
       });
     };
     var users, matches;
+    var userName = [null, {}, null, {}, {}, {}];
     var showType = function (type) {
       if (type == 1) return "男单";
       if (type == 3) return "男双";
@@ -34,16 +35,18 @@ block content
     var showStatus = function (status) {
       if (status == 0) return "未开始";
       if (status == 1) return "进行中";
-      if (status == 2) return "已结束，未提交";
-      if (status == 3) return "已结束，已提交";
+      if (status == 2) return "已结束";
+    };
+    var showName = function (tr, nam1, nam2) {
+      if (nam2 == '') {
+        $("<td>" + nam1 + "</td>").appendTo(tr);
+      } else {
+        $("<td>" + nam1 + "/" + nam2 + "</td>").appendTo(tr);
+      }
     };
     var update = function () {
-      read("#{url}" + "matches", function(m) {
+      read("#{url}" + "matchesDoing", function(m) {
         matches = m;
-        var userName = [null, {}, null, {}, {}, {}];
-        for (var i = 0; i < users.length; i++) {
-          userName[users[i].type][users[i].id] = users[i].name;
-        }
         for (var i = 0; i < matches.length; i++) {
           matches[i].nam1 = userName[matches[i].type][matches[i].id1];
           matches[i].nam2 = matches[i].id2 == 0 ? '' : userName[matches[i].type][matches[i].id2];
@@ -52,18 +55,16 @@ block content
         }
         $("#matches tr").remove();
         var table = $("#matches");
-        $("<tr><td>年份</td><td>项目</td><td colspan='4'>参赛选手</td><td>场地</td><td>比分</td><td>裁判</td><td>状态</td></tr>").appendTo(table);
+        $("<tr><td>年份</td><td>项目</td><td colspan='2'>参赛选手</td><td>场地</td><td>比分</td><td>裁判</td><td>状态</td></tr>").appendTo(table);
         for(var i = 0; i < matches.length; i++)
         {
-          if (matches[i].status >= 2) continue;
           if (matches[i].status == 0) var tr = $("<tr class='danger'></tr>");
-          if (matches[i].status == 1) var tr = $("<tr class='success'></tr>");
+          if (matches[i].status == 1) var tr = $("<tr class='info'></tr>");
+          if (matches[i].status == 2) var tr = $("<tr class='success'></tr>");
           $("<td>" + matches[i].year + "</td>").appendTo(tr);
           $("<td>" + showType(matches[i].type) + "</td>").appendTo(tr);
-          $("<td>" + matches[i].nam1 + "</td>").appendTo(tr);
-          $("<td>" + matches[i].nam2 + "</td>").appendTo(tr);
-          $("<td>" + matches[i].nam3 + "</td>").appendTo(tr);
-          $("<td>" + matches[i].nam4 + "</td>").appendTo(tr);
+          showName(tr, matches[i].nam1, matches[i].nam2);
+          showName(tr, matches[i].nam3, matches[i].nam4);
           $("<td>" + matches[i].space + "号场" + "</td>").appendTo(tr);
           var detail = parseMatch(matches[i]);
           $("<td>" + detail.points + "</td>").appendTo(tr);
@@ -77,6 +78,9 @@ block content
     $(document).ready(function() {
       read("#{url}" + "users", function(m) {
         users = m;
+        for (var i = 0; i < users.length; i++) {
+          userName[users[i].type][users[i].id] = users[i].name;
+        }
         update();
       });
     });

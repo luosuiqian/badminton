@@ -125,6 +125,23 @@ exports.adminMatchesGet = function(req, res) {
   });
 };
 
+exports.adminMatchesDoingGet = function(req, res) {
+  var year = parseInt(req.params.year);
+  if (year != 2015) {
+    req.flash('warning', 'URL错误');
+    return res.redirect('/');
+  }
+  Authority.getAuthority(req.session.user, 3, 4, function(authority) {
+    if (authority == false) {
+      req.flash('warning', '抱歉，您没有权限查看');
+      return res.redirect('/');
+    }
+    CurrentIndMatch.adminMatchesDoingGet(year, function(matches) {
+      return res.send(matches);
+    });
+  });
+};
+
 exports.adminRefereesGet = function(req, res) {
   Authority.getAuthority(req.session.user, 3, 4, function(authority) {
     if (authority == false) {

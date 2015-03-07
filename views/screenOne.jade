@@ -1,12 +1,13 @@
 extends includes/layout
 
 block headlink
-  title 比赛场地直播 -- 清华羽协
+  title #{id}号场比分 -- 清华羽协
   style.
-    td { font-size: 100px; }
+    td { font-size: 80px; }
+    .ball { height: 80px; }
 
 block content
-  div(class='container')
+  div(class='container text-center')
     hr
     div(class='table-responsive')
       table(class='table table-bordered', id='match')
@@ -25,14 +26,19 @@ block content
       });
     };
     var users, matches;
+    var userName = [null, {}, null, {}, {}, {}];
+    var showName = function (tr, nam1, nam2) {
+      if (nam2 == '') {
+        $("<td>" + nam1 + "</td>").appendTo(tr);
+      } else {
+        $("<td>" + nam1 + "/" + nam2 + "</td>").appendTo(tr);
+      }
+    };
     var update = function () {
-      read("#{url}" + "matches", function(m) {
+      read("#{url}" + "matchesDoing", function(m) {
         matches = m;
-        var userName = [null, {}, null, {}, {}, {}];
-        for (var i = 0; i < users.length; i++) {
-          userName[users[i].type][users[i].id] = users[i].name;
-        }
         for (var i = 0; i < matches.length; i++) {
+          if (matches[i].space != #{id}) continue;
           matches[i].nam1 = userName[matches[i].type][matches[i].id1];
           matches[i].nam2 = matches[i].id2 == 0 ? '' : userName[matches[i].type][matches[i].id2];
           matches[i].nam3 = userName[matches[i].type][matches[i].id3];
@@ -42,22 +48,19 @@ block content
         var table = $("#match");
         for(var i = 0; i < matches.length; i++)
         {
-          if (matches[i].status >= 3) continue;
           if (matches[i].space != #{id}) continue;
           var tr = $("<tr></tr>");
           var detail = parseMatch(matches[i]);
-          $("<td>" + matches[i].nam1 + "</td>").appendTo(tr);
-          $("<td>" + matches[i].nam2 + "</td>").appendTo(tr);
-          for (var i=0;i<detail.now;i++) $("<td>" + detail.scoreL[i] + "</td>").appendTo(tr);
-          if (detail.serve == 0) $("<td class='success'>" + detail.scoreL[detail.now] + "</td>").appendTo(tr);
-          if (detail.serve == 1) $("<td>" + detail.scoreL[detail.now] + "</td>").appendTo(tr);
+          showName(tr, matches[i].nam1, matches[i].nam2);
+          for (var j=0;j<=detail.now;j++) $("<td>" + detail.scoreL[j] + "</td>").appendTo(tr);
+          if (detail.serve == 0) $("<td><img class='ball' src='/img/icon.png' alt='ball'></td>").appendTo(tr);
+          if (detail.serve == 1) $("<td>&nbsp;</td>").appendTo(tr);
           tr.appendTo(table);
           var tr = $("<tr></tr>");
-          $("<td>" + matches[i].nam3 + "</td>").appendTo(tr);
-          $("<td>" + matches[i].nam4 + "</td>").appendTo(tr);
-          for (var i=0;i<detail.now;i++) $("<td>" + detail.scoreR[i] + "</td>").appendTo(tr);
-          if (detail.serve == 0) $("<td>" + detail.scoreR[detail.now] + "</td>").appendTo(tr);
-          if (detail.serve == 1) $("<td class='success'>" + detail.scoreR[detail.now] + "</td>").appendTo(tr);
+          showName(tr, matches[i].nam3, matches[i].nam4);
+          for (var j=0;j<=detail.now;j++) $("<td>" + detail.scoreR[j] + "</td>").appendTo(tr);
+          if (detail.serve == 0) $("<td>&nbsp;</td>").appendTo(tr);
+          if (detail.serve == 1) $("<td><img class='ball' src='/img/icon.png' alt='ball'></td>").appendTo(tr);
           tr.appendTo(table);
         }
         setTimeout(update, 3000);
@@ -66,6 +69,9 @@ block content
     $(document).ready(function() {
       read("#{url}" + "users", function(m) {
         users = m;
+        for (var i = 0; i < users.length; i++) {
+          userName[users[i].type][users[i].id] = users[i].name;
+        }
         update();
       });
     });
