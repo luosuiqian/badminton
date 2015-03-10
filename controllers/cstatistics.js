@@ -11,7 +11,7 @@ var getInfo = function (list, ret) {
 
 exports.get = function (req, res) {
   var superId = parseInt(req.params.superId);
-  if (isNaN(superId)) {
+  if (superId == null || isNaN(superId)) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }

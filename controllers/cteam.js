@@ -7,12 +7,8 @@ var Authority = require('../models/authority');
 
 exports.applyGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   TeamAuth.getList(year, function(departments) {
-    res.render('teamApply.jade', {
+    res.render('teamApply' + year + '.jade', {
       user: req.session.user,
       flash: req.flash(),
       year: year,
@@ -24,15 +20,7 @@ exports.applyGet = function (req, res) {
 
 exports.applyDepGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var dep = parseInt(req.params.dep);
-  if (!(1 <= dep && dep <= Global.maxDepartmentid)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   TeamAuth.get(year, dep, req.session.user, function(auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
@@ -54,20 +42,8 @@ exports.applyDepGet = function (req, res) {
 
 exports.applyDepIdGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var dep = parseInt(req.params.dep);
-  if (!(1 <= dep && dep <= Global.maxDepartmentid)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var id = parseInt(req.params.id);
-  if (!(11 <= id && id <= 16 || 21 <= id && id <= 26 || id == 31)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   if (Global.checkTimeForTeamApply(year) == false) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/');
@@ -92,20 +68,8 @@ exports.applyDepIdGet = function (req, res) {
 
 exports.applyDepIdPost = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var dep = parseInt(req.params.dep);
-  if (!(1 <= dep && dep <= Global.maxDepartmentid)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var id = parseInt(req.params.id);
-  if (!(11 <= id && id <= 16 || 21 <= id && id <= 26 || id == 31)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   TeamAuth.get(year, dep, req.session.user, function(auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
@@ -125,10 +89,6 @@ exports.applyDepIdPost = function (req, res) {
 
 exports.userListGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2013 && year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   TeamUser.get(year, function(table) {
     res.render('teamUserList.jade', {
       user: req.session.user,
@@ -141,15 +101,7 @@ exports.userListGet = function (req, res) {
 
 exports.resultsGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2013 && year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var type = parseInt(req.params.type);
-  if (!(1 <= type && type <= 5)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   TeamMatch.get(year, type, function(tables) {
     res.render('teamResults.jade', {
       user: req.session.user,
@@ -164,15 +116,7 @@ exports.resultsGet = function (req, res) {
 
 exports.resultsGetDetails = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2013 && year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var type = parseInt(req.params.type);
-  if (!(1 <= type && type <= 5)) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
   var teamId = parseInt(req.params.teamId);
   var left = parseInt(req.params.left);
   var right = parseInt(req.params.right);
@@ -193,26 +137,16 @@ exports.resultsGetDetails = function (req, res) {
 
 exports.adminListGet = function (req, res) {
   var year = parseInt(req.params.year);
-  if (year != 2014) {
-    req.flash('warning', 'URL错误');
-    return res.redirect('/');
-  }
-  Authority.getAuthority(req.session.user, 3, 5, function(authority) {
-    if (authority == false) {
-      req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('/');
-    }
-    TeamUser.getAll(year, 1, function(list1) {
-      TeamUser.getAll(year, 2, function(list2) {
-        TeamUser.getAll(year, 3, function(list3) {
-          res.render('list.jade', {
-            user: req.session.user,
-            flash: req.flash(),
-            type: 'teamUser',
-            list1: list1,
-            list2: list2,
-            list3: list3,
-          });
+  TeamUser.getAll(year, 1, function(list1) {
+    TeamUser.getAll(year, 2, function(list2) {
+      TeamUser.getAll(year, 3, function(list3) {
+        res.render('list.jade', {
+          user: req.session.user,
+          flash: req.flash(),
+          type: 'teamUser',
+          list1: list1,
+          list2: list2,
+          list3: list3,
         });
       });
     });

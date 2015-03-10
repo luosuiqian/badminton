@@ -4,7 +4,7 @@ block headlink
   title 单项赛报名 -- 清华羽协
 
 block content
-  mixin showName(type, num, link, table)
+  mixin showName(type, num, table)
     div(class="col-md-4 col-sm-6 col-xs-12")
       - flag = false
       div(class='table-responsive')
@@ -36,11 +36,11 @@ block content
         if user != null && open == true
           if flag == false
             if (sex == 'm' && (type == 1 || type == 3 || type == 5 || type == 9)) || (sex == 'f' && (type == 4 || type == 5 || type == 9))
-              - address = '/individual/' + year + '/Apply/' + link
+              - address = '/individual/' + year + '/Apply/' + type
               a(role="button", href=address, class="btn btn-primary")
                 | 我要报名
           else
-            - address = '/individual/' + year + '/Cancel/' + link
+            - address = '/individual/' + year + '/Cancel/' + type
             a(role="button", href=address, class="btn btn-danger")
               | 取消报名
       hr
@@ -74,17 +74,17 @@ block content
       hr
     
     div(class='row')
-      +showName(1, 1, 'mens_singles', mens_singles)
-      +showName(3, 2, 'mens_doubles', mens_doubles)
+      +showName(1, 1, mens_singles)
+      +showName(3, 2, mens_doubles)
       
       div(class='clearfix visible-sm')
       
-      +showName(4, 2, 'womens_doubles', womens_doubles)
+      +showName(4, 2, womens_doubles)
       div(class='clearfix visible-md visible-lg')
-      +showName(5, 2, 'mixed_doubles', mixed_doubles)
+      +showName(5, 2, mixed_doubles)
       
       div(class='clearfix visible-sm')
       
-      +showName(9, 1, 'referee', referee)
+      +showName(9, 1, referee)
     
     hr

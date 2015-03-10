@@ -1,29 +1,7 @@
 var Global = require('../models/global');
 var User = require('../models/user');
 var Department = require('../models/department');
-var Log = require('../models/log');
 var Authority = require('../models/authority');
-
-exports.log = function(req, res, next) {
-  Log.log(req.ip, req.url, req.method, req.session.user);
-  next();
-};
-
-exports.checkLogin = function (req, res, next) {
-  if (req.session.user == null) {
-    req.flash('warning', '请先登录');
-    return res.redirect('/login?redirect=' + req.url);
-  }
-  next();
-};
-
-exports.checkNotLogin = function (req, res, next) {
-  if (req.session.user != null) {
-    req.flash('warning', '请先登出');
-    return res.redirect('/');
-  }
-  next();
-};
 
 exports.indexGet = function(req, res) {
   res.render('index.jade', {
@@ -125,23 +103,17 @@ exports.logoutGet = function(req, res) {
 };
 
 exports.listGet = function(req, res) {
-  Authority.getAuthority(req.session.user, 3, 5, function(authority) {
-    if (authority == false) {
-      req.flash('warning', '抱歉，您没有权限查看');
-      return res.redirect('/');
-    }
-    Authority.getAllNoAuthority(function(list0) {
-      Authority.getAll(1, 1, function(list1) {
-        Authority.getAll(2, 2, function(list2) {
-          Authority.getAll(3, 5, function(list3) {
-            res.render('list.jade', {
-              user: req.session.user,
-              flash: req.flash(),
-              list0: list0,
-              list1: list1,
-              list2: list2,
-              list3: list3,
-            });
+  Authority.getAllNoAuthority(function(list0) {
+    Authority.getAll(1, 1, function(list1) {
+      Authority.getAll(2, 2, function(list2) {
+        Authority.getAll(3, 5, function(list3) {
+          res.render('list.jade', {
+            user: req.session.user,
+            flash: req.flash(),
+            list0: list0,
+            list1: list1,
+            list2: list2,
+            list3: list3,
           });
         });
       });

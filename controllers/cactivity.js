@@ -23,7 +23,7 @@ var request = function (Activity) {
   ret.post = function(req, res) {
     if (Activity.checkTime() == false) {
       req.flash('warning', '现在不是报名时间');
-      return res.redirect('.');
+      return res.redirect('/');
     }
     Activity.getAuthority(req.session.user, function(authority) {
       if (authority == false) {
