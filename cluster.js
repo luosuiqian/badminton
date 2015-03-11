@@ -12,7 +12,7 @@ if (cluster.isMaster) {
   cluster.on('exit', function(worker, code, signal) {
     console.log('worker ' + worker.process.pid + ' end');
     delete workers[worker.process.pid];
-    worker = cluster.fork();
+    var worker = cluster.fork();
     console.log('worker ' + worker.process.pid + ' begin');
     workers[worker.process.pid] = 1;
   });

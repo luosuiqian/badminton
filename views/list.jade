@@ -37,7 +37,7 @@ block content
         - for (var i=0;i<=(table.length-1)/50;i++)
           tr
             td= '[' + (i*50+1) + ',' + ((i+1)*50<table.length?(i+1)*50:table.length) + ']'
-            - str = ''
+            - var str = ''
             - for (var j=i*50;j<(i+1)*50 && j<table.length;j++)
               if table[j].email != null
                 if str != ''

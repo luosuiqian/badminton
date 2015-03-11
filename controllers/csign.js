@@ -1,6 +1,5 @@
 var Authority = require('../models/authority');
 var Sign = require('../models/sign');
-var User = require('../models/user');
 
 exports.signAllGet = function(req, res) {
   Authority.getAll(1, 1, function(list1) {

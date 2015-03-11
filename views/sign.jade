@@ -4,6 +4,7 @@ block headlink
   title 签到管理 -- 清华羽协
 
 block content
+  - var total = 0
   mixin showTable(table)
     div(class='table-responsive')
       table(class='table table-striped table-bordered table-hover')
@@ -19,9 +20,9 @@ block content
             th 签到
             th 修改
         tbody
-          - sum = 0
-          - num = 0
-          - sign = 0
+          - var sum = 0
+          - var num = 0
+          - var sign = 0
           - for (var i=0;i<table.length;i++)
             tr
               td= (i+1)
@@ -60,7 +61,6 @@ block content
             td &nbsp;
             td &nbsp;
   
-  - total = 0
   div(class='container')
     hr
     h3 群众体育
@@ -72,8 +72,5 @@ block content
     h3 内阁
     +showTable(list3)
     hr
-  
-  div(class='container')
-    p(class="text-center")
-      | 交费收入一共#{total}元
+    p(class="text-center") 交费收入一共#{total}元
     hr

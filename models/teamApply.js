@@ -19,7 +19,7 @@ exports.get = function (year, dep, callback) {
                 WHERE year = ? and dep = ?',
                [year, dep], function(err, results) {
     if (err) throw err;
-    ret = {};
+    var ret = {};
     for (var i = 0; i < results.length; i++) {
       ret[results[i].id] = results[i];
     }
@@ -58,8 +58,7 @@ function checkDetail(stu, nam, ema, pho) {
 }
 
 exports.save = function (year, dep, id, body, callback) {
-  var newApply;
-  newApply = new NewApply(year, dep, id,
+  var newApply = new NewApply(year, dep, id,
                           body.stu, body.nam, body.ema, body.pho);
   var str = checkDetail(newApply.stu, newApply.nam,
                         newApply.ema, newApply.pho);

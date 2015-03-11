@@ -1,4 +1,3 @@
-var Authority = require('../models/authority');
 var CurrentIndMatch = require('../models/currentIndMatch');
 
 exports.refereeGet = function(req, res) {

@@ -35,9 +35,9 @@ block content
                   td
                     if j > 0 && j < table.length && i != j
                       if i < j
-                        - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
+                        - var link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + i + '/' + j
                       else
-                        - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
+                        - var link = '/team/' + year + '/Details/' + type + '/' + teamId + '/' + j + '/' + i
                       if table[i][j] == null
                         | &nbsp;
                       else
@@ -49,7 +49,7 @@ block content
                   if table[i][j].height > 0
                     if j > 0
                       td(rowspan=table[i][j].height)
-                        - link = '/team/' + year + '/Details/' + type + '/' + teamId + '/'
+                        - var link = '/team/' + year + '/Details/' + type + '/' + teamId + '/'
                         if j < table[i].length - 1
                           - link += i + '/' + (i + table[i][j].height - 1)
                         else if i == 1
@@ -80,8 +80,8 @@ block content
             img(src='/img/team2014yi.png', alt='yi', class="img-responsive")
     hr
     - for (var i=0;i<tables.length;i++)
-      - title = '比赛结果'
-      - teamId = tables[i].length - 1
+      - var title = '比赛结果'
+      - var teamId = tables[i].length - 1
       if tables.length > 1
         - title = '第' + (i+1) + '组' + ' (' + team[i] + ')'
         - teamId = i + 1

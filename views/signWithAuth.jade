@@ -24,7 +24,7 @@ block content
             h3 今天已签到
           if bsign == false
             h3 未签到
-            - address = '/sign/' + result.studentid + '/' + result.prikey + '/signin'
+            - var address = '/sign/' + result.studentid + '/' + result.prikey + '/signin'
             a(role="button", href=address, class="btn btn-primary")
               h3 签到
           hr

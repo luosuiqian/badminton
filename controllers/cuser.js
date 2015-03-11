@@ -1,4 +1,3 @@
-var Global = require('../models/global');
 var User = require('../models/user');
 var Department = require('../models/department');
 var Authority = require('../models/authority');

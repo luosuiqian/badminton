@@ -6,7 +6,7 @@ block headlink
 block content
   mixin showName(type, num, table)
     div(class="col-md-4 col-sm-6 col-xs-12")
-      - flag = false
+      - var flag = false
       div(class='table-responsive')
         table(class='table table-striped table-bordered table-hover')
           thead
@@ -36,11 +36,11 @@ block content
         if user != null && open == true
           if flag == false
             if (sex == 'm' && (type == 1 || type == 3 || type == 5 || type == 9)) || (sex == 'f' && (type == 4 || type == 5 || type == 9))
-              - address = '/individual/' + year + '/Apply/' + type
+              - var address = '/individual/' + year + '/Apply/' + type
               a(role="button", href=address, class="btn btn-primary")
                 | 我要报名
           else
-            - address = '/individual/' + year + '/Cancel/' + type
+            - var address = '/individual/' + year + '/Cancel/' + type
             a(role="button", href=address, class="btn btn-danger")
               | 取消报名
       hr
@@ -63,7 +63,7 @@ block content
           p
             | 1.每人最多可报 2 项比赛，双打比赛只需其中一人报名即可。
           p
-            | 2.裁判将赠送一件衣服。
+            | 2.本次比赛裁判将使用电子设备记分。
           p
             | 3.报名费：待定
           p

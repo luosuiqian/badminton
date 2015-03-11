@@ -3,7 +3,6 @@ var TeamAuth = require('../models/teamAuth');
 var TeamApply = require('../models/teamApply');
 var TeamUser = require('../models/teamUser');
 var TeamMatch = require('../models/teamMatch');
-var Authority = require('../models/authority');
 
 exports.applyGet = function (req, res) {
   var year = parseInt(req.params.year);

@@ -9,8 +9,7 @@ block headlink
 block content
   mixin showName(title, player, edit, num)
     div(class='text-center')
-      h4
-        =title
+      h4= title
     hr
     div(class='form-group')
       label(class='col-sm-2 control-label')
@@ -80,6 +79,7 @@ block content
     hr
   
   div(class='container')
+    hr
     form(id="defaultForm",class='form-horizontal',method='post',role='form',action='/individual/'+year,
           data-fv-message="This value is not valid",
           data-fv-icon-valid="glyphicon glyphicon-ok",

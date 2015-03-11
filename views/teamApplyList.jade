@@ -48,7 +48,7 @@ block content
                   td= results[i].pho
                 if open == true
                   td
-                    - address = '/team/' + year + '/Apply/' + dep + '/' + i
+                    - var address = '/team/' + year + '/Apply/' + dep + '/' + i
                     a(role="button", href=address, class="btn btn-danger")
                       | 修改
     div(class='text-center')
