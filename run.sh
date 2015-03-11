@@ -1,8 +1,8 @@
 #! /bin/sh
 
-CMD = "node cluster.js"
-NAME = Badminton
-PIDFILE = "badminton.pid"
+CMD="node cluster.js"
+NAME=Badminton
+PIDFILE="badminton.pid"
 
 case "$1" in
   start)
@@ -16,14 +16,14 @@ case "$1" in
         ;;
   stop)
         echo "Stopping $NAME: "
-        pid = `cat $PIDFILE`
+        pid=`cat $PIDFILE`
         kill $pid
         rm $PIDFILE
         echo "$NAME."
         ;;
   restart)
         echo "Stopping $NAME: "
-        pid = `cat $PIDFILE`
+        pid=`cat $PIDFILE`
         kill $pid
         rm $PIDFILE
         echo "$NAME."
