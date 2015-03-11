@@ -131,6 +131,48 @@ exports.get = function (year, type, callback) {
   });
 };
 
+var parseScore = function (match) {
+  var totalGame = parseInt(match.score12) + parseInt(match.score34);
+  var table = new Array(totalGame);
+  var scoreL = new Array(totalGame);
+  var scoreR = new Array(totalGame);
+  for (var i = 0; i < totalGame; i++) {
+    table[i] = [];
+    scoreL[i] = scoreR[i] = 0;
+  }
+  var now = 0;
+  var serve = match.serve;
+  var posL = match.pos12 & 1;
+  var posR = match.pos34 & 1;
+  for (var i = 0; i < match.points.length; i++) {
+    if (match.points[i] == '0') {
+      scoreL[now]++;
+      if (serve == 0) posL = 1 - posL;
+      else serve = 0;
+    }
+    if (match.points[i] == '1') {
+      scoreR[now]++;
+      if (serve == 1) posR = 1 - posR;
+      else serve = 1;
+    }
+    if (serve == 0) {
+      table[now].push((posL + scoreL[now]) % 2 + 1);
+    }
+    if (serve == 1) {
+      table[now].push((posR + scoreR[now]) % 2 + 3);
+    }
+    if (((scoreL[now] >= match.total || scoreR[now] >= match.total)
+        && (scoreL[now] - scoreR[now] >= match.diff
+            || scoreR[now] - scoreL[now] >= match.diff))
+        || scoreL[now] == match.upper || scoreR[now] == match.upper) {
+      now++;
+      posL = (match.pos12 >> now) & 1;
+      posR = (match.pos34 >> now) & 1;
+    }
+  }
+  return {table: table, scoreL: scoreL, scoreR: scoreR};
+};
+
 exports.getOneMatch = function (year, type, leftP, rightP, callback) {
   conn().query('SELECT u1.name as id1, u2.name as id2, u3.name as id3, u4.name as id4, \
                 score12, score34, detail, points, pos12, pos34, \
@@ -145,10 +187,11 @@ exports.getOneMatch = function (year, type, leftP, rightP, callback) {
                 WHERE i.year = ? and i.type = ? and leftP = ? and rightP = ?',
                [year, type, leftP, rightP], function(err, results) {
     if (err) throw err;
-    if (results.length == 0) {
-      return callback(null);
+    if (results.length == 0 || results[0].name == null) {
+      return callback(null, null);
     } else {
-      return callback(results[0]);
+      var score = parseScore(results[0]);
+      return callback(results[0], score);
     }
   });
 };

@@ -109,7 +109,7 @@ exports.getOneMatch = function (req, res) {
   var type = parseInt(req.params.type);
   var leftP = parseInt(req.params.leftP);
   var rightP = parseInt(req.params.rightP);
-  IndMatch.getOneMatch(year, type, leftP, rightP, function(match) {
+  IndMatch.getOneMatch(year, type, leftP, rightP, function(match, score) {
     if (match == null) {
       req.flash('warning', 'URL错误');
       return res.redirect('/');
@@ -118,6 +118,7 @@ exports.getOneMatch = function (req, res) {
       user: req.session.user,
       flash: req.flash(),
       match: match,
+      score: score,
     });
   });
 };

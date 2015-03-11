@@ -73,5 +73,5 @@ var parseMatch = function(match) {
       scoreL: scoreL, scoreR: scoreR, points: points, swap: swap,
       now: now, newGame: newGame, finished: finished,
       pos: pos, posL: posL, posR: posR, serve: serve};
-}
+};
 
