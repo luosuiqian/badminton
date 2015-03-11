@@ -15,7 +15,7 @@ var conn = require('./db').getConnection;
 exports.get = function (year, callback) {
   conn().query('select teamUser.id, teamUser.name, superId, department.name as dep \
                 from teamUser, department where year = ? and dep = department.id',
-                [year], function(err, results) {
+                [year], function (err, results) {
     if (err) throw err;
     var maxDepartmentid = 0;
     for (var i = 0; i < results.length; i++) {
@@ -78,7 +78,7 @@ exports.getAll = function (year, type, callback) {
             and teamApply.id <= 30 and teamApply.dep = department.id \
             order by teamApply.dep, teamApply.id";
   }
-  conn().query(query, [year], function(err, results) {
+  conn().query(query, [year], function (err, results) {
     if (err) throw err;
     return callback(results);
   });

@@ -27,12 +27,12 @@ var Application = function (time, space, studentid) {
   this.space = parseInt(space);
   this.studentid = studentid;
   this.chosen = 0;
-}
+};
 
 exports.get = function (time, space, callback) {
   conn().query('SELECT studentid, chosen FROM application \
                 WHERE id = ? and time = ? and space = ?',
-             [id, time, space], function(err, results) {
+             [id, time, space], function (err, results) {
     if (err) throw err;
     if (results.length == 0) {
       return callback(null);
@@ -47,7 +47,7 @@ exports.getStudentid = function (studentid, callback) {
     return callback(null);
   }
   conn().query('SELECT time,space FROM application WHERE id = ? and studentid = ?',
-             [id, studentid], function(err, results) {
+             [id, studentid], function (err, results) {
     if (err) throw err;
     if (results.length == 0) {
       return callback(null);
@@ -60,7 +60,7 @@ exports.getStudentid = function (studentid, callback) {
 exports.getAll = function (callback) {
   conn().query('SELECT time,space,name,chosen FROM application,user\
              WHERE id = ? and application.studentid = user.studentid',
-             [id], function(err, results) {
+             [id], function (err, results) {
     if (err) throw err;
     var table = new Array(maxTime * maxPeople);
     for (var i = 0; i < maxTime * maxPeople; i++) {
@@ -93,15 +93,15 @@ exports.save = function (timespace, user, callback) {
     || (!(0 <= application.space && application.space < maxSpace))) {
     return callback("时间\场地错误，请重新选择");
   }
-  exports.getStudentid(application.studentid, function(results) {
+  exports.getStudentid(application.studentid, function (results) {
     if (results != null) {
       return callback("您已经成功报名，请不要多次提交");
     }
-    exports.get(application.time, application.space, function(results) {
+    exports.get(application.time, application.space, function (results) {
       if (results != null) {
         return callback("该场次已被预定，请重新选择");
       }
-      conn().query('INSERT INTO application SET ?', application, function(err) {
+      conn().query('INSERT INTO application SET ?', application, function (err) {
         if (err) {
           console.log(err);
           return callback('操作失败，未知错误，请重试');
@@ -115,9 +115,9 @@ exports.save = function (timespace, user, callback) {
 exports.del = function (studentid, callback) {
   conn().query('DELETE FROM application WHERE id = ? and studentid = ?',
              [id, studentid],
-             function(err) {
+             function (err) {
     if (err) throw err;
     return callback();
   });
-}
+};
 

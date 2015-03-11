@@ -34,7 +34,7 @@ exports.checkNotLogin = function (req, res, next) {
 
 exports.checkAuthority = function (begin, end) {
   return function (req, res, next) {
-    Authority.getAuthority(req.session.user, begin, end, function(authority) {
+    Authority.getAuthority(req.session.user, begin, end, function (authority) {
       if (authority == false) {
         req.flash('warning', '抱歉，您没有权限查看');
         return res.redirect('/');

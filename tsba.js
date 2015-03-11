@@ -333,7 +333,7 @@ app.get('/statistics/:superId', [
 
 app.use(cCheck.notFound);
 
-app.start = function() {
+app.start = function () {
   app.listen(app.get('port'), function() {
     console.log("Express server listening on port %d", app.get('port'));
   });

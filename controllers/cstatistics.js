@@ -15,8 +15,8 @@ exports.get = function (req, res) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
-  Statistics.getTeam(superId, function(team) {
-    Statistics.getInd(superId, function(ind) {
+  Statistics.getTeam(superId, function (team) {
+    Statistics.getInd(superId, function (ind) {
       var info = {name: '', dep:[]};
       getInfo(team, info);
       getInfo(ind, info);

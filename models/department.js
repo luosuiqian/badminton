@@ -10,7 +10,7 @@ create table if not exists department
 var conn = require('./db').getConnection;
 
 exports.getAll = function (callback) {
-  conn().query('SELECT id, name FROM department', function(err, results) {
+  conn().query('SELECT id, name FROM department', function (err, results) {
     if (err) throw err;
     return callback(results);
   });

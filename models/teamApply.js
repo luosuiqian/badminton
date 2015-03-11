@@ -17,7 +17,7 @@ var conn = require('./db').getConnection;
 exports.get = function (year, dep, callback) {
   conn().query('SELECT id, stu, nam, ema, pho from teamApply \
                 WHERE year = ? and dep = ?',
-               [year, dep], function(err, results) {
+               [year, dep], function (err, results) {
     if (err) throw err;
     var ret = {};
     for (var i = 0; i < results.length; i++) {
@@ -35,7 +35,7 @@ var NewApply = function (year, dep, id, stu, nam, ema, pho) {
   this.nam = nam;
   this.ema = ema;
   this.pho = pho;
-}
+};
 
 function checkDetail(stu, nam, ema, pho) {
   if (/^\d{10,10}$/.test(stu) == false) {
@@ -55,7 +55,7 @@ function checkDetail(stu, nam, ema, pho) {
     return ("手机号码太长");
   }
   return null;
-}
+};
 
 exports.save = function (year, dep, id, body, callback) {
   var newApply = new NewApply(year, dep, id,
@@ -65,7 +65,7 @@ exports.save = function (year, dep, id, body, callback) {
   if (str != null) {
     return callback(str);
   }
-  conn().query('REPLACE INTO teamApply SET ?', newApply, function(err) {
+  conn().query('REPLACE INTO teamApply SET ?', newApply, function (err) {
     if (err) {
       console.log(err);
       return callback('操作失败，未知错误，请重试');

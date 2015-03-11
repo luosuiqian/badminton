@@ -23,7 +23,7 @@ var swap = function (mat, s1, s2) {
   mat[s1] = mat[s2];
   mat[s2] = tmp;
   return;
-}
+};
 
 var handle = function (match, superId) {
   for (var i = 0; i < match.length; i++) {
@@ -82,7 +82,7 @@ exports.getTeam = function (superId, callback) {
                 or teamMatch.year = teamUser.year and id3 = teamUser.id \
                 or teamMatch.year = teamUser.year and id4 = teamUser.id) \
                 order by year desc, type desc, abs(rightP - leftP) desc, leftP asc, rightP asc',
-                [superId], function(err, teamMatch) {
+                [superId], function (err, teamMatch) {
     if (err) throw err;
     handle(teamMatch, superId);
     return callback(teamMatch);
@@ -120,7 +120,7 @@ exports.getInd = function (superId, callback) {
                 or indMatch.year = indUser.year and indMatch.type = indUser.type and id3 = indUser.id \
                 or indMatch.year = indUser.year and indMatch.type = indUser.type and id4 = indUser.id) \
                 order by year desc, type asc, abs(rightP - leftP) desc',
-                [superId], function(err, indMatch) {
+                [superId], function (err, indMatch) {
     if (err) throw err;
     handle(indMatch, superId);
     return callback(indMatch);

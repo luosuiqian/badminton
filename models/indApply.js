@@ -47,13 +47,13 @@ var NewApply = function (year,studentid,type,
 exports.get = function (year, type, callback) {
   conn().query('SELECT studentid, nam1, nam2 FROM indApply \
                 WHERE year = ? and type = ?',
-               [year, type], function(err, results) {
+               [year, type], function (err, results) {
     if (err) throw err;
     return callback(results);
   });
 };
 
-function checkDetail(stu, nam, dep, ema, pho) {
+var checkDetail = function (stu, nam, dep, ema, pho) {
   if (/^\d{10,10}$/.test(stu) == false) {
     return ("学号错误");
   }
@@ -74,9 +74,9 @@ function checkDetail(stu, nam, dep, ema, pho) {
     return ("手机号码太长");
   }
   return null;
-}
+};
 
-function check(newApply) {
+var check = function (newApply) {
   if (newApply.type != 1 && newApply.type != 3 && newApply.type != 4
     && newApply.type != 5 && newApply.type != 9) {
     return ("比赛类型错误");
@@ -91,7 +91,7 @@ function check(newApply) {
   }
   return checkDetail(newApply.stu2, newApply.nam2, newApply.dep2,
                      newApply.ema2, newApply.pho2);
-}
+};
 
 exports.save = function (year, body, user, callback) {
   var newApply;
@@ -128,7 +128,7 @@ exports.save = function (year, body, user, callback) {
   if (str != null) {
     return callback(str);
   }
-  conn().query('INSERT INTO indApply SET ?', newApply, function(err) {
+  conn().query('INSERT INTO indApply SET ?', newApply, function (err) {
     if (err) {
       console.log(err);
       return callback('操作失败，未知错误，请重试');
@@ -141,11 +141,11 @@ exports.del = function (year, studentid, type, callback) {
   conn().query('DELETE FROM indApply \
                 WHERE year = ? and studentid = ? and type = ?',
              [year, studentid, type],
-             function(err) {
+             function (err) {
     if (err) throw err;
     return callback();
   });
-}
+};
 
 var Player = function (userinfo) {
   this.studentid = userinfo.studentid;
@@ -155,7 +155,7 @@ var Player = function (userinfo) {
   this.email = userinfo.email;
   this.phone = userinfo.phone;
   this.edit = false;
-}
+};
 
 var NewPlayer = function (sex) {
   this.studentid = "";
@@ -165,7 +165,7 @@ var NewPlayer = function (sex) {
   this.email = "";
   this.phone = "";
   this.edit = true;
-}
+};
 
 exports.getP1andP2 = function (type, userinfo) {
   var sex = userinfo.sex;
@@ -190,5 +190,5 @@ exports.getP1andP2 = function (type, userinfo) {
     return null;
   }
   return [p1, p2];
-}
+};
 

@@ -9,21 +9,21 @@ var db_config = {
 
 var connection;
 
-function handleDisconnect() {
+var handleDisconnect = function () {
   connection = mysql.createConnection(db_config);
-  connection.connect(function(err) {
+  connection.connect(function (err) {
     if(err) {
       throw err;
     }
   });
-  connection.on('error', function(err) {
+  connection.on('error', function (err) {
     if(err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
     } else {
       throw err;
     }
   });
-}
+};
 
 handleDisconnect();
 
@@ -34,5 +34,5 @@ exports.getConnection = function () {
 exports.getStore = function () {
   var SessionStore = require('express-mysql-session');
   return new SessionStore(db_config);
-}
+};
 

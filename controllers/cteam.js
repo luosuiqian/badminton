@@ -6,7 +6,7 @@ var TeamMatch = require('../models/teamMatch');
 
 exports.applyGet = function (req, res) {
   var year = parseInt(req.params.year);
-  TeamAuth.getList(year, function(departments) {
+  TeamAuth.getList(year, function (departments) {
     res.render('teamApply' + year + '.jade', {
       user: req.session.user,
       flash: req.flash(),
@@ -20,12 +20,12 @@ exports.applyGet = function (req, res) {
 exports.applyDepGet = function (req, res) {
   var year = parseInt(req.params.year);
   var dep = parseInt(req.params.dep);
-  TeamAuth.get(year, dep, req.session.user, function(auth) {
+  TeamAuth.get(year, dep, req.session.user, function (auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/team/' + year + '/Apply');
     }
-    TeamApply.get(year, dep, function(results) {
+    TeamApply.get(year, dep, function (results) {
       res.render('teamApplyList.jade', {
         user: req.session.user,
         flash: req.flash(),
@@ -47,12 +47,12 @@ exports.applyDepIdGet = function (req, res) {
     req.flash('warning', '现在不是报名时间');
     return res.redirect('/');
   }
-  TeamAuth.get(year, dep, req.session.user, function(auth) {
+  TeamAuth.get(year, dep, req.session.user, function (auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/team/' + year + '/Apply');
     }
-    TeamApply.get(year, dep, function(results) {
+    TeamApply.get(year, dep, function (results) {
       res.render('teamApplyId.jade', {
         user: req.session.user,
         flash: req.flash(),
@@ -69,12 +69,12 @@ exports.applyDepIdPost = function (req, res) {
   var year = parseInt(req.params.year);
   var dep = parseInt(req.params.dep);
   var id = parseInt(req.params.id);
-  TeamAuth.get(year, dep, req.session.user, function(auth) {
+  TeamAuth.get(year, dep, req.session.user, function (auth) {
     if (auth == false) {
       req.flash('warning', '抱歉，您没有权限查看');
       return res.redirect('/');
     }
-    TeamApply.save(year, dep, id, req.body, function(err) {
+    TeamApply.save(year, dep, id, req.body, function (err) {
       if (err) {
         req.flash('warning', '修改失败： ' + err.toString());
         return res.redirect('/team/' + year + '/Apply/' + dep);
@@ -88,7 +88,7 @@ exports.applyDepIdPost = function (req, res) {
 
 exports.userListGet = function (req, res) {
   var year = parseInt(req.params.year);
-  TeamUser.get(year, function(table) {
+  TeamUser.get(year, function (table) {
     res.render('teamUserList.jade', {
       user: req.session.user,
       flash: req.flash(),
@@ -101,7 +101,7 @@ exports.userListGet = function (req, res) {
 exports.resultsGet = function (req, res) {
   var year = parseInt(req.params.year);
   var type = parseInt(req.params.type);
-  TeamMatch.get(year, type, function(tables) {
+  TeamMatch.get(year, type, function (tables) {
     res.render('teamResults.jade', {
       user: req.session.user,
       flash: req.flash(),
@@ -119,7 +119,7 @@ exports.resultsGetDetails = function (req, res) {
   var teamId = parseInt(req.params.teamId);
   var left = parseInt(req.params.left);
   var right = parseInt(req.params.right);
-  TeamMatch.getDetails(year, type, teamId, left, right, function(results) {
+  TeamMatch.getDetails(year, type, teamId, left, right, function (results) {
     if (results.length == 0) {
       req.flash('warning', 'URL错误');
       return res.redirect('/');
@@ -136,9 +136,9 @@ exports.resultsGetDetails = function (req, res) {
 
 exports.adminListGet = function (req, res) {
   var year = parseInt(req.params.year);
-  TeamUser.getAll(year, 1, function(list1) {
-    TeamUser.getAll(year, 2, function(list2) {
-      TeamUser.getAll(year, 3, function(list3) {
+  TeamUser.getAll(year, 1, function (list1) {
+    TeamUser.getAll(year, 2, function (list2) {
+      TeamUser.getAll(year, 3, function (list3) {
         res.render('list.jade', {
           user: req.session.user,
           flash: req.flash(),

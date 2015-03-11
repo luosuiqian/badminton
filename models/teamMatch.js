@@ -59,11 +59,11 @@ exports.get = function (year, type, callback) {
   conn().query('select teamId, total, num, dep, CASE WHEN dep = 0 THEN "未知" ELSE name END as name, rank \
                 from teamOutline left join department on dep = id \
                 where year = ? and type = ?',
-                [year, type], function(err, outline) {
+                [year, type], function (err, outline) {
     if (err) throw err;
     conn().query('select distinct teamId, leftP, rightP, dep12, dep34, total12, total34 \
                   from teamMatch where year = ? and type = ?',
-                  [year, type], function(err, results) {
+                  [year, type], function (err, results) {
       if (err) throw err;
       if (type <= 2) {
         var teamNum = 0;
@@ -173,7 +173,7 @@ exports.getDetails = function (year, type, teamId, left, right, callback) {
                 left join department as dep2 on dep34 = dep2.id \
                 where teamMatch.year = ? and type = ? and teamId = ? and leftP = ? and rightP = ? \
                 order by matchId',
-                [year, year, year, year, year, type, teamId, left, right], function(err, results) {
+                [year, year, year, year, year, type, teamId, left, right], function (err, results) {
     if (err) throw err;
     return callback(results);
   });

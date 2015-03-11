@@ -80,7 +80,7 @@ exports.Activity = function (table, space, time,
   ret.get = function (time, space, callback) {
     conn().query('SELECT studentid FROM activity \
                   WHERE num = ? and id = ? and time = ? and space = ?',
-              [tableNum, id, time, space], function(err, results) {
+              [tableNum, id, time, space], function (err, results) {
       if (err) throw err;
       if (results.length == 0) {
         return callback(null);
@@ -96,7 +96,7 @@ exports.Activity = function (table, space, time,
     }
     conn().query('SELECT time, space FROM activity \
                   WHERE num = ? and id = ? and studentid = ?',
-              [tableNum, id, studentid], function(err, results) {
+              [tableNum, id, studentid], function (err, results) {
       if (err) throw err;
       if (results.length == 0) {
         return callback(null);
@@ -109,7 +109,7 @@ exports.Activity = function (table, space, time,
   ret.getAll = function (callback) {
     conn().query('SELECT time,space,name FROM activity, user\
               WHERE num = ? and id = ? and activity.studentid = user.studentid',
-              [tableNum, id], function(err, results) {
+              [tableNum, id], function (err, results) {
       if (err) throw err;
       var table = new Array(maxTime);
       for (var i = 0; i < maxTime; i++) {
@@ -134,16 +134,16 @@ exports.Activity = function (table, space, time,
       || (!(0 <= activity.space && activity.space < maxSpace))) {
       return callback("时间\场地错误，请重新选择");
     }
-    ret.getStudentid(activity.studentid, function(results) {
+    ret.getStudentid(activity.studentid, function (results) {
       if (results != null) {
         return callback("您已经成功报名，请不要多次提交");
       }
-      ret.get(activity.time, activity.space, function(results) {
+      ret.get(activity.time, activity.space, function (results) {
         if (results != null) {
           return callback("该场次已被预定，请重新选择");
         }
         conn().query('INSERT INTO activity SET ?',
-                     [activity], function(err) {
+                     [activity], function (err) {
           if (err) {
             console.log(err);
             return callback('操作失败，未知错误，请重试');
@@ -157,7 +157,7 @@ exports.Activity = function (table, space, time,
   ret.del = function (studentid, callback) {
     conn().query('DELETE FROM activity \
                   WHERE num = ? and id = ? and studentid = ?',
-                 [tableNum, id, studentid], function(err) {
+                 [tableNum, id, studentid], function (err) {
       if (err) throw err;
       return callback();
     });
@@ -167,7 +167,7 @@ exports.Activity = function (table, space, time,
     if (studentid == null) {
       return callback(false);
     }
-    Authority.getAuthority(studentid, autLeft, autRight, function(authority) {
+    Authority.getAuthority(studentid, autLeft, autRight, function (authority) {
       return callback(authority);
     });
   };

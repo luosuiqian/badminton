@@ -60,10 +60,10 @@ exports.get = function (year, type, callback) {
   conn().query('SELECT leftP, rightP, id1, id2, id3, id4, \
                 score12, score34, detail, referee FROM indMatch \
                 WHERE year = ? and type = ?',
-               [year, type], function(err, indMatch) {
+               [year, type], function (err, indMatch) {
     if (err) throw err;
     conn().query('SELECT total, id, name, superId FROM indUser WHERE year = ? and type = ?',
-               [year, type], function(err, indUser) {
+               [year, type], function (err, indUser) {
       if (err) throw err;
       var total = indUser[0].total;
       var name = new Array(total * 2 + 1);
@@ -185,7 +185,7 @@ exports.getOneMatch = function (year, type, leftP, rightP, callback) {
                 left join user on user.studentid = i.referee \
                 left join department as dep on user.departmentid = dep.id \
                 WHERE i.year = ? and i.type = ? and leftP = ? and rightP = ?',
-               [year, type, leftP, rightP], function(err, results) {
+               [year, type, leftP, rightP], function (err, results) {
     if (err) throw err;
     if (results.length == 0 || results[0].name == null) {
       return callback(null, null);

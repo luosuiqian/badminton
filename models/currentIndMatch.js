@@ -48,7 +48,7 @@ var conn = require('./db').getConnection;
 
 exports.refGet = function (studentid, callback) {
   conn().query('SELECT studentid, status FROM referee WHERE studentid = ?',
-               [studentid], function(err, results) {
+               [studentid], function (err, results) {
     if (err) throw err;
     if (results.length == 0) {
       return callback(null);
@@ -60,7 +60,7 @@ exports.refGet = function (studentid, callback) {
 
 exports.refOn = function (studentid, callback) {
   conn().query('UPDATE referee SET status = 1 WHERE studentid = ?',
-               [studentid], function(err) {
+               [studentid], function (err) {
     if (err) throw err;
     return callback();
   });
@@ -68,7 +68,7 @@ exports.refOn = function (studentid, callback) {
 
 exports.refOff = function (studentid, callback) {
   conn().query('UPDATE referee SET status = 0 WHERE studentid = ?',
-               [studentid], function(err) {
+               [studentid], function (err) {
     if (err) throw err;
     return callback();
   });
@@ -86,7 +86,7 @@ exports.matchGetAll = function (studentid, callback) {
                 left join indUser as ind3 on c.id3 = ind3.id and c.year = ind3.year and c.type = ind3.type \
                 left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
                 WHERE referee = ? ORDER BY c.status',
-               [studentid], function(err, results) {
+               [studentid], function (err, results) {
     if (err) throw err;
     return callback(results);
   });
@@ -107,7 +107,7 @@ exports.matchGet = function (studentid, year, type, leftP, rightP, callback) {
                 left join indUser as ind4 on c.id4 = ind4.id and c.year = ind4.year and c.type = ind4.type \
                 WHERE c.referee = ?\
                 and c.year = ? and c.type = ? and c.leftP = ? and c.rightP = ?',
-               [studentid, year, type, leftP, rightP], function(err, results) {
+               [studentid, year, type, leftP, rightP], function (err, results) {
     if (err) throw err;
     if (results.length == 0) {
       return callback(null);
@@ -123,7 +123,7 @@ exports.matchUpdate = function (match, callback) {
                 and year = ? and type = ? and leftP = ? and rightP = ?',
                [match.points, match.pos, match.pos12, match.pos34,
                 match.serve, match.status, match.referee, match.year,
-                match.type, match.leftP, match.rightP], function(err) {
+                match.type, match.leftP, match.rightP], function (err) {
     if (err) {
       console.log(err);
     }
@@ -134,7 +134,7 @@ exports.matchUpdate = function (match, callback) {
 exports.adminUsersGet = function (year, callback) {
   conn().query('SELECT type, total, id, name\
                 FROM indUser WHERE year = ?',
-                [year], function(err, users) {
+                [year], function (err, users) {
     if (err) throw err;
     return callback(users);
   });
@@ -148,7 +148,7 @@ exports.adminMatchesGet = function (year, callback) {
                 FROM currentIndMatch\
                 left join user on referee = studentid\
                 WHERE year = ? ORDER BY status, space',
-               [year], function(err, matches) {
+               [year], function (err, matches) {
     if (err) throw err;
     return callback(matches);
   });
@@ -162,7 +162,7 @@ exports.adminMatchesDoingGet = function (year, callback) {
                 FROM currentIndMatch\
                 left join user on referee = studentid\
                 WHERE year = ? and status <= 2 ORDER BY space',
-               [year], function(err, matches) {
+               [year], function (err, matches) {
     if (err) throw err;
     return callback(matches);
   });
@@ -176,7 +176,7 @@ exports.adminRefereesGet = function (callback) {
                 as c on referee.studentid = c.referee\
                 left join user as u on referee.studentid = u.studentid\
                 ORDER BY studentid',
-                function(err, referees) {
+                function (err, referees) {
     if (err) throw err;
     for (var i = 0; i < referees.length; i++) {
       if (referees[i].work == null) referees[i].work = 0;
@@ -187,17 +187,17 @@ exports.adminRefereesGet = function (callback) {
 
 exports.adminPost = function (match, type, callback) {
   if (type == 1) {
-    conn().query('INSERT INTO currentIndMatch SET ?', match, function(err) {
+    conn().query('INSERT INTO currentIndMatch SET ?', match, function (err) {
       if (err) throw err;
       return callback();
     });
   } else if (type == 2) {
-    conn().query('INSERT INTO indMatch SET ?', match, function(err) {
+    conn().query('INSERT INTO indMatch SET ?', match, function (err) {
       if (err) throw err;
       conn().query('UPDATE currentIndMatch SET status = 3 WHERE referee = ?\
                     and year = ? and type = ? and leftP = ? and rightP = ?',
                     [match.referee, match.year, match.type,
-                    match.leftP, match.rightP], function(err) {
+                    match.leftP, match.rightP], function (err) {
         if (err) throw err;
         return callback();
       });
@@ -206,7 +206,7 @@ exports.adminPost = function (match, type, callback) {
     conn().query('DELETE from currentIndMatch WHERE status = 0 and referee = ?\
                   and year = ? and type = ? and leftP = ? and rightP = ?',
                   [match.referee, match.year, match.type,
-                  match.leftP, match.rightP], function(err) {
+                  match.leftP, match.rightP], function (err) {
       if (err) throw err;
       return callback();
     });

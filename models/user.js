@@ -17,7 +17,7 @@ var conn = require('./db').getConnection;
 
 const maxDepartmentid = require('./global').maxDepartmentid;
 
-var getKey = function() {
+var getKey = function () {
   var prikey = '';
   for (var i = 0; i < 16; i++) {
     var a = parseInt(Math.random()*62);
@@ -31,7 +31,7 @@ var getKey = function() {
     prikey += b;
   }
   return prikey;
-}
+};
 
 var User = function (body, create) {
   this.studentid = body.studentid;
@@ -45,7 +45,7 @@ var User = function (body, create) {
   if (create) {
     this.prikey = getKey();
   }
-}
+};
 
 var check = function (user) {
   if (/^\d{10,10}$/.test(user.studentid) == false) {
@@ -78,7 +78,7 @@ var check = function (user) {
     return ("手机号码太长");
   }
   return null;
-}
+};
 
 exports.get = function (studentid, callback) {
   if (studentid == null || isNaN(studentid)) {
@@ -86,7 +86,7 @@ exports.get = function (studentid, callback) {
   }
   conn().query('SELECT studentid, password, name, sex, departmentid, \
                 email, phone, prikey FROM user WHERE studentid = ?',
-               [studentid], function(err, results) {
+               [studentid], function (err, results) {
     if (err) throw err;
     if (results.length == 0) {
       return callback(null);
@@ -102,11 +102,11 @@ exports.save = function (body, callback) {
   if (str != null) {
     return callback(str);
   }
-  exports.get(user.studentid, function(results) {
+  exports.get(user.studentid, function (results) {
     if (results != null) {
       return callback("该学号已注册");
     }
-    conn().query('INSERT INTO user SET ?', user, function(err) {
+    conn().query('INSERT INTO user SET ?', user, function (err) {
       if (err) {
         console.log(err);
         return callback('操作失败，未知错误，请重试');
@@ -123,7 +123,7 @@ exports.update = function (body, callback) {
     return callback(str);
   }
   conn().query('UPDATE user SET ? WHERE studentid = ?',
-               [user, user.studentid], function(err) {
+               [user, user.studentid], function (err) {
     if (err) {
       console.log(err);
       return callback('操作失败，未知错误，请重试');
