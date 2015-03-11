@@ -7,6 +7,11 @@ exports.log = function(req, res, next) {
   next();
 };
 
+exports.error = function logErrors(err, req, res, next) {
+  console.log(err.stack);
+  next(err);
+};
+
 exports.checkLogin = function (req, res, next) {
   if (req.session.user == null) {
     req.flash('warning', '请先登录');
