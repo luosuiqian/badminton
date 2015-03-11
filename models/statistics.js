@@ -90,7 +90,7 @@ exports.getTeam = function (superId, callback) {
 };
 
 exports.getInd = function (superId, callback) {
-  conn().query('SELECT indMatch.year, indMatch.type, totalP, leftP, rightP,\
+  conn().query('SELECT indMatch.year, indMatch.type, totalP, leftP, rightP, referee,\
                 indUser.name as name, dep0.name as dep,\
                 ind1.name as id1,\
                 ind2.name as id2,\

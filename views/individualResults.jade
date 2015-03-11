@@ -62,5 +62,10 @@ block content
                         if type >= 3
                           | /
                           +getName(table[i][j].id4, table[i][j].superId4)
-                      div= table[i][j].detail
+                      if table[i][j].referee == null
+                        div= table[i][j].detail
+                      else
+                        div
+                          - var link = '/individual/scores/' + year + '/' + type + '/' + table[i][j].leftP + '/' + table[i][j].rightP
+                          a(href=link, target='_blank')= table[i][j].detail
     hr

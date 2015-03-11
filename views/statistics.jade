@@ -143,7 +143,11 @@ block content
                 td
                   div
                     +getName(' ' + ind[i].score12 + ':' + ind[i].score34 + ' ', null)
-                  div= ind[i].detail
+                  if ind[i].referee == null
+                    div= ind[i].detail
+                  else
+                    - var link = '/individual/scores/' + ind[i].year + '/' + ind[i].type + '/' + ind[i].leftP + '/' + ind[i].rightP
+                    a(href=link, target='_blank')= ind[i].detail
                 td
                   div
                     +getName(ind[i].id3, ind[i].superId3)

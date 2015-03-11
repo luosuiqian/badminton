@@ -1,0 +1,27 @@
+extends includes/layout
+
+block headlink
+  title 比分详细统计 -- 清华羽协
+
+block content
+  div(class='container')
+    hr
+    div(class='text-center')
+    div(class='table-responsive')
+      table(class='table table-striped table-bordered table-hover', id='match')
+        thead
+          tr
+            th A
+            th B
+        tbody
+          - for (var i in match)
+            tr
+              td= i
+              td= match[i]
+    hr
+  
+  script(src='/js/parseMatch.js')
+  script(type='text/javascript').
+    $(document).ready(function() {
+      
+    });

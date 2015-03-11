@@ -2,14 +2,18 @@ var Global = require('../models/global');
 var Log = require('../models/log');
 var Authority = require('../models/authority');
 
-exports.log = function(req, res, next) {
+exports.log = function (req, res, next) {
   Log.log(req.ip, req.url, req.method, req.session.user);
   next();
 };
 
-exports.error = function logErrors(err, req, res, next) {
+exports.error = function (err, req, res, next) {
   console.log(err.stack);
   next(err);
+};
+
+exports.notFound = function (req, res, next) {
+  res.send('Sorry, 404!');
 };
 
 exports.checkLogin = function (req, res, next) {

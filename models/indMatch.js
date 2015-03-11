@@ -58,7 +58,7 @@ var getPosition = function (total, leftP, rightP) {
 
 exports.get = function (year, type, callback) {
   conn().query('SELECT leftP, rightP, id1, id2, id3, id4, \
-                score12, score34, detail FROM indMatch \
+                score12, score34, detail, referee FROM indMatch \
                 WHERE year = ? and type = ?',
                [year, type], function(err, indMatch) {
     if (err) throw err;
@@ -121,10 +121,35 @@ exports.get = function (year, type, callback) {
           tmp.superId4 = superId[indMatch[i].id4];
         }
         tmp.score = indMatch[i].score12 + '-' + indMatch[i].score34;
+        tmp.leftP = indMatch[i].leftP;
+        tmp.rightP = indMatch[i].rightP;
         tmp.detail = indMatch[i].detail;
+        tmp.referee = indMatch[i].referee;
       }
       return callback(table);
     });
+  });
+};
+
+exports.getOneMatch = function (year, type, leftP, rightP, callback) {
+  conn().query('SELECT u1.name as id1, u2.name as id2, u3.name as id3, u4.name as id4, \
+                score12, score34, detail, points, pos12, pos34, \
+                serve, game, i.total, diff, upper, user.name, dep.name as dep \
+                FROM indMatch as i \
+                left join indUser as u1 on u1.year = i.year and u1.type = i.type and u1.id = id1 \
+                left join indUser as u2 on u2.year = i.year and u2.type = i.type and u2.id = id2 \
+                left join indUser as u3 on u3.year = i.year and u3.type = i.type and u3.id = id3 \
+                left join indUser as u4 on u4.year = i.year and u4.type = i.type and u4.id = id4 \
+                left join user on user.studentid = i.referee \
+                left join department as dep on user.departmentid = dep.id \
+                WHERE i.year = ? and i.type = ? and leftP = ? and rightP = ?',
+               [year, type, leftP, rightP], function(err, results) {
+    if (err) throw err;
+    if (results.length == 0) {
+      return callback(null);
+    } else {
+      return callback(results[0]);
+    }
   });
 };
 

@@ -178,6 +178,10 @@ app.get('/individual/:year/Results/:type', [
   cIndividual.individualResults,
 ]);
 
+app.get('/individual/scores/:year/:type/:leftP/:rightP', [
+  cIndividual.getOneMatch,
+]);
+
 //===========================================================================//
 
 app.get('/referee', [
@@ -327,9 +331,7 @@ app.get('/statistics/:superId', [
 
 //===========================================================================//
 
-app.use(function(req, res, next){
-  res.send('Sorry, 404!');
-});
+app.use(cCheck.notFound);
 
 app.start = function() {
   app.listen(app.get('port'), function() {

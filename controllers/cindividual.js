@@ -104,3 +104,21 @@ exports.individualResults = function (req, res) {
   });
 };
 
+exports.getOneMatch = function (req, res) {
+  var year = parseInt(req.params.year);
+  var type = parseInt(req.params.type);
+  var leftP = parseInt(req.params.leftP);
+  var rightP = parseInt(req.params.rightP);
+  IndMatch.getOneMatch(year, type, leftP, rightP, function(match) {
+    if (match == null) {
+      req.flash('warning', 'URL错误');
+      return res.redirect('/');
+    }
+    res.render('individualScores.jade', {
+      user: req.session.user,
+      flash: req.flash(),
+      match: match,
+    });
+  });
+};
+
