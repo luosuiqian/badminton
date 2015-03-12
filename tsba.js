@@ -46,7 +46,7 @@ app.get('/', [
 ]);
 
 //===========================================================================//
-
+/*
 app.get('/confirm', [
   cCheck.checkLogin,
   cUser.confirmGet,
@@ -56,7 +56,7 @@ app.post('/confirm', [
   cCheck.checkLogin,
   cUser.confirmPost,
 ]);
-
+//*/
 app.get('/application', [
   cApplication.applicationGet,
 ]);
