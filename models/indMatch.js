@@ -145,6 +145,7 @@ var parseScore = function (match) {
   var posL = match.pos12 & 1;
   var posR = match.pos34 & 1;
   for (var i = 0; i < match.points.length; i++) {
+    if (match.points[i] == '8' || match.points[i] == '9') break;
     if (match.points[i] == '0') {
       scoreL[now]++;
       if (serve == 0) posL = 1 - posL;

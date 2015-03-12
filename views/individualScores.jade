@@ -17,8 +17,10 @@ block content
         = match.id3
         if match.id4 != null
           | /#{match.id4}
-      h5 (#{match.detail})
+      h4 (#{match.detail})
     - for (var i=0;i<score.table.length;i++)
+      if score.scoreL[i] + score.scoreR[i] == 0
+        - break
       h4 第#{i+1}局 (#{score.scoreL[i]}-#{score.scoreR[i]})
       div(class='row')
         div(class="col-md-2 col-sm-3 col-xs-4")
@@ -32,7 +34,7 @@ block content
                   - for (var j=1;j<=4;j++)
                     if j == 3
                       tr(class='divider success')
-                        td(colspan=score.table[i].length+1) &nbsp;
+                        td &nbsp;
                     tr
                       td= match['id' + j]
                 else
