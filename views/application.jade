@@ -63,11 +63,11 @@ block content
           tbody
             - var size = 5
             - for (var i=0;i<table.length;i++)
-              tr
-                if i % 10 == 0
-                  td(rowspan=size)
-                    = table[i].time
-                if i % 10 < size
+              if i % 10 < size
+                tr
+                  if i % 10 == 0
+                    td(rowspan=size)
+                      = table[i].time
                   - for (var j=0;j<table[i].length;j++)
                     if table[i][j] != null
                       if open == true && result != null && result.time == i && result.space == j
