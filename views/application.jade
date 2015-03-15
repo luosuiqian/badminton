@@ -11,7 +11,7 @@ block content
       if person.chosen == 0
         td= person.name
       if person.chosen == 2
-        td(class='success')= person.name
+        td(class='info')= person.name
       if person.chosen == 8
         td(class='danger')= person.name
   
@@ -50,7 +50,7 @@ block content
         hr
         if sex == null
           h4 请先登录
-        h4 考试结果如下：背景为绿色表示成为羽协会员
+        h4 考试结果如下：背景为蓝色表示成为羽协会员。（另外，在临时报名的同学中，王崇安也成为羽协会员，请你尽快注册帐号）
     hr
     form(class='form-horizontal',method='post',role='form')
       div(class='table-responsive')
