@@ -94,6 +94,10 @@ exports.individualResults = function (req, res) {
   var year = parseInt(req.params.year);
   var type = parseInt(req.params.type);
   IndMatch.get(year, type, function (table) {
+    if (table == null) {
+      req.flash('warning', 'URL错误');
+      return res.redirect('/');
+    }
     res.render('individualResults.jade', {
       user: req.session.user,
       flash: req.flash(),

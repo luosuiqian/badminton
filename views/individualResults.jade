@@ -1,7 +1,11 @@
 extends includes/layout
 
 block headlink
-  title #{year}年清华大学羽毛球单项赛比赛结果 -- 清华羽协
+  - var num = (type - type % 10) / 10
+  if num == 0
+    title #{year}年清华大学羽毛球单项赛比赛结果 -- 清华羽协
+  else
+    title #{year}年羽协第#{num}次内部交流赛比赛结果 -- 清华羽协
 
 block content
   mixin getName(s, id)
@@ -16,16 +20,19 @@ block content
     hr
     div(class='panel panel-info')
       div(class='panel-heading')
-        h3 #{year}年清华大学羽毛球单项赛
+        if num == 0
+          h3 #{year}年清华大学羽毛球单项赛
+        else
+          h3 #{year}年羽协第#{num}次内部交流赛
       div(class='panel-body')
         h4
-          if type == 1
+          if type % 10 == 1
             | 男单
-          if type == 3
+          if type % 10 == 3
             | 男双
-          if type == 4
+          if type % 10 == 4
             | 女双
-          if type == 5
+          if type % 10 == 5
             | 混双
           | 比赛结果
     hr
@@ -42,7 +49,7 @@ block content
               td
                 div
                   +getName(table[i][0].id1, table[i][0].superId1)
-                  if type >= 3 && table[i][0].id2 != null
+                  if type % 10 >= 3 && table[i][0].id2 != null
                     | /
                     +getName(table[i][0].id2, table[i][0].superId2)
               - for (var j=1;j<table[i].length;j++)
@@ -53,13 +60,13 @@ block content
                     else
                       div
                         +getName(table[i][j].id1, table[i][j].superId1)
-                        if type >= 3
+                        if type % 10 >= 3
                           | /
                           +getName(table[i][j].id2, table[i][j].superId2)
                       div= table[i][j].score
                       div
                         +getName(table[i][j].id3, table[i][j].superId3)
-                        if type >= 3
+                        if type % 10 >= 3
                           | /
                           +getName(table[i][j].id4, table[i][j].superId4)
                       if table[i][j].referee == null

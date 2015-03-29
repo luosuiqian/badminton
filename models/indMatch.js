@@ -65,6 +65,9 @@ exports.get = function (year, type, callback) {
     conn().query('SELECT total, id, name, superId FROM indUser WHERE year = ? and type = ?',
                [year, type], function (err, indUser) {
       if (err) throw err;
+      if (indUser.length == 0) {
+        return callback(null);
+      }
       var total = indUser[0].total;
       var name = new Array(total * 2 + 1);
       var superId = new Array(total * 2 + 1);

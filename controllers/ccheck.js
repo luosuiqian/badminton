@@ -93,7 +93,7 @@ exports.checkIndTypeWithReferee = function (req, res, next) {
 
 exports.checkIndTypeWithoutReferee = function (req, res, next) {
   var type = parseInt(req.params.type);
-  if (!(type == 1 || type == 3 || type == 4 || type == 5)) {
+  if (!(type % 10 == 1 || type % 10 == 3 || type % 10 == 4 || type % 10 == 5)) {
     req.flash('warning', 'URL错误');
     return res.redirect('/');
   }
