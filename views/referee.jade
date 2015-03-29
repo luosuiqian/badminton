@@ -6,6 +6,20 @@ block headlink
 block content
   div(class='container')
     hr
+    if referee != null
+      div(class='panel panel-info')
+        div(class='panel-heading')
+          h4 裁判流程说明
+        div(class='panel-body')
+          p 1、到达比赛现场，签到。
+          p 2、抛球（抛硬币），双方选择场地，发球权。
+          p 3、每一局比赛开始前，双方分别选择本局第一个球的发球队员，接发球队员。
+          p 4、按照站位提示进行比赛，注意到第三局中段也需要交换场地。
+          p 5、点击得分后，请等待同步完成（“同步中”字样消失表示完成同步），再开始下一球。
+          p 6、遇到同步失败的情况，请先检查网络连接，不要重复点击得分（如仍无法解决，请呼唤主席台）。
+          p 7、比赛结束，请选手确认最终比分，提交结果。
+          p 8、完成当天所有比赛，签出。
+      hr
     div(class='text-center')
       if referee == null
         h3 2015年羽毛球单项赛将使用电子设备实时记分，敬请期待！

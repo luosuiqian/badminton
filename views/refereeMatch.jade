@@ -56,7 +56,7 @@ block content
           | 得分
       div(class="col-xs-4")
         h5(id='loading', style='display:none') 同步中...
-        h5(id='error', style='display:none') 同步失败，请重试
+        h5(id='error', style='display:none') 同步失败，请检查网络连接！
       div(class="col-xs-4 text-left")
         button(type='button', class='btn btn-success btn-lg myButton', id='point34', style='display:none')
           | 得分
@@ -95,8 +95,8 @@ block content
   script(type='text/javascript').
     var before = function() {
       $(".myButton").prop('disabled', true);
-      $("#loading").show();
       $("#error").hide();
+      $("#loading").show();
     }
     var after = function() {
       $("#loading").hide();
@@ -104,9 +104,9 @@ block content
       $(".myButton").prop('disabled', false);
     }
     var failed = function() {
+      $(".myButton").prop('disabled', true);
       $("#loading").hide();
       $("#error").show();
-      $(".myButton").prop('disabled', false);
     }
     var match = null;
     var detail = null;
@@ -243,6 +243,7 @@ block content
         },
         error: function(xhr, status, errorThrown) {
           failed();
+          setTimeout(write, 5000);
         },
       });
     };
@@ -258,6 +259,7 @@ block content
         },
         error: function(xhr, status, errorThrown) {
           failed();
+          setTimeout(read, 5000);
         },
       });
     };
