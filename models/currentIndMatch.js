@@ -133,7 +133,7 @@ exports.matchUpdate = function (match, callback) {
 
 exports.adminUsersGet = function (year, callback) {
   conn().query('SELECT type, total, id, name\
-                FROM indUser WHERE year = ?',
+                FROM indUser WHERE year = ? and type < 10',
                 [year], function (err, users) {
     if (err) throw err;
     return callback(users);
