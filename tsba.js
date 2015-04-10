@@ -130,7 +130,6 @@ app.get('/team/:year/admin', [
 
 app.get('/team/:year/list', [
   cCheck.checkYear(2013, 2014),
-  cCheck.checkAuthority(3, 5),
   cTeam.userListGet,
 ]);
 
