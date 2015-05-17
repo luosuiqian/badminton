@@ -5,7 +5,7 @@ var Activity = require('./activity');
 
 var getTime = function (beginTime, endTime) {
   var str = util.format(
-    '%d年%d月%d日 %d:00 至 %d年%d月%d日 %d:00',
+    '%d年%d月%d日 %d:00 至 %d年%d月%d日 %d:%d',
     beginTime.getFullYear(),
     beginTime.getMonth() + 1,
     beginTime.getDate(),
@@ -13,8 +13,12 @@ var getTime = function (beginTime, endTime) {
     endTime.getFullYear(),
     endTime.getMonth() + 1,
     endTime.getDate(),
-    endTime.getHours()
+    endTime.getHours(),
+    endTime.getMinutes()
   );
+  if (endTime.getMinutes() == 0) {
+    str += '0';
+  }
   return str;
 };
 
@@ -68,8 +72,8 @@ exports.getOfficial2 = function () {
 
 var individual2014BeginTime = new Date(2014, 5-1, 18, 0, 0, 0);
 var individual2014EndTime = new Date(2014, 6-1, 1, 22, 0, 0);
-var individual2015BeginTime = new Date(2015, 5-1, 1, 13, 0, 0);
-var individual2015EndTime = new Date(2015, 5-1, 16, 22, 0, 0);
+var individual2015BeginTime = new Date(2015, 5-1, 16, 13, 0, 0);
+var individual2015EndTime = new Date(2015, 5-1, 24, 23, 59, 0);
 
 exports.checkTimeForIndApply = function (year) {
   var now = new Date();
