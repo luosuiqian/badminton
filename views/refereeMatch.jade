@@ -111,8 +111,8 @@ block content
     var match = null;
     var detail = null;
     var update = function() {
-      if (match == null) {
-        alert('错误！请刷新重试！');
+      if (match == null || match == "") {
+        alert('错误！请返回后重试进入！');
         return;
       }
       $(".myButton").hide();
