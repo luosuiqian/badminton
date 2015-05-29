@@ -35,6 +35,13 @@ block content
           if type % 10 == 5
             | 混双
           | 比赛结果
+        if year == 2015 && num == 0
+          p
+            | 比赛时间安排：
+            a(href='/files/indTime2015.xlsx', target='_blank')
+              | 《2015年羽毛球单项赛对阵表与赛程表》
+          p
+            邮件中的对阵表有误，请以本网站上的为准！
     hr
     div(class='table-responsive')
       table(class='table table-bordered')
