@@ -120,7 +120,7 @@ exports.matchGet = function (studentid, year, type, leftP, rightP, callback) {
 exports.matchUpdate = function (match, callback) {
   conn().query('UPDATE currentIndMatch SET points = ?, pos = ?, pos12 = ?,\
                 pos34 = ?, serve = ?, status = ? WHERE referee = ?\
-                and year = ? and type = ? and leftP = ? and rightP = ?',
+                and year = ? and type = ? and leftP = ? and rightP = ? and status <= 1',
                [match.points, match.pos, match.pos12, match.pos34,
                 match.serve, match.status, match.referee, match.year,
                 match.type, match.leftP, match.rightP], function (err) {
