@@ -62,7 +62,7 @@ block content
         for(var i = 0; i < matches.length; i++)
         {
           if (matches[i].status == 0) var tr = $("<tr class='danger'></tr>");
-          if (matches[i].status == 1) var tr = $("<tr class='info'></tr>");
+          if (matches[i].status == 1) var tr = $("<tr class='warning'></tr>");
           if (matches[i].status == 2) var tr = $("<tr class='success'></tr>");
           $("<td>" + matches[i].year + "</td>").appendTo(tr);
           $("<td>" + showType(matches[i].type) + "</td>").appendTo(tr);
