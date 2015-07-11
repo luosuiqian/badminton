@@ -36,7 +36,7 @@ app.use(session({
   store: require('./models/db').getStore()
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cCheck.log);
+//app.use(cCheck.log);
 app.use(cCheck.error);
 
 //===========================================================================//

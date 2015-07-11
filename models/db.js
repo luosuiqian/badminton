@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 
 var db_config = {
-  host: '101.6.97.122',
-  user: 'iiis',
-  password: 'helloworld',
-  database: 'badminton',
+  host: 'sql6.freemysqlhosting.net',
+  user: 'sql683530',
+  password: 'hX7*qY3*',
+  database: 'sql683530',
 };
 
 var connection;
