@@ -1,0 +1,7 @@
+{
+  "name": "badminton",
+  "description": "A website for Badminton Association in Tsinghua University",
+  "repository": "https://github.com/luosuiqian/badminton",
+  "logo": "http://luosuiqian.github.io/badminton/public/img/logo.png",
+  "keywords": ["node", "express", "static", "badminton"]
+}
