@@ -1,3 +1,4 @@
 /node_modules
+/models/db.js
 badminton.pid
 info.log
