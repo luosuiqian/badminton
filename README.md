@@ -2,7 +2,7 @@
 
 A website for Badminton Association in Tsinghua University.
 
-清华羽协网站
+清华羽协网站，用于介绍和宣传清华大学学生羽毛球协会。在网站上，同学们可以报名加入羽协，预约场地活动，报名羽毛球比赛，裁判实时记分，查看比赛结果等。
 
 Demo：[https://secure-woodland-6029.herokuapp.com/](https://secure-woodland-6029.herokuapp.com/)
 
