@@ -18,8 +18,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var flash = require('connect-flash');
 var session = require('express-session');
-
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 80));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/img/favicon.png'));
@@ -44,7 +43,6 @@ app.use(cCheck.error);
 app.get('/', [
   cUser.indexGet,
 ]);
-
 //===========================================================================//
 /*
 app.get('/confirm', [
@@ -94,20 +92,23 @@ app.get('/activity', [
 
 //===========================================================================//
 
+// have a try for 2015//
+
+//=======================================================================//
 app.get('/team/:year/Apply', [
-  cCheck.checkYear(2014, 2014),
+  cCheck.checkYear(2014, 2015),
   cTeam.applyGet,
 ]);
 
 app.get('/team/:year/Apply/:dep', [
-  cCheck.checkYear(2014, 2014),
+  cCheck.checkYear(2014, 2015),
   cCheck.checkTeamDep,
   cCheck.checkLogin,
   cTeam.applyDepGet,
 ]);
 
 app.get('/team/:year/Apply/:dep/:id', [
-  cCheck.checkYear(2014, 2014),
+  cCheck.checkYear(2014, 2015),
   cCheck.checkTeamDep,
   cCheck.checkTeamId,
   cCheck.checkLogin,
@@ -115,7 +116,7 @@ app.get('/team/:year/Apply/:dep/:id', [
 ]);
 
 app.post('/team/:year/Apply/:dep/:id', [
-  cCheck.checkYear(2014, 2014),
+  cCheck.checkYear(2014, 2015),
   cCheck.checkTeamDep,
   cCheck.checkTeamId,
   cCheck.checkLogin,
@@ -123,24 +124,24 @@ app.post('/team/:year/Apply/:dep/:id', [
 ]);
 
 app.get('/team/:year/admin', [
-  cCheck.checkYear(2014, 2014),
+  cCheck.checkYear(2014, 2015),
   cCheck.checkAuthority(3, 5),
   cTeam.adminListGet,
 ]);
 
 app.get('/team/:year/list', [
-  cCheck.checkYear(2013, 2014),
+  cCheck.checkYear(2013, 2015),
   cTeam.userListGet,
 ]);
 
 app.get('/team/:year/Results/:type', [
-  cCheck.checkYear(2013, 2014),
+  cCheck.checkYear(2013, 2015),
   cCheck.checkTeamType,
   cTeam.resultsGet,
 ]);
 
 app.get('/team/:year/Details/:type/:teamId/:left/:right', [
-  cCheck.checkYear(2013, 2014),
+  cCheck.checkYear(2013, 2015),
   cTeam.resultsGetDetails,
 ]);
 

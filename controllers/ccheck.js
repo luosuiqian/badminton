@@ -48,7 +48,7 @@ exports.checkYear = function (begin, end) {
   return function (req, res, next) {
     var year = parseInt(req.params.year);
     if (!(begin <= year && year <= end)) {
-      req.flash('warning', 'URL错误');
+      req.flash('warning', 'URL错误, 年份错误');
       return res.redirect('/');
     }
     next();
@@ -58,7 +58,7 @@ exports.checkYear = function (begin, end) {
 exports.checkTeamDep = function (req, res, next) {
   var dep = parseInt(req.params.dep);
   if (!(1 <= dep && dep <= Global.maxDepartmentid)) {
-    req.flash('warning', 'URL错误');
+    req.flash('warning', 'URL错误, 院系不符');
     return res.redirect('/');
   }
   next();
@@ -67,7 +67,7 @@ exports.checkTeamDep = function (req, res, next) {
 exports.checkTeamId = function (req, res, next) {
   var id = parseInt(req.params.id);
   if (!(11 <= id && id <= 16 || 21 <= id && id <= 26 || id == 31)) {
-    req.flash('warning', 'URL错误');
+    req.flash('warning', 'URL错误，teamid错误');
     return res.redirect('/');
   }
   next();
@@ -76,7 +76,7 @@ exports.checkTeamId = function (req, res, next) {
 exports.checkTeamType = function (req, res, next) {
   var type = parseInt(req.params.type);
   if (!(1 <= type && type <= 5)) {
-    req.flash('warning', 'URL错误');
+    req.flash('warning', 'URL错误，teamtype错误');
     return res.redirect('/');
   }
   next();

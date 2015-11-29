@@ -22,7 +22,7 @@ exports.applyDepGet = function (req, res) {
   var dep = parseInt(req.params.dep);
   TeamAuth.get(year, dep, req.session.user, function (auth) {
     if (auth == false) {
-      req.flash('warning', '抱歉，您没有权限查看');
+      req.flash('warning', '抱歉，您不是队长没有权限查看,');
       return res.redirect('/team/' + year + '/Apply');
     }
     TeamApply.get(year, dep, function (results) {

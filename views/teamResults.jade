@@ -91,8 +91,9 @@ block content
         div(class='list-group text-center')
           h3 相关链接
           - for (var i=1;i<=5;i++)
-            a(href='/team/'+year+'/Results/'+i, class=(i==type)?"list-group-item active":"list-group-item")
-              | #{year}年
-              +getType(i)
-              | 比赛结果
+            if year != 2015 || i != 5
+              a(href='/team/'+year+'/Results/'+i, class=(i==type)?"list-group-item active":"list-group-item")
+                | #{year}年
+                +getType(i)
+                | 比赛结果
     hr
